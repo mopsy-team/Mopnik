@@ -1,0 +1,2 @@
+# Mopnik
+Program implementujący metodyki
