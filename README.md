@@ -2,4 +2,7 @@
 Program implementujący metodyki
 
 # Kompilacja i uruchomienie
-Pojawi się wkrótce
+sudo apt install maven
+
+mvn compile
+mvn exec:java -Dexec.mainClass=App
