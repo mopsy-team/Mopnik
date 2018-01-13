@@ -1,7 +1,4 @@
-import mop.MopInfo;
-import mop.MopPoint;
-import mop.MopPointPainter;
-import mop.XlsToMopParser;
+import mop.*;
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.OSMTileFactoryInfo;
 import org.jxmapviewer.input.CenterMapListener;
@@ -36,7 +33,7 @@ public class App {
         // Set the focus
         GeoPosition mim = new GeoPosition(52.211798, 20.982224);
 
-        mapViewer.setZoom(5);
+        mapViewer.setZoom(10);
         mapViewer.setAddressLocation(mim);
 
         // Add interactions
@@ -50,10 +47,14 @@ public class App {
 
         mapViewer.addKeyListener(new PanKeyListener(mapViewer));
 
+        final JFrame frame = new JFrame("MIM");
+        frame.setPreferredSize(new Dimension(1024, 768));
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
         XlsToMopParser xlsToMopParser = new XlsToMopParser("MOP-12.2017-final2.xlsx");
         Set<MopInfo> mopInfos = xlsToMopParser.parseMops();
         Set<MopPoint> mopPoints = mopInfos.stream().map((MopInfo m) -> new MopPoint(m.getName(),
-                Color.red, m)).collect(Collectors.toSet());
+                Color.red, m, frame)).collect(Collectors.toSet());
         WaypointPainter<MopPoint> waypointPainter = new MopPointPainter();
         waypointPainter.setWaypoints(mopPoints);
         mapViewer.setOverlayPainter(waypointPainter);
@@ -61,14 +62,12 @@ public class App {
         // Add the JButtons to the map viewer
         for (MopPoint w : mopPoints) {
             mapViewer.add(w.getButton());
+            // mapViewer.add(w.getPanel(), BorderLayout.CENTER);
         }
 
-
         // Display the viewer in a JFrame
-        final JFrame frame = new JFrame("MIM");
         frame.getContentPane().add(mapViewer);
-        frame.setSize(800, 600);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.pack();
         frame.setVisible(true);
 
 

@@ -51,7 +51,7 @@ public class XlsToMopParser {
             MopParkingSpacesInfo parkingSpacesInfo = new MopParkingSpacesInfo(
                     (int) row.getCell(12).getNumericCellValue(),
                     (int) row.getCell(13).getNumericCellValue(),
-                    (int) row.getCell(12).getNumericCellValue());
+                    (int) row.getCell(14).getNumericCellValue());
 
             MopEquipmentInfo equipmentInfo = new MopEquipmentInfo(boolCell(row, 15),
                     boolCell(row, 16), boolCell(row, 17), boolCell(row, 18), boolCell(row, 19),

@@ -20,7 +20,7 @@ public class MopPoint extends DefaultWaypoint {
      * @param color   the color
      * @param mopInfo information about mop
      */
-    public MopPoint(String label, Color color, MopInfo mopInfo) {
+    public MopPoint(String label, Color color, MopInfo mopInfo, JFrame frame) {
         super(mopInfo.getGeoPosition());
         this.label = label;
         this.color = color;
