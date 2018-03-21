@@ -5,27 +5,28 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.jxmapviewer.viewer.GeoPosition;
 
+import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashSet;
 
 public class XlsToMopParser {
     private XSSFWorkbook workbook;
 
-    public XlsToMopParser(String filestring) {
+    public XlsToMopParser(File file) {
+        System.out.println(file);
+        FileInputStream fis = null;
         try {
-            FileInputStream file = new FileInputStream(getClass().getClassLoader()
-                    .getResource(filestring).getFile()); // TODO what to do with nullptr exception
-            this.workbook = new XSSFWorkbook(file);
-            file.close();
-        } catch (FileNotFoundException e) {
-            // TODO some reasonable handling
-            e.printStackTrace();
+            fis = new FileInputStream(file);
+            this.workbook = new XSSFWorkbook(fis);
+            fis.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // TODO(MG) handle this exception
         }
+    }
 
+    public XlsToMopParser(String filestring) {
+        new XlsToMopParser(new File(filestring));
     }
 
     public HashSet<MopInfo> parseMops() {
@@ -45,6 +46,14 @@ public class XlsToMopParser {
             double x = row.getCell(6).getNumericCellValue();
             GeoPosition g = new GeoPosition(x, y);
             String road = row.getCell(8).getStringCellValue();
+            String mileageString = row.getCell(9).getStringCellValue();
+            mileageString = mileageString.replace('+', '.');
+            double mileage;
+            try {
+                mileage = Double.parseDouble(mileageString);
+            } catch (NumberFormatException e) {
+                mileage = -1.;
+            }
             String direction = row.getCell(10).getStringCellValue();
             int type = 1; // TODO
 
@@ -59,7 +68,7 @@ public class XlsToMopParser {
                     boolCell(row, 24), boolCell(row, 25));
 
             res.add(new MopInfo(branch, locality, name, g, road, direction, type, parkingSpacesInfo,
-                    equipmentInfo));
+                    equipmentInfo, mileage));
         }
         return res;
     }

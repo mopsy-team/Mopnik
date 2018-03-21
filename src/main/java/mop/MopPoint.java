@@ -1,5 +1,6 @@
 package mop;
 
+import elements.MainFrame;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jxmapviewer.viewer.DefaultWaypoint;
@@ -20,7 +21,7 @@ public class MopPoint extends DefaultWaypoint {
      * @param color   the color
      * @param mopInfo information about mop
      */
-    public MopPoint(String label, Color color, MopInfo mopInfo, JFrame frame) {
+    public MopPoint(String label, Color color, MopInfo mopInfo, MainFrame frame) {
         super(mopInfo.getGeoPosition());
         this.label = label;
         this.color = color;
@@ -38,7 +39,7 @@ public class MopPoint extends DefaultWaypoint {
             this.button.setContentAreaFilled(false);
             this.button.setToolTipText(mopInfo.getName());
         }
-        this.button.addMouseListener(new PointListener(this.button, mopInfo));
+        this.button.addMouseListener(new PointListener(this.button, mopInfo, frame));
     }
 
     /**

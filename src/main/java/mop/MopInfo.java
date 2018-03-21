@@ -1,6 +1,8 @@
 package mop;
 
 import org.jxmapviewer.viewer.GeoPosition;
+import way.TrafficInfo;
+import way.Way;
 
 public class MopInfo {
 
@@ -12,13 +14,14 @@ public class MopInfo {
     private final String road;
     private final String direction;
     private final int type;
-
+    private final double mileage;
     private final MopParkingSpacesInfo parkingSpacesInfo;
     private final MopEquipmentInfo equipmentInfo;
+    private Way way = new Way();
 
     public MopInfo(String branch, String locality, String name, GeoPosition geoPosition,
                    String road, String direction, int type,
-                   MopParkingSpacesInfo parkingSpacesInfo, MopEquipmentInfo equipmentInfo) {
+                   MopParkingSpacesInfo parkingSpacesInfo, MopEquipmentInfo equipmentInfo, double mileage) {
         this.branch = branch;
         this.locality = locality;
         this.name = name;
@@ -28,6 +31,7 @@ public class MopInfo {
         this.type = type;
         this.parkingSpacesInfo = parkingSpacesInfo;
         this.equipmentInfo = equipmentInfo;
+        this.mileage = mileage;
     }
 
     public String getBranch() {
@@ -54,7 +58,7 @@ public class MopInfo {
         return direction;
     }
 
-    public int getType() {
+    public Integer getType() {
         return type;
     }
 
@@ -64,5 +68,21 @@ public class MopInfo {
 
     public MopEquipmentInfo getEquipmentInfo() {
         return equipmentInfo;
+    }
+
+    public double getMileage() {
+        return mileage;
+    }
+
+    public Way getWay() {
+        return way;
+    }
+
+    public void setWay(Way way) {
+        this.way = way;
+    }
+
+    public TrafficInfo getTrafficInfo() {
+        return way.getTrafficInfo();
     }
 }

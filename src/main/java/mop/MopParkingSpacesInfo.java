@@ -12,15 +12,15 @@ public class MopParkingSpacesInfo {
         this.busSpaces = busSpaces;
     }
 
-    public int getCarSpaces() {
+    public Integer getCarSpaces() {
         return carSpaces;
     }
 
-    public int getTruckSpaces() {
+    public Integer getTruckSpaces() {
         return truckSpaces;
     }
 
-    public int getBusSpaces() {
+    public Integer getBusSpaces() {
         return busSpaces;
     }
 }

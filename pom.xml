@@ -30,15 +30,26 @@
             <artifactId>poi-ooxml</artifactId>
             <version>3.11</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc -->
         <dependency>
-            <groupId>org.kordamp.ikonli</groupId>
-            <artifactId>ikonli-swing</artifactId>
-            <version>2.1.1</version>
+            <groupId>org.xerial</groupId>
+            <artifactId>sqlite-jdbc</artifactId>
+            <version>3.21.0.1</version>
         </dependency>
         <dependency>
-            <groupId>com.github.jiconfont</groupId>
-            <artifactId>jiconfont-swing</artifactId>
-            <version>1.0.0</version>
+            <groupId>org.imintel</groupId>
+            <artifactId>osm-parser</artifactId>
+            <version>1.0-MF</version>
+        </dependency>
+        <dependency>
+            <groupId>com.opencsv</groupId>
+            <artifactId>opencsv</artifactId>
+            <version>4.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.matsim</groupId>
+            <artifactId>matsim</artifactId>
+            <version>0.9.0</version>
         </dependency>
     </dependencies>
     <repositories>
@@ -47,6 +58,12 @@
             <name>jcenter</name>
             <url>http://jcenter.bintray.com</url>
         </repository>
+        <repository>
+            <id>matsim</id>
+            <name>MATSim release repository</name>
+            <url>http://dl.bintray.com/matsim/matsim</url>
+        </repository>
+
     </repositories>
 
 </project>
