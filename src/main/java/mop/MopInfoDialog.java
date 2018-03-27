@@ -43,7 +43,7 @@ public class MopInfoDialog extends JDialog {
                         "Myjnia", "Warsztat"},
                 {mapYesNo(eq.isSecurity()), mapYesNo(eq.isFence()), mapYesNo(eq.isCctv()),
                         mapYesNo(eq.isLight()), mapYesNo(eq.isPetrolStation()), mapYesNo(eq.isDangerousGoods()),
-                        mapYesNo(eq.isRestaurant()), mapYesNo(eq.isAccomodation()), mapYesNo(eq.isToilet()),
+                        mapYesNo(eq.isRestaurant()), mapYesNo(eq.isAccommodation()), mapYesNo(eq.isToilet()),
                         mapYesNo(eq.isCarWash()), mapYesNo(eq.isCarRepairShop())}
         };
         String[] eqColumnNames = {"", "", "", "", "", "", "", "", "", ""};

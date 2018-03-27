@@ -62,19 +62,6 @@ public class MainFrame {
         frame.setPreferredSize(new Dimension(1600, 1200));
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        mapViewer.addPropertyChangeListener("zoom", new PropertyChangeListener() {
-            public void propertyChange(PropertyChangeEvent evt) {
-                updateWindowTitle(frame, mapViewer);
-            }
-        });
-
-        mapViewer.addPropertyChangeListener("center", new PropertyChangeListener() {
-            public void propertyChange(PropertyChangeEvent evt) {
-                updateWindowTitle(frame, mapViewer);
-            }
-        });
-
-        updateWindowTitle(frame, mapViewer);
         frame.getContentPane().add(mapViewer);
         painter = new CompoundPainter<JXMapViewer>();
         mapViewer.setOverlayPainter(painter);
@@ -85,12 +72,6 @@ public class MainFrame {
 
     }
 
-    private static void updateWindowTitle(JFrame frame, JXMapViewer mapViewer) {
-        double lat = mapViewer.getCenterPosition().getLatitude();
-        double lon = mapViewer.getCenterPosition().getLongitude();
-        int zoom = mapViewer.getZoom();
-    }
-
     public void setMopPoints(Set<MopPoint> mopPoints) {
         this.mopPoints = mopPoints;
         repaint();
@@ -98,7 +79,15 @@ public class MainFrame {
 
     public void setMopPointsFromFile(File file) {
         XlsToMopParser xlsToMopParser = new XlsToMopParser(file);
-        mopInfos = xlsToMopParser.parseMops();
+        Set<MopInfo> mopInfosTemp = xlsToMopParser.parseMops();
+        if (mopInfosTemp == null) {
+            JOptionPane.showMessageDialog(frame,
+                    "Wskazany plik nie istnieje lub jest w złym formacie.",
+                    "Zły format pliku",
+                    JOptionPane.WARNING_MESSAGE);
+        } else {
+            mopInfos = mopInfosTemp;
+        }
         this.mopPoints = mopInfos.stream().map((MopInfo m) -> new MopPoint(m.getName(),
                 Color.red, m, this)).collect(Collectors.toSet());
         repaint();

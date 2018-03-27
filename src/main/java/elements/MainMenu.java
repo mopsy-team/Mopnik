@@ -39,8 +39,8 @@ public class MainMenu {
                 File file = fc.getSelectedFile();
                 if (TrafficInfoParser.assignWays(mainFrame.getMopInfos(), file) == -1) {
                     JOptionPane.showMessageDialog(mainFrame.getFrame(),
-                            "Wskazany plik nie istnieje.",
-                            "Nie zaleziono pliku",
+                            "Wskazany plik nie istnieje lub jest w złym formacie.",
+                            "Zły format pliku",
                             JOptionPane.WARNING_MESSAGE);
                 }
             }

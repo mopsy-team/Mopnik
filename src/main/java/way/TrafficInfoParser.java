@@ -11,34 +11,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 
 public class TrafficInfoParser {
-    static private WaysMap parseRandom() {
-        WaysMap map = new WaysMap();
-        for (int i = 0; i < 420; i += 30) {
-            TrafficInfo trafficInfo = new TrafficInfo(0, 0, (int) (Math.random() * 50000),
-                    (int) (Math.random() * 2000), (int) (Math.random() * 1000), (int) (Math.random() * 20000),
-                    (int) (Math.random() * 200), 0, 0);
-            map.add(new Way("A2", i, i + 30, trafficInfo));
-        }
-        for (int i = 0; i < 360; i += 30) {
-            TrafficInfo trafficInfo = new TrafficInfo(0, 0, (int) (Math.random() * 50000),
-                    (int) (Math.random() * 2000), (int) (Math.random() * 1000), (int) (Math.random() * 20000),
-                    (int) (Math.random() * 200), 0, 0);
-            map.add(new Way("A1", i, i + 30, trafficInfo));
-        }
-        return map;
-    }
-
-    static public void assignRandomWays(Collection<MopInfo> mops) {
-        WaysMap map = parseRandom();
-        for (MopInfo mop : mops) {
-            Way way = map.find(mop.getRoad(), mop.getMileage());
-            if (way != null) {
-                mop.setWay(way);
-            } else {
-                mop.setWay(new Way());
-            }
-        }
-    }
 
     static private WaysMap parseFromFile(Collection<MopInfo> mops, File file) {
         FileInputStream fis;
@@ -70,7 +42,7 @@ public class TrafficInfoParser {
                 TrafficInfo ti = new TrafficInfo(sum, motorcycle, car, van, truckNoTrail, truckWithTrail, bus, tractor, bicycle);
                 map.add(new Way(name, begin, end, ti));
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             return null;
         }
         return map;
