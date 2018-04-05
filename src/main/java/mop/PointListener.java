@@ -1,16 +1,20 @@
 package mop;
 
+import elements.MainFrame;
+
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class PointListener extends MouseAdapter {
-    private MopInfo mopInfo;
     private JComponent component;
+    private MopInfo mopInfo;
+    private MainFrame frame;
 
-    public PointListener(JComponent component, MopInfo mopInfo) {
+    public PointListener(JComponent component, MopInfo mopInfo, MainFrame frame) {
         this.component = component;
         this.mopInfo = mopInfo;
+        this.frame = frame;
     }
 
     @Override
@@ -19,6 +23,6 @@ public class PointListener extends MouseAdapter {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        System.out.print("klikniete");
+        MopInfoDialog dialog = new MopInfoDialog(mopInfo, frame);
     }
 }

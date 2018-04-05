@@ -8,14 +8,14 @@ public class MopEquipmentInfo {
     private boolean petrolStation;
     private boolean dangerousGoods;
     private boolean restaurant;
-    private boolean accomodation;
+    private boolean accommodation;
     private boolean toilet;
     private boolean carWash;
     private boolean carRepairShop;
 
     public MopEquipmentInfo(boolean security, boolean fence, boolean cctv, boolean light,
                             boolean petrolStation, boolean dangerousGoods, boolean restaurant,
-                            boolean accomodation, boolean toilet, boolean carWash,
+                            boolean accommodation, boolean toilet, boolean carWash,
                             boolean carRepairShop) {
         this.security = security;
         this.fence = fence;
@@ -24,7 +24,7 @@ public class MopEquipmentInfo {
         this.petrolStation = petrolStation;
         this.dangerousGoods = dangerousGoods;
         this.restaurant = restaurant;
-        this.accomodation = accomodation;
+        this.accommodation = accommodation;
         this.toilet = toilet;
         this.carWash = carWash;
         this.carRepairShop = carRepairShop;
@@ -58,8 +58,8 @@ public class MopEquipmentInfo {
         return restaurant;
     }
 
-    public boolean isAccomodation() {
-        return accomodation;
+    public boolean isAccommodation() {
+        return accommodation;
     }
 
     public boolean isToilet() {

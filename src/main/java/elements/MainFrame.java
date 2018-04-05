@@ -1,0 +1,136 @@
+package elements;
+
+import methods.Method;
+import mop.MopInfo;
+import mop.MopPoint;
+import mop.MopPointPainter;
+import mop.XlsToMopParser;
+import org.jxmapviewer.JXMapViewer;
+import org.jxmapviewer.OSMTileFactoryInfo;
+import org.jxmapviewer.input.CenterMapListener;
+import org.jxmapviewer.input.PanKeyListener;
+import org.jxmapviewer.input.PanMouseInputListener;
+import org.jxmapviewer.input.ZoomMouseWheelListenerCursor;
+import org.jxmapviewer.painter.CompoundPainter;
+import org.jxmapviewer.viewer.DefaultTileFactory;
+import org.jxmapviewer.viewer.GeoPosition;
+import org.jxmapviewer.viewer.TileFactoryInfo;
+import org.jxmapviewer.viewer.WaypointPainter;
+
+import javax.swing.*;
+import javax.swing.event.MouseInputListener;
+import java.awt.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+public class MainFrame {
+
+    private final JFrame frame;
+    private final JXMapViewer mapViewer;
+    private Set<MopPoint> mopPoints;
+    private CompoundPainter<JXMapViewer> painter;
+    private Set<MopInfo> mopInfos;
+    private Set<Method> methods;
+
+    public MainFrame() {
+        frame = new JFrame("MOPY");
+        mapViewer = new JXMapViewer();
+
+        // Create a TileFactoryInfo for OpenStreetMap
+        TileFactoryInfo info = new OSMTileFactoryInfo();
+        DefaultTileFactory tileFactory = new DefaultTileFactory(info);
+        mapViewer.setTileFactory(tileFactory);
+
+        // Set the focus
+        GeoPosition mim = new GeoPosition(52.211798, 20.982224);
+
+        mapViewer.setZoom(10);
+        mapViewer.setAddressLocation(mim);
+
+        // Add interactions
+        MouseInputListener mia = new PanMouseInputListener(mapViewer);
+        mapViewer.addMouseListener(mia);
+        mapViewer.addMouseMotionListener(mia);
+        mapViewer.addMouseListener(new CenterMapListener(mapViewer));
+        mapViewer.addMouseWheelListener(new ZoomMouseWheelListenerCursor(mapViewer));
+        mapViewer.addKeyListener(new PanKeyListener(mapViewer));
+
+        frame.setPreferredSize(new Dimension(1600, 1200));
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        frame.getContentPane().add(mapViewer);
+        painter = new CompoundPainter<JXMapViewer>();
+        mapViewer.setOverlayPainter(painter);
+
+        mopPoints = new HashSet<>();
+        mopInfos = new HashSet<>();
+        methods = new HashSet<>();
+
+    }
+
+    public void setMopPoints(Set<MopPoint> mopPoints) {
+        this.mopPoints = mopPoints;
+        repaint();
+    }
+
+    public void setMopPointsFromFile(File file) {
+        XlsToMopParser xlsToMopParser = new XlsToMopParser(file);
+        Set<MopInfo> mopInfosTemp = xlsToMopParser.parseMops();
+        if (mopInfosTemp == null) {
+            JOptionPane.showMessageDialog(frame,
+                    "Wskazany plik nie istnieje lub jest w złym formacie.",
+                    "Zły format pliku",
+                    JOptionPane.WARNING_MESSAGE);
+        } else {
+            mopInfos = mopInfosTemp;
+        }
+        this.mopPoints = mopInfos.stream().map((MopInfo m) -> new MopPoint(m.getName(),
+                Color.red, m, this)).collect(Collectors.toSet());
+        repaint();
+    }
+
+    public JFrame getFrame() {
+        return frame;
+    }
+
+    public Set<MopInfo> getMopInfos() {
+        return mopInfos;
+    }
+
+    public void show() {
+        setMopPointsFromFile(
+                new File(getClass().getClassLoader().getResource("MOP-12.2017-final2.xlsx").getFile()));
+
+        repaint();
+
+        MainMenu.create(this);
+        frame.pack();
+        frame.setVisible(true);
+
+    }
+
+    public void addMethod(Method method) {
+        methods.add(method);
+    }
+
+    public Set<Method> getMethods() {
+        System.out.println(methods.size());
+        return methods;
+    }
+
+    private void repaint() {
+        mapViewer.removeAll();
+        WaypointPainter<MopPoint> waypointPainter = new MopPointPainter();
+        waypointPainter.setWaypoints(mopPoints);
+        painter.addPainter(waypointPainter);
+        System.out.println(mopPoints.size());
+        for (MopPoint w : mopPoints) {
+            mapViewer.add(w.getButton());
+        }
+        frame.revalidate();
+    }
+}
