@@ -1,27 +1,27 @@
 package way;
 
 import com.opencsv.CSVReader;
+import elements.MainFrame;
 import mop.MopInfo;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 
 public class TrafficInfoParser {
 
-    static private WaysMap parseFromFile(Collection<MopInfo> mops, File file) {
+    static private RoutesMap parseFromFile(Collection<MopInfo> mops, File file) {
         FileInputStream fis;
-        WaysMap map;
+        RoutesMap map;
         try {
             fis = new FileInputStream(file);
             InputStreamReader isr = new InputStreamReader(fis,
                     StandardCharsets.UTF_8);
             CSVReader reader = new CSVReader(isr);
             String[] nextLine;
-            map = new WaysMap();
+            map = new RoutesMap();
             nextLine = reader.readNext();
             for (String s : nextLine) {
                 System.out.print(s + "| ");
@@ -40,7 +40,7 @@ public class TrafficInfoParser {
                 int tractor = Integer.parseInt(nextLine[17]);
                 int bicycle = Integer.parseInt(nextLine[18]);
                 TrafficInfo ti = new TrafficInfo(sum, motorcycle, car, van, truckNoTrail, truckWithTrail, bus, tractor, bicycle);
-                map.add(new Way(name, begin, end, ti));
+                map.add(new Route(name, begin, end, ti));
             }
         } catch (Exception e) {
             return null;
@@ -48,19 +48,22 @@ public class TrafficInfoParser {
         return map;
     }
 
-    static public int assignWays(Collection<MopInfo> mopInfos, File file) {
-        WaysMap waysMap = parseFromFile(mopInfos, file);
-        if (waysMap == null) {
+    static public int assignRoutes(MainFrame mainFrame, File file) {
+        Collection<MopInfo> mopInfos = mainFrame.getMopInfos();
+        RoutesMap routesMap = parseFromFile(mopInfos, file);
+        mainFrame.setRoutesMap(routesMap);
+        if (routesMap == null) {
             return -1;
         }
         for (MopInfo mop : mopInfos) {
-            Way way = waysMap.find(mop.getRoad(), mop.getMileage());
-            if (way != null) {
-                mop.setWay(way);
+            Route route = routesMap.find(mop.getRoad(), mop.getMileage());
+            if (route != null) {
+                mop.setRoute(route);
             } else {
-                mop.setWay(new Way());
+                mop.setRoute(new Route());
             }
         }
+        mainFrame.repaint();
         return 0;
     }
 }
