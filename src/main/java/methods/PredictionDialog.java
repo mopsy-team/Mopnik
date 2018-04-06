@@ -1,5 +1,6 @@
-package elements;
+package methods;
 
+import elements.MainFrame;
 import methods.Method;
 import methods.MethodValue;
 

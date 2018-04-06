@@ -2,7 +2,7 @@ package mop;
 
 import org.jxmapviewer.viewer.GeoPosition;
 import way.TrafficInfo;
-import way.Way;
+import way.Route;
 
 public class MopInfo {
 
@@ -17,7 +17,7 @@ public class MopInfo {
     private final double mileage;
     private final MopParkingSpacesInfo parkingSpacesInfo;
     private final MopEquipmentInfo equipmentInfo;
-    private Way way = new Way();
+    private Route route = new Route();
 
     public MopInfo(String branch, String locality, String name, GeoPosition geoPosition,
                    String road, String direction, int type,
@@ -74,15 +74,15 @@ public class MopInfo {
         return mileage;
     }
 
-    public Way getWay() {
-        return way;
+    public Route getRoute() {
+        return route;
     }
 
-    public void setWay(Way way) {
-        this.way = way;
+    public void setRoute(Route route) {
+        this.route = route;
     }
 
     public TrafficInfo getTrafficInfo() {
-        return way.getTrafficInfo();
+        return route.getTrafficInfo();
     }
 }

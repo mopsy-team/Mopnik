@@ -2,6 +2,7 @@ package elements;
 
 import methods.CustomMethod;
 import methods.Method;
+import methods.PredictionDialog;
 import way.TrafficInfoParser;
 
 import javax.swing.*;
@@ -37,7 +38,7 @@ public class MainMenu {
             int returnVal = fc.showOpenDialog(fc);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 File file = fc.getSelectedFile();
-                if (TrafficInfoParser.assignWays(mainFrame.getMopInfos(), file) == -1) {
+                if (TrafficInfoParser.assignRoutes(mainFrame, file) == -1) {
                     JOptionPane.showMessageDialog(mainFrame.getFrame(),
                             "Wskazany plik nie istnieje lub jest w złym formacie.",
                             "Zły format pliku",
@@ -66,7 +67,7 @@ public class MainMenu {
 
         JMenu mopPredictions = new JMenu("Zajętości MOP-ów");
 
-        JMenuItem item = new JMenuItem("Proponowana metodyka");
+        JMenuItem item = new JMenuItem("Domyślna metodyka");
         Method method = new CustomMethod();
         item.addActionListener(event -> {
             new PredictionDialog(method, mainFrame);
