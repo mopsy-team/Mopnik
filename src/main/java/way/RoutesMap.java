@@ -48,11 +48,16 @@ public class RoutesMap {
 
     Route findAllAndReplace(String name, double mileageBegin, double mileageEnd) {
         Route res = findAndRemove(name, mileageBegin + 1.);
-        if (res == null) { return null; }
+        if (res == null) {
+            return null;
+        }
         mileageBegin = res.getMileageEnd();
         while (mileageBegin < mileageEnd) {
             Route r = findAndRemove(name, mileageBegin + 1.);
-            if (r == null) { add(res); return res; }
+            if (r == null) {
+                add(res);
+                return res;
+            }
             res = res.add(r);
             mileageBegin = r.getMileageEnd();
         }

@@ -7,23 +7,22 @@ import br.zuq.osm.parser.model.OSMNode;
 import br.zuq.osm.parser.model.Way;
 import elements.MainFrame;
 import org.jxmapviewer.JXMapViewer;
+import org.jxmapviewer.painter.Painter;
 import org.jxmapviewer.viewer.DefaultWaypoint;
 import org.jxmapviewer.viewer.GeoPosition;
 import org.jxmapviewer.viewer.Waypoint;
 import org.jxmapviewer.viewer.WaypointPainter;
-import org.jxmapviewer.painter.Painter;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.util.*;
-import java.util.function.DoubleBinaryOperator;
 
 
 public class TrafficMap {
-    private OSM osm = null;
     private final String path = "../mapy/new/poland-latest6.osm";
+    private OSM osm = null;
 
     public TrafficMap() {
         try {
@@ -65,10 +64,10 @@ public class TrafficMap {
             return 0;
         };
         TreeMap<String, TreeSet<OSMNode>> milestoneNodes = new TreeMap<>();
-        for (Way way : osm.getWays()){
+        for (Way way : osm.getWays()) {
             for (OSMNode node : way.nodes) {
                 if (node.getAllTags().containsKey("milestone") && way.getAllTags().containsKey("ref")) {
-                    String refs[] = way.getAllTags().get("ref").replaceAll("\\s+","").split(";");
+                    String refs[] = way.getAllTags().get("ref").replaceAll("\\s+", "").split(";");
                     for (String ref : refs) {
                         if (!milestoneNodes.containsKey(ref)) {
                             milestoneNodes.put(ref, new TreeSet<>(nodesComparator));
@@ -79,12 +78,12 @@ public class TrafficMap {
             }
         }
         RoutesMap routesMap = new RoutesMap();
-        for (Map.Entry<String, TreeSet<OSMNode>> entry: milestoneNodes.entrySet()) {
+        for (Map.Entry<String, TreeSet<OSMNode>> entry : milestoneNodes.entrySet()) {
             TreeSet<OSMNode> nodes = entry.getValue();
             boolean first = true;
             Double oldMileage = 0.;
             Double newMileage = 0.;
-            for (OSMNode node: nodes) {
+            for (OSMNode node : nodes) {
                 newMileage = Double.parseDouble(node.getAllTags().get("milestone"));
                 if (!first) {
                     routesMap.add(new Route(entry.getKey(), oldMileage, newMileage, new TrafficInfo()));
@@ -99,7 +98,7 @@ public class TrafficMap {
     public Set<Waypoint> mileages() {
         Set<Waypoint> waypointSet = new HashSet<>();
         WaypointPainter<Waypoint> p = new WaypointPainter<Waypoint>();
-        for (OSMNode node: osm.getNodes()) {
+        for (OSMNode node : osm.getNodes()) {
             if (node.getAllTags().containsKey("milestone")) {
                 waypointSet.add(
                         new DefaultWaypoint(
@@ -113,12 +112,12 @@ public class TrafficMap {
         Map<String, Set<OSMNode>> nodes = new HashMap<>();
         Comparator<OSMNode> osmNodeComparator =
                 Comparator.comparingDouble(n -> Integer.parseInt(n.getAllTags().get("milestone")));
-        for (Way way : osm.getWays()){
+        for (Way way : osm.getWays()) {
             for (OSMNode node : way.nodes) {
                 if (node.getAllTags().containsKey("milestone") && way.getAllTags().containsKey("ref")) {
-                    String refs[] = way.getAllTags().get("ref").replaceAll("\\s+","").split(";");
+                    String refs[] = way.getAllTags().get("ref").replaceAll("\\s+", "").split(";");
                     for (String ref : refs) {
-                    //String ref = way.getAllTags().get("ref").replaceAll("\\s+", "");
+                        //String ref = way.getAllTags().get("ref").replaceAll("\\s+", "");
                         if (nodes.containsKey(ref)) {
                             nodes.get(ref).add(node);
                         } else {
@@ -129,13 +128,13 @@ public class TrafficMap {
             }
         }
         List<RoutePainter> res = new ArrayList<>();
-        for (Map.Entry<String, Set<OSMNode>> entry : nodes.entrySet()){
+        for (Map.Entry<String, Set<OSMNode>> entry : nodes.entrySet()) {
             if (!entry.getKey().equals("S8")) {
                 boolean first = true;
                 OSMNode last = null;
                 double lastMilestone = 0.0;
                 for (OSMNode node : entry.getValue()) {
-                    double newMilestone =  Double.parseDouble(node.getAllTags().get("milestone"));
+                    double newMilestone = Double.parseDouble(node.getAllTags().get("milestone"));
                     if (!first && Integer.parseInt(last.getAllTags().get("milestone")) <
                             Integer.parseInt(node.getAllTags().get("milestone")) - 2) {
                         List<GeoPosition> track = Arrays.asList(
@@ -149,7 +148,7 @@ public class TrafficMap {
                     }
                     first = false;
                     last = node;
-                    lastMilestone =  newMilestone;
+                    lastMilestone = newMilestone;
                 }
             }
         }

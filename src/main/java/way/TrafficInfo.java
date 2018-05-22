@@ -40,11 +40,11 @@ public class TrafficInfo {
         return bus;
     }
 
-    public TrafficInfo add (TrafficInfo trafficInfo) {
+    public TrafficInfo add(TrafficInfo trafficInfo) {
         int cars = Math.max(this.getCar(), trafficInfo.getCar());
         int trucks = Math.max(this.getTruck(), trafficInfo.getTruck());
         int buses = Math.max(this.getBus(), trafficInfo.getBus());
-        return new TrafficInfo(cars+trucks+buses, 0, cars, 0, trucks, 0, buses, 0, 0);
+        return new TrafficInfo(cars + trucks + buses, 0, cars, 0, trucks, 0, buses, 0, 0);
     }
 
 

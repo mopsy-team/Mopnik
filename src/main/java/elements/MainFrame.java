@@ -163,12 +163,12 @@ public class MainFrame {
         return methods;
     }
 
-    public void setRoutesMap(RoutesMap routesMap) {
-        this.routesMap = routesMap;
-    }
-
     public RoutesMap getRoutesMap() {
         return routesMap;
+    }
+
+    public void setRoutesMap(RoutesMap routesMap) {
+        this.routesMap = routesMap;
     }
 
     public void repaint() {
@@ -179,7 +179,7 @@ public class MainFrame {
         // WaypointPainter<Waypoint> mils = new WaypointPainter<>();
         // mils.setWaypoints(mileages);
         // painter.addPainter(mils);
-        for (MouseListener listener: listeners) {
+        for (MouseListener listener : listeners) {
             mapViewer.removeMouseListener(listener);
         }
         listeners = new ArrayList<>();

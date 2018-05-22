@@ -3,12 +3,9 @@ package way;
 import methods.CustomMethod;
 import methods.Method;
 import methods.MethodResult;
-import mop.MopInfo;
 import util.TitledTable;
 
 import javax.swing.*;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 
 public class TrafficInfoDialog extends JDialog {
@@ -24,8 +21,7 @@ public class TrafficInfoDialog extends JDialog {
             sdrCar = route.getTrafficInfo().getCar() / 2;
             sdrTruck = route.getTrafficInfo().getTruck() / 2;
             sdrBus = route.getTrafficInfo().getBus() / 2;
-        }
-        else {
+        } else {
             this.setTitle("A1 od do");
         }
         this.setLocationRelativeTo(null); // center the dialog.
@@ -36,7 +32,7 @@ public class TrafficInfoDialog extends JDialog {
 
         Map<String, MethodResult> spacesByDirection = route.getSpacesByDirection();
 
-        for (Map.Entry<String, MethodResult> entry : spacesByDirection.entrySet()){
+        for (Map.Entry<String, MethodResult> entry : spacesByDirection.entrySet()) {
             String dir = entry.getKey();
             MethodResult mr = entry.getValue();
             String[] columnNames = {"", "", "", ""};

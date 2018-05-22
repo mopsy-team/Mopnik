@@ -1,8 +1,8 @@
 package mop;
 
 import org.jxmapviewer.viewer.GeoPosition;
-import way.TrafficInfo;
 import way.Route;
+import way.TrafficInfo;
 
 public class MopInfo {
 
