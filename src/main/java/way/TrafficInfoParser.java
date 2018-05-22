@@ -15,16 +15,14 @@ import java.util.Collection;
 
 public class TrafficInfoParser {
 
-    static private RoutesMap parseFromFile(Collection<MopInfo> mops, File file) {
+    static private void parseFromFile(File file, RoutesMap routesMap) {
         FileInputStream fis;
-        RoutesMap map;
         try {
             fis = new FileInputStream(file);
             InputStreamReader isr = new InputStreamReader(fis,
                     StandardCharsets.UTF_8);
             CSVReader reader = new CSVReader(isr);
             String[] nextLine;
-            map = new RoutesMap();
             nextLine = reader.readNext();
             for (String s : nextLine) {
                 System.out.print(s + "| ");
@@ -43,23 +41,19 @@ public class TrafficInfoParser {
                 int tractor = Integer.parseInt(nextLine[17]);
                 int bicycle = Integer.parseInt(nextLine[18]);
                 TrafficInfo ti = new TrafficInfo(sum, motorcycle, car, van, truckNoTrail, truckWithTrail, bus, tractor, bicycle);
-                map.add(new Route(name, begin, end, ti));
+                routesMap.assignTrafficInfo(name, begin, end, ti);
             }
         } catch (Exception e) {
-            return null;
+            return;
         }
-        return map;
+        return;
     }
 
     static public int assignRoutes(MainFrame mainFrame, File file) {
         Collection<MopInfo> mopInfos = mainFrame.getMopInfos();
-        RoutesMap routesMap = parseFromFile(mopInfos, file);
-        mainFrame.setRoutesMap(routesMap);
-        if (routesMap == null) {
-            return -1;
-        }
+        parseFromFile(file, mainFrame.getRoutesMap());
         for (MopInfo mop : mopInfos) {
-            Route route = routesMap.find(mop.getRoad(), mop.getMileage());
+            Route route = mainFrame.getRoutesMap().find(mop.getRoad(), mop.getMileage());
             if (route != null) {
                 mop.setRoute(route);
                 MopParkingSpacesInfo mopParkingSpacesInfo = mop.getParkingSpacesInfo();

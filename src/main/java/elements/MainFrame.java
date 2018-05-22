@@ -79,6 +79,7 @@ public class MainFrame {
         methods = new HashSet<>();
         listeners = new ArrayList<>();
         trafficMap = new TrafficMap();
+        trafficMap.setRoutesMap(this);
         mileages = trafficMap.mileages();
     }
 
@@ -143,6 +144,10 @@ public class MainFrame {
     public void setRoutesMap(RoutesMap routesMap) {
         this.routesMap = routesMap;
         System.out.println("RoutesMap set");
+    }
+
+    public RoutesMap getRoutesMap() {
+        return routesMap;
     }
 
     public void repaint() {

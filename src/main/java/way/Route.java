@@ -106,4 +106,9 @@ public class Route {
     public void setSpacesNeeded(MethodResult mr) {
         spacesNeeded = mr;
     }
+
+    public void setTrafficInfo(TrafficInfo trafficInfo) {
+        this.trafficInfo = trafficInfo;
+        this.spacesNeeded = new CustomMethod().compute(this);
+    }
 }
