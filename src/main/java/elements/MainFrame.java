@@ -160,13 +160,11 @@ public class MainFrame {
     }
 
     public Set<Method> getMethods() {
-        System.out.println(methods.size());
         return methods;
     }
 
     public void setRoutesMap(RoutesMap routesMap) {
         this.routesMap = routesMap;
-        System.out.println("RoutesMap set");
     }
 
     public RoutesMap getRoutesMap() {

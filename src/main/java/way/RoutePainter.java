@@ -127,7 +127,6 @@ public class RoutePainter implements Painter<JXMapViewer> {
                 sensor.setFrameFromCenter(x, y, x + S / 2, y + S / 2);
                 for (Pair<Line2D, Route> line : lines) {
                     if (line.getKey().intersects(sensor)) {
-                        System.out.println("click");
                         new TrafficInfoDialog(line.getValue());
                         break;
                     }

@@ -51,7 +51,6 @@ public class PredictionDialog extends JDialog {
                 f[j].setBus(Double.parseDouble(table.getValueAt(j, 3).toString()));
             }
             method.setFields(Arrays.asList(f));
-            System.out.println("Parametr: " + method.getFields().iterator().next().getCar());
             frame.addMethod(method);
         });
         this.add(submit);

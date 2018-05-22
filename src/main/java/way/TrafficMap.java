@@ -131,13 +131,11 @@ public class TrafficMap {
         List<RoutePainter> res = new ArrayList<>();
         for (Map.Entry<String, Set<OSMNode>> entry : nodes.entrySet()){
             if (!entry.getKey().equals("S8")) {
-                System.out.println(entry.getKey());
                 boolean first = true;
                 OSMNode last = null;
                 double lastMilestone = 0.0;
                 for (OSMNode node : entry.getValue()) {
                     double newMilestone =  Double.parseDouble(node.getAllTags().get("milestone"));
-                    System.out.println(node.getAllTags().get("milestone"));
                     if (!first && Integer.parseInt(last.getAllTags().get("milestone")) <
                             Integer.parseInt(node.getAllTags().get("milestone")) - 2) {
                         List<GeoPosition> track = Arrays.asList(
