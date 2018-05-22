@@ -1,6 +1,7 @@
 package way;
 
 import javafx.util.Pair;
+import methods.CustomMethod;
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.painter.Painter;
 import org.jxmapviewer.viewer.GeoPosition;
@@ -36,13 +37,30 @@ public class RoutePainter implements Painter<JXMapViewer> {
     public RoutePainter(List<GeoPosition> track, Route route) {
         // copy the list so that changes in the
         // original list do not have an effect here
+        /*
         Color[] colors = { Color.GREEN, Color.ORANGE, Color.RED, Color.YELLOW};
         this.track = new ArrayList<>(track);
         Random r = new Random();
-        this.color = colors[r.nextInt(colors.length)];
+        this.color = colors[r.nextInt(colors.length)]; */
         this.first = true;
         this.lines = new ArrayList<>();
         this.route = route;
+        if (route != null) {
+            NSpaces nSpaces = route.nSpaces();
+            if (nSpaces == NSpaces.LARGE) {
+                color = Color.green;
+            }
+            if (nSpaces == NSpaces.SUFFICIENT) {
+                color = Color.yellow;
+            }
+            if (nSpaces == NSpaces.LOW) {
+                color = Color.orange;
+            }
+            if (nSpaces == NSpaces.VERY_LOW) {
+                color = Color.red;
+            }
+        }
+        this.track = new ArrayList<>(track);
     }
 
     @Override
@@ -74,6 +92,9 @@ public class RoutePainter implements Painter<JXMapViewer> {
      * @param map the map
      */
     private void drawRoute(Graphics2D g, JXMapViewer map) {
+        if (route == null) {
+            return;
+        }
         TileFactory tf = map.getTileFactory();
         int zoom = map.getZoom();
 //        int xs[] = track.stream().mapToInt(gp -> (int)Math.round(tf.geoToPixel(gp, zoom).getX())).toArray();

@@ -2,6 +2,7 @@ package elements;
 
 import config.AppConfig;
 import way.RoutePainter;
+import way.TrafficInfoParser;
 import way.TrafficMap;
 import methods.Method;
 import mop.*;
@@ -136,6 +137,14 @@ public class MainFrame {
     public void show() {
         setMopPointsFromFile(
                 new File(getClass().getClassLoader().getResource("MOP-12.2017-final2.xlsx").getFile()));
+
+        File file = new File("kraj.csv");
+        if (TrafficInfoParser.assignRoutes(this, file) == -1) {
+            JOptionPane.showMessageDialog(getFrame(),
+                    "Wskazany plik nie istnieje lub jest w złym formacie.",
+                    "Zły format pliku",
+                    JOptionPane.WARNING_MESSAGE);
+        }
 
         repaint();
 

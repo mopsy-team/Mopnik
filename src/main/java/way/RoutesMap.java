@@ -36,11 +36,35 @@ public class RoutesMap {
         return w;
     }
 
-    Route findNear(String name, double mileage, double precision) {
-        return find(name, mileage + precision);
+    Route findAndRemove(String name, double mileage) {
+        Route res = find(name, mileage);
+        if (res == null) {
+            return null;
+        }
+        remove(res);
+        return res;
+    }
+
+
+    Route findAllAndReplace(String name, double mileageBegin, double mileageEnd) {
+        Route res = findAndRemove(name, mileageBegin + 1.);
+        if (res == null) { return null; }
+        mileageBegin = res.getMileageEnd();
+        while (mileageBegin < mileageEnd) {
+            Route r = findAndRemove(name, mileageBegin + 1.);
+            if (r == null) { add(res); return res; }
+            res = res.add(r);
+            mileageBegin = r.getMileageEnd();
+        }
+        add(res);
+        return res;
     }
 
     int size() {
         return routes.size();
+    }
+
+    private void remove(Route route) {
+        routes.get(route.getName()).remove(route);
     }
 }

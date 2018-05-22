@@ -1,5 +1,6 @@
 package methods;
 
+import way.Route;
 import way.TrafficInfo;
 
 import java.util.Collection;
@@ -9,7 +10,7 @@ public interface Method {
 
     void setFields(Collection<MethodValue> fields);
 
-    MethodResult compute(TrafficInfo trafficInfo);
+    MethodResult compute(Route route);
 
     boolean isSet();
 }

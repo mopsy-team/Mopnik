@@ -1,8 +1,15 @@
 package way;
 
+import methods.CustomMethod;
+import methods.Method;
+import methods.MethodResult;
+import mop.MopInfo;
 import util.TitledTable;
 
 import javax.swing.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TrafficInfoDialog extends JDialog {
     private Route route;
@@ -24,28 +31,25 @@ public class TrafficInfoDialog extends JDialog {
         this.setLocationRelativeTo(null); // center the dialog.
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
-        String[] columnNames = {"", "", "", ""};
-        Object[][] data = {
-                {"Rodzaj pojazdu", "Średniodobowe natężenie ruchu",
-                        "Liczba miejsc", "Liczba potrzebnych miejsc"},
-                {"Osobowe", sdrCar, " ", ""},
-                {"Ciężarowe", sdrTruck, " ", ""},
-                {"Autobusy", sdrBus, " ", ""},
-        };
-        this.add(new TitledTable("Kierunek: Gdańsk",
-                data, columnNames));
+        Method m = new CustomMethod();
+        MethodResult methodResult = m.compute(route);
 
-        columnNames = new String[]{"", "", "", ""};
-        data = new Object[][]{
-                {"Rodzaj pojazdu", "Średniodobowe natężenie ruchu",
-                        "Liczba miejsc parkingowych", "Liczba potrzebnych miejsc parkingowych"},
-                {"Osobowe", sdrCar, "", ""},
-                {"Ciężarowe", sdrTruck, "", ""},
-                {"Autobusy", sdrBus, "", ""},
-        };
-        this.add(new TitledTable("Kierunek: Katowice",
-                data, columnNames));
+        Map<String, MethodResult> spacesByDirection = route.getSpacesByDirection();
 
+        for (Map.Entry<String, MethodResult> entry : spacesByDirection.entrySet()){
+            String dir = entry.getKey();
+            MethodResult mr = entry.getValue();
+            String[] columnNames = {"", "", "", ""};
+            Object[][] data = {
+                    {"Rodzaj pojazdu", "Średniodobowe natężenie ruchu",
+                            "Liczba miejsc", "Liczba potrzebnych miejsc"},
+                    {"Osobowe", sdrCar, mr.getCar(), methodResult.getCar()},
+                    {"Ciężarowe", sdrTruck, mr.getTruck(), methodResult.getTruck()},
+                    {"Autobusy", sdrBus, mr.getBus(), methodResult.getBus()},
+            };
+            this.add(new TitledTable("Kierunek: " + dir,
+                    data, columnNames));
+        }
         this.setVisible(true);
     }
 
