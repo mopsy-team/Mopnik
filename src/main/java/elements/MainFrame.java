@@ -1,8 +1,5 @@
 package elements;
 
-import way.RoutePainter;
-import way.TrafficInfoParser;
-import way.TrafficMap;
 import methods.Method;
 import mop.MopInfo;
 import mop.MopPoint;
@@ -16,7 +13,10 @@ import org.jxmapviewer.input.PanMouseInputListener;
 import org.jxmapviewer.input.ZoomMouseWheelListenerCursor;
 import org.jxmapviewer.painter.CompoundPainter;
 import org.jxmapviewer.viewer.*;
+import way.RoutePainter;
 import way.RoutesMap;
+import way.TrafficInfoParser;
+import way.TrafficMap;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
@@ -140,12 +140,12 @@ public class MainFrame {
         return methods;
     }
 
-    public void setRoutesMap(RoutesMap routesMap) {
-        this.routesMap = routesMap;
-    }
-
     public RoutesMap getRoutesMap() {
         return routesMap;
+    }
+
+    public void setRoutesMap(RoutesMap routesMap) {
+        this.routesMap = routesMap;
     }
 
     public void repaint() {
@@ -156,7 +156,7 @@ public class MainFrame {
         // WaypointPainter<Waypoint> mils = new WaypointPainter<>();
         // mils.setWaypoints(mileages);
         // painter.addPainter(mils);
-        for (MouseListener listener: listeners) {
+        for (MouseListener listener : listeners) {
             mapViewer.removeMouseListener(listener);
         }
         listeners = new ArrayList<>();

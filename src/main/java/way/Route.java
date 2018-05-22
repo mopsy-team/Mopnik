@@ -2,7 +2,6 @@ package way;
 
 import methods.CustomMethod;
 import methods.MethodResult;
-import methods.MethodValue;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -54,13 +53,13 @@ public class Route {
     public NSpaces nSpaces() {
         int lacks = 0;
         int toomany = 0;
-        for (MethodResult mr: spacesByDirection.values()) {
+        for (MethodResult mr : spacesByDirection.values()) {
             lacks += (mr.getCar() < spacesNeeded.getCar() ? 1 : 0)
                     + (mr.getTruck() < spacesNeeded.getTruck() ? 1 : 0);
             toomany += (mr.getCar() > spacesNeeded.getCar() * 1.5 ? 1 : 0)
                     + (mr.getTruck() > spacesNeeded.getTruck() * 1.5 ? 1 : 0);
         }
-        if (lacks > 2){
+        if (lacks > 2) {
             return NSpaces.VERY_LOW;
         }
         if (lacks > 0) {
@@ -76,11 +75,18 @@ public class Route {
         return trafficInfo;
     }
 
+    public void setTrafficInfo(TrafficInfo trafficInfo) {
+        this.trafficInfo = trafficInfo;
+        this.spacesNeeded = new CustomMethod().compute(this);
+    }
+
     public void addSpacesInfo(String direction, MethodResult methodResult) {
-        if (spacesByDirection.size() == 2 && spacesByDirection.containsKey(" ")){
+        if (spacesByDirection.size() == 2 && spacesByDirection.containsKey(" ")) {
             spacesByDirection = new HashMap<>();
         }
-        if (direction.equals("") || direction.equals(" ")) { return; }
+        if (direction.equals("") || direction.equals(" ")) {
+            return;
+        }
         if (spacesByDirection.containsKey(direction)) {
             spacesByDirection.get(direction).add(methodResult);
         } else {
@@ -88,7 +94,7 @@ public class Route {
         }
     }
 
-    public Route add(Route route){
+    public Route add(Route route) {
         String name = this.name;
         double milbeg = Math.min(mileageBegin, route.mileageBegin);
         double milend = Math.max(mileageEnd, route.mileageEnd);
@@ -105,10 +111,5 @@ public class Route {
 
     public void setSpacesNeeded(MethodResult mr) {
         spacesNeeded = mr;
-    }
-
-    public void setTrafficInfo(TrafficInfo trafficInfo) {
-        this.trafficInfo = trafficInfo;
-        this.spacesNeeded = new CustomMethod().compute(this);
     }
 }

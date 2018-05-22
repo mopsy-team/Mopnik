@@ -1,8 +1,6 @@
 package methods;
 
 import elements.MainFrame;
-import methods.Method;
-import methods.MethodValue;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

@@ -2,7 +2,6 @@ package way;
 
 import com.opencsv.CSVReader;
 import elements.MainFrame;
-import methods.CustomMethod;
 import methods.MethodResult;
 import mop.MopInfo;
 import mop.MopParkingSpacesInfo;

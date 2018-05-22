@@ -1,7 +1,6 @@
 package way;
 
 import javafx.util.Pair;
-import methods.CustomMethod;
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.painter.Painter;
 import org.jxmapviewer.viewer.GeoPosition;
@@ -15,7 +14,6 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Paints a route
@@ -23,8 +21,8 @@ import java.util.Random;
  * @author Martin Steiger
  */
 public class RoutePainter implements Painter<JXMapViewer> {
-    private Color color;
     private final boolean antiAlias = false;
+    private Color color;
     private boolean first;
     private List<Pair<Line2D, Route>> lines;
     private Route route;
@@ -102,11 +100,11 @@ public class RoutePainter implements Painter<JXMapViewer> {
 //        int ys[] = track.stream().mapToInt(gp -> (int)Math.round(tf.geoToPixel(gp, zoom).getY())).toArray();
 //        g.drawPolyline(xs, ys, xs.length);
         lines = new ArrayList<>();
-        for (int i = 0; i < track.size()-1; i++) {
+        for (int i = 0; i < track.size() - 1; i++) {
             double x1 = tf.geoToPixel(track.get(i), zoom).getX();
             double y1 = tf.geoToPixel(track.get(i), zoom).getY();
-            double x2 = tf.geoToPixel(track.get(i+1), zoom).getX();
-            double y2 = tf.geoToPixel(track.get(i+1), zoom).getY();
+            double x2 = tf.geoToPixel(track.get(i + 1), zoom).getX();
+            double y2 = tf.geoToPixel(track.get(i + 1), zoom).getY();
             Line2D line = new Line2D.Double(x1, y1, x2, y2);
             g.draw(line);
             lines.add(new Pair<>(line, route)); // TODO(MG)
@@ -114,7 +112,7 @@ public class RoutePainter implements Painter<JXMapViewer> {
     }
 
     public MouseListener mouseListenerOnRoute(JXMapViewer map) {
-        return ( new MouseAdapter() {
+        return (new MouseAdapter() {
             final int S = 10;
 
             @Override

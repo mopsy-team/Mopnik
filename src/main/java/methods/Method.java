@@ -1,7 +1,6 @@
 package methods;
 
 import way.Route;
-import way.TrafficInfo;
 
 import java.util.Collection;
 

@@ -71,8 +71,7 @@ public class XlsToMopParser {
                 res.add(new MopInfo(branch, locality, name, g, road, direction, type, parkingSpacesInfo,
                         equipmentInfo, mileage));
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return null;
         }
         return res;

@@ -22,9 +22,9 @@ public class CustomMethod extends AbstractMethod {
         if (ind == null || sind == null) {
             return new MethodResult(0, 0, 0);
         }
-        long car = Math.round(ind.getCar() * trafficInfo.getCar()/2 * sind.getCar() * distPer15km);
-        long truck = Math.round(ind.getTruck() * trafficInfo.getTruck()/2 * sind.getTruck() * distPer15km);
-        long bus = Math.round(ind.getBus() * trafficInfo.getBus()/2 * sind.getBus() * distPer15km);
+        long car = Math.round(ind.getCar() * trafficInfo.getCar() / 2 * sind.getCar() * distPer15km);
+        long truck = Math.round(ind.getTruck() * trafficInfo.getTruck() / 2 * sind.getTruck() * distPer15km);
+        long bus = Math.round(ind.getBus() * trafficInfo.getBus() / 2 * sind.getBus() * distPer15km);
         return new MethodResult(car, truck, bus);
     }
 

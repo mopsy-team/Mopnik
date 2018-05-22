@@ -23,7 +23,7 @@ public class MethodResult {
         return truck;
     }
 
-    public void add (MethodResult mr) {
+    public void add(MethodResult mr) {
         this.car += mr.getCar();
         this.truck += mr.getTruck();
         this.bus += mr.getBus();
