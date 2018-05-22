@@ -14,8 +14,7 @@ public class XlsToMopParser {
     private XSSFWorkbook workbook;
 
     public XlsToMopParser(File file) {
-        System.out.println(file);
-        FileInputStream fis = null;
+        FileInputStream fis;
         try {
             fis = new FileInputStream(file);
             this.workbook = new XSSFWorkbook(fis);

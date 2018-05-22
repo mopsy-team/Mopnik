@@ -56,7 +56,6 @@ public class MainMenu {
             int returnVal = fc.showOpenDialog(fc);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 File file = fc.getSelectedFile();
-                System.out.println("Opening: " + file.getName() + ".");
                 mainFrame.setMopPointsFromFile(file);
             }
         });
