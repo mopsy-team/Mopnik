@@ -60,6 +60,12 @@ public class RoutesMap {
         return res;
     }
 
+    public void assignTrafficInfo(String name, double mileageBegin, double mileageEnd, TrafficInfo trafficInfo) {
+        Route route = find(name, mileageBegin + 2);
+        if (route != null)
+            route.setTrafficInfo(trafficInfo);
+    }
+
     int size() {
         return routes.size();
     }

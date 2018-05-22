@@ -45,21 +45,6 @@ public class RoutePainter implements Painter<JXMapViewer> {
         this.first = true;
         this.lines = new ArrayList<>();
         this.route = route;
-        if (route != null) {
-            NSpaces nSpaces = route.nSpaces();
-            if (nSpaces == NSpaces.LARGE) {
-                color = Color.green;
-            }
-            if (nSpaces == NSpaces.SUFFICIENT) {
-                color = Color.yellow;
-            }
-            if (nSpaces == NSpaces.LOW) {
-                color = Color.orange;
-            }
-            if (nSpaces == NSpaces.VERY_LOW) {
-                color = Color.red;
-            }
-        }
         this.track = new ArrayList<>(track);
     }
 
@@ -77,6 +62,22 @@ public class RoutePainter implements Painter<JXMapViewer> {
 
         if (antiAlias)
             g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        if (route != null) {
+            NSpaces nSpaces = route.nSpaces();
+            if (nSpaces == NSpaces.LARGE) {
+                color = Color.green;
+            }
+            if (nSpaces == NSpaces.SUFFICIENT) {
+                color = Color.yellow;
+            }
+            if (nSpaces == NSpaces.LOW) {
+                color = Color.orange;
+            }
+            if (nSpaces == NSpaces.VERY_LOW) {
+                color = Color.red;
+            }
+        }
 
         g.setColor(color);
         g.setStroke(new BasicStroke(4));
