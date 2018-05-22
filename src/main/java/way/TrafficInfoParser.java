@@ -2,7 +2,10 @@ package way;
 
 import com.opencsv.CSVReader;
 import elements.MainFrame;
+import methods.CustomMethod;
+import methods.MethodResult;
 import mop.MopInfo;
+import mop.MopParkingSpacesInfo;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -59,6 +62,10 @@ public class TrafficInfoParser {
             Route route = routesMap.find(mop.getRoad(), mop.getMileage());
             if (route != null) {
                 mop.setRoute(route);
+                MopParkingSpacesInfo mopParkingSpacesInfo = mop.getParkingSpacesInfo();
+                MethodResult mr = new MethodResult(mopParkingSpacesInfo.getCarSpaces(),
+                        mopParkingSpacesInfo.getTruckSpaces(), mopParkingSpacesInfo.getBusSpaces());
+                route.addSpacesInfo(mop.getDirection(), mr);
             } else {
                 mop.setRoute(new Route());
             }

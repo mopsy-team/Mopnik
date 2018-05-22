@@ -7,6 +7,14 @@ public class MethodValue {
     private Double truck;
     private Double bus;
 
+    public MethodValue(String name, String description, Double car, Double truck, Double bus) {
+        this.name = name;
+        this.description = description;
+        this.car = car;
+        this.truck = truck;
+        this.bus = bus;
+    }
+
     public MethodValue(String name, String description) {
         this.name = name;
         this.description = description;

@@ -92,6 +92,7 @@ public class TrafficMap {
                 OSMNode last = null;
                 double lastMilestone = 0.0;
                 for (OSMNode node : entry.getValue()) {
+                    double newMilestone =  Double.parseDouble(node.getAllTags().get("milestone"));
                     System.out.println(node.getAllTags().get("milestone"));
                     if (!first && Integer.parseInt(last.getAllTags().get("milestone")) <
                             Integer.parseInt(node.getAllTags().get("milestone")) - 2) {
@@ -100,14 +101,13 @@ public class TrafficMap {
                                 new GeoPosition(Double.parseDouble(node.lat), Double.parseDouble(node.lon)));
                         Route route = null;
                         if (routesMap != null) {
-                            System.out.println("Routes map size: " + routesMap.size() + " " + lastMilestone);
-                            route = routesMap.findNear(entry.getKey(), lastMilestone, 1.0);
+                            route = routesMap.findAllAndReplace(entry.getKey(), lastMilestone, newMilestone);
                         }
                         res.add(new RoutePainter(track, route));
                     }
                     first = false;
                     last = node;
-                    lastMilestone =  Double.parseDouble(node.getAllTags().get("milestone"));
+                    lastMilestone =  newMilestone;
                 }
             }
         }
