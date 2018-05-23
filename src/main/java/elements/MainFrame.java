@@ -1,10 +1,8 @@
 package elements;
 
+import config.AppConfig;
 import methods.Method;
-import mop.MopInfo;
-import mop.MopPoint;
-import mop.MopPointPainter;
-import mop.XlsToMopParser;
+import mop.*;
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.OSMTileFactoryInfo;
 import org.jxmapviewer.input.CenterMapListener;
@@ -20,9 +18,8 @@ import org.jxmapviewer.viewer.WaypointPainter;
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
 import java.awt.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -88,6 +85,15 @@ public class MainFrame {
         } else {
             mopInfos = mopInfosTemp;
         }
+        this.mopPoints = mopInfos.stream().map((MopInfo m) -> new MopPoint(m.getName(),
+                Color.red, m, this)).collect(Collectors.toSet());
+        repaint();
+    }
+
+    public void setMopPointsFromServer() throws IOException {
+        String urlQueryString = AppConfig.getMopsUrl();
+        ServerDataHandler serverDataHandler = new ServerDataHandler(urlQueryString);
+        mopInfos = serverDataHandler.parseMops();
         this.mopPoints = mopInfos.stream().map((MopInfo m) -> new MopPoint(m.getName(),
                 Color.red, m, this)).collect(Collectors.toSet());
         repaint();

@@ -13,12 +13,12 @@ public class SelectionPainter implements Painter<Object> {
     private Color fillColor = new Color(128, 192, 255, 128);
     private Color frameColor = new Color(0, 0, 255, 128);
 
-    private SelectionAdapter adapter;
+    private sample3_interaction.SelectionAdapter adapter;
 
     /**
      * @param adapter the selection adapter
      */
-    public SelectionPainter(SelectionAdapter adapter) {
+    public SelectionPainter(sample3_interaction.SelectionAdapter adapter) {
         this.adapter = adapter;
     }
 
