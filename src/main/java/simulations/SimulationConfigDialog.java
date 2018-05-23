@@ -24,10 +24,10 @@ public class SimulationConfigDialog extends JDialog {
                 "Wybierz", ".csv", "CSV file");
 
         JButton submit = new JButton("Przeprowadź symulację");
-        submit.addChangeListener(
+        submit.addActionListener(
                 e -> System.out.println("start simulation")); // TODO
         this.add(submit);
-        
+
         this.setVisible(true);
     }
 
