@@ -3,6 +3,7 @@ package elements;
 import methods.CustomMethod;
 import methods.Method;
 import methods.PredictionDialog;
+import simulations.SimulationConfigDialog;
 import way.TrafficInfoParser;
 
 import javax.swing.*;
@@ -26,12 +27,12 @@ public class MainMenu {
 
 //Build the first menu.
         menu = new JMenu("Dodaj dane z pliku");
-        menu.setMnemonic(KeyEvent.VK_A);
+        menu.setMnemonic(KeyEvent.VK_D);
         menuBar.add(menu);
 
 //a group of JMenuItems
         menuItem = new JMenuItem("Średniodobowe natężenie ruchu",
-                KeyEvent.VK_T);
+                KeyEvent.VK_S);
         menuItem.addActionListener(event -> {
             final JFileChooser fc = new JFileChooser();
             fc.setPreferredSize(dialogSize);
@@ -48,8 +49,9 @@ public class MainMenu {
         });
         menu.add(menuItem);
 
-        menuItem = new JMenuItem("Układ MOP-ów",
-                KeyEvent.VK_T);
+
+        menuItem = new JMenuItem("Układ MOPów",
+                KeyEvent.VK_U);
         menuItem.addActionListener(event -> {
             final JFileChooser fc = new JFileChooser();
             fc.setPreferredSize(dialogSize);
@@ -74,6 +76,7 @@ public class MainMenu {
         mopPredictions.add(item);
         menu.add(mopPredictions);
 
+
         //Build the download data from server menu.
         menu = new JMenu("Dodaj dane z serwera");
         menu.setMnemonic(KeyEvent.VK_A);
@@ -85,6 +88,14 @@ public class MainMenu {
             mainFrame.setMopPointsFromServer();
         });
         menu.add(menuItem);
+
+        menuItem = new JMenuItem("Symulacje", KeyEvent.VK_S);
+        menuItem.addActionListener( event -> {
+            new SimulationConfigDialog();
+        });
+
+        menuBar.add(menuItem);
+        
         mainFrame.getFrame().setJMenuBar(menuBar);
     }
 
