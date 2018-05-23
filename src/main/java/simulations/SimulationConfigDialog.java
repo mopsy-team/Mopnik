@@ -14,30 +14,51 @@ public class SimulationConfigDialog extends JDialog {
         this.setTitle("Ustal dane wejściowe symulacji");
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
-        String osmFilePath = addFilePicker("Wybierz plik z mapą",
+        FilePicker osmFilePicker = addFilePicker("Wybierz plik z mapą",
                 "Wybierz", ".osm", "Open Street Map");
 
-        String mopSettingPath = addFilePicker("Wybierz układ MOPów",
+        FilePicker mopFilePicker = addFilePicker("Wybierz układ MOPów",
                 "Wybierz", ".xml", "Spreadsheet");
 
-        String travelMatricesPath = addFilePicker("Wybierz macierze podróży",
+        FilePicker travelMatricesFilePicker = addFilePicker("Wybierz macierze podróży",
                 "Wybierz", ".csv", "CSV file");
 
         JButton submit = new JButton("Przeprowadź symulację");
         submit.addActionListener(
-                e -> System.out.println("start simulation")); // TODO
+                e -> {
+                    String message = "Proszę wczytać następujące plik:\n";
+                    boolean notSet = false;
+                    if (osmFilePicker.getSelectedFilePath().equals("")) {
+                        message += "plik Open Street Map\n";
+                        notSet = true;
+                    }
+                    if (mopFilePicker.getSelectedFilePath().equals("")) {
+                        message += "plik z MOPami \n";
+                        notSet = true;
+                    }
+                    if (travelMatricesFilePicker.getSelectedFilePath().equals("")) {
+                        message += "macierze podróży";
+                        notSet = true;
+                    }
+                    if (notSet){
+                        JOptionPane.showMessageDialog(this, message);
+                    }
+                    else {
+                        System.out.println(osmFilePicker.getSelectedFilePath());
+                        this.setVisible(false);
+                    }
+                }); // TODO
         this.add(submit);
 
         this.setVisible(true);
     }
 
-    private String addFilePicker(String textFieldLabel, String buttonLabel, String extension, String description) {
+    private FilePicker addFilePicker(String textFieldLabel, String buttonLabel, String extension, String description) {
         FilePicker filePicker = new FilePicker(textFieldLabel, buttonLabel);
         filePicker.setMode(FilePicker.MODE_OPEN);
         filePicker.addFileTypeFilter(extension, description);
-        String filePath = filePicker.getSelectedFilePath();
         this.add(filePicker);
-        return filePath;
+        return filePicker;
     }
 }
 
