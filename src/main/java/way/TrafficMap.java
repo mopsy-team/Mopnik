@@ -21,7 +21,7 @@ import java.util.*;
 
 
 public class TrafficMap {
-    private final String path = "../mapy/new/poland-latest6.osm";
+    private final String path = getClass().getClassLoader().getResource("poland-latest6.osm").getPath();
     private OSM osm = null;
 
     public TrafficMap() {
