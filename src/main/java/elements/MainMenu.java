@@ -47,7 +47,7 @@ public class MainMenu {
         });
         menu.add(menuItem);
 
-        menuItem = new JMenuItem("Układ MOPów",
+        menuItem = new JMenuItem("Układ MOP-ów",
                 KeyEvent.VK_T);
         menuItem.addActionListener(event -> {
             final JFileChooser fc = new JFileChooser();
@@ -64,7 +64,7 @@ public class MainMenu {
         menu = new JMenu("Predykcje");
         menuBar.add(menu);
 
-        JMenu mopPredictions = new JMenu("Zajętości MOPów");
+        JMenu mopPredictions = new JMenu("Zajętości MOP-ów");
 
         JMenuItem item = new JMenuItem("Proponowana metodyka");
         Method method = new CustomMethod();
@@ -74,6 +74,17 @@ public class MainMenu {
         mopPredictions.add(item);
         menu.add(mopPredictions);
 
+        //Build the download data from server menu.
+        menu = new JMenu("Dodaj dane z serwera");
+        menu.setMnemonic(KeyEvent.VK_A);
+        menuBar.add(menu);
+
+        menuItem = new JMenuItem("Układ MOP-ów",
+                KeyEvent.VK_T);
+        menuItem.addActionListener(event -> {
+            mainFrame.setMopPointsFromServer();
+        });
+        menu.add(menuItem);
         mainFrame.getFrame().setJMenuBar(menuBar);
     }
 
