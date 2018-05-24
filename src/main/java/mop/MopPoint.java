@@ -12,25 +12,27 @@ import java.awt.*;
 public class MopPoint extends DefaultWaypoint {
     private static final Log log = LogFactory.getLog(MopPoint.class);
     private final String label;
-    private final Color color;
     private final MopInfo mopInfo;
     private JButton button = new JButton();
 
     /**
      * @param label   the text
-     * @param color   the color
      * @param mopInfo information about mop
      */
-    public MopPoint(String label, Color color, MopInfo mopInfo, MainFrame frame) {
+    public MopPoint(String label, MopInfo mopInfo, MopType mopType, MainFrame frame) {
         super(mopInfo.getGeoPosition());
         this.label = label;
-        this.color = color;
         this.mopInfo = mopInfo;
         Image img = null;
         try {
-            img = ImageIO.read(MopPoint.class.getResource("/images/Parking_icon_16.png"));
+            if (mopType == MopType.EXISTING) {
+                img = ImageIO.read(MopPoint.class.getResource("/images/Parking_icon_16.png"));
+            }
+            else {
+                img = ImageIO.read(MopPoint.class.getResource("/images/Parking_icon_16_red.png"));
+            }
         } catch (Exception e) {
-            log.warn("Couldn't read file /images/Parking_icon_16.png");
+            log.warn("Couldn't read icon file");
         }
         if (img != null) {
             this.button = new JButton(new ImageIcon(img));
@@ -47,13 +49,6 @@ public class MopPoint extends DefaultWaypoint {
      */
     public String getLabel() {
         return label;
-    }
-
-    /**
-     * @return the color
-     */
-    public Color getColor() {
-        return color;
     }
 
     public MopInfo getMopInfo() {

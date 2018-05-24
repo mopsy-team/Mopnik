@@ -23,7 +23,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.awt.event.MouseListener;
-import java.io.File;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -100,8 +100,8 @@ public class MainFrame {
         } else {
             mopInfos = mopInfosTemp;
         }
-        this.mopPoints = mopInfos.stream().map((MopInfo m) -> new MopPoint(m.getName(),
-                Color.red, m, this)).collect(Collectors.toSet());
+        this.mopPoints = mopInfos.stream().map((MopInfo m) ->
+                new MopPoint(m.getName(), m, MopType.EXISTING, this)).collect(Collectors.toSet());
         repaint();
     }
 
@@ -111,7 +111,7 @@ public class MainFrame {
         try {
             mopInfos = serverDataHandler.parseMops();
             this.mopPoints = mopInfos.stream().map((MopInfo m) -> new MopPoint(m.getName(),
-                    Color.red, m, this)).collect(Collectors.toSet());
+                    m,  MopType.EXISTING, this)).collect(Collectors.toSet());
             JOptionPane.showMessageDialog(frame,
                     "Poprawnie załadowano dane.");
         } catch (JSONException e) {
@@ -176,9 +176,6 @@ public class MainFrame {
         WaypointPainter<MopPoint> waypointPainter = new MopPointPainter();
         waypointPainter.setWaypoints(mopPoints);
         painter.addPainter(waypointPainter);
-        // WaypointPainter<Waypoint> mils = new WaypointPainter<>();
-        // mils.setWaypoints(mileages);
-        // painter.addPainter(mils);
         for (MouseListener listener : listeners) {
             mapViewer.removeMouseListener(listener);
         }
@@ -194,5 +191,13 @@ public class MainFrame {
             mapViewer.add(w.getButton());
         }
         frame.revalidate();
+    }
+
+    public void addMop(String name, int x, int y) {
+        GeoPosition gp = mapViewer.convertPointToGeoPosition(new Point(x, y));
+        MopInfo mopInfo = new MopInfo("", "", "", gp, "", "", 0,
+                null, null, 0);
+        mopPoints.add(new MopPoint(name, mopInfo, MopType.ADDED, this));
+        repaint();
     }
 }

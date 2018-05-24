@@ -1,5 +1,6 @@
 package elements;
 
+import adding.AddMopPanel;
 import methods.CustomMethod;
 import methods.Method;
 import methods.PredictionDialog;
@@ -88,12 +89,21 @@ public class MainMenu {
         });
         menu.add(menuItem);
 
-        menuBar.add(menuItem);
+        menuBar.add(menu);
 
         menu = new JMenu("Symulacje");
         menu.addActionListener( event -> {
             new SimulationConfigDialog();
         });
+        menuBar.add(menu);
+
+        menu = new JMenu("Dodaj...");
+        JMenuItem menuItemMop = new JMenuItem("MOP");
+        AddMopPanel addMopPanel = new AddMopPanel(mainFrame);
+        menuItemMop.addActionListener(event -> addMopPanel.setVisible());
+        JMenuItem menuItemRoute = new JMenuItem("Drogę");
+        menu.add(menuItemMop);
+        menu.add(menuItemRoute);
         menuBar.add(menu);
 
         mainFrame.getFrame().setJMenuBar(menuBar);
