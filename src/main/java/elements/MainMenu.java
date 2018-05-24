@@ -76,7 +76,6 @@ public class MainMenu {
         mopPredictions.add(item);
         menu.add(mopPredictions);
 
-
         //Build the download data from server menu.
         menu = new JMenu("Dodaj dane z serwera");
         menu.setMnemonic(KeyEvent.VK_A);
@@ -89,13 +88,14 @@ public class MainMenu {
         });
         menu.add(menuItem);
 
-        menuItem = new JMenuItem("Symulacje", KeyEvent.VK_S);
-        menuItem.addActionListener( event -> {
+        menuBar.add(menuItem);
+
+        menu = new JMenu("Symulacje");
+        menu.addActionListener( event -> {
             new SimulationConfigDialog();
         });
+        menuBar.add(menu);
 
-        menuBar.add(menuItem);
-        
         mainFrame.getFrame().setJMenuBar(menuBar);
     }
 

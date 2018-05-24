@@ -9,18 +9,18 @@ public class SimulationConfigDialog extends JDialog {
 
     public SimulationConfigDialog() {
         super();
-        Dimension dialogSize = new Dimension(800, 600);
+        Dimension dialogSize = new Dimension(640, 400);
         this.setSize(dialogSize);
         this.setTitle("Ustal dane wejściowe symulacji");
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
-        FilePicker osmFilePicker = addFilePicker("Wybierz plik z mapą",
+        FilePicker osmFilePicker = addFilePicker("Plik z mapą",
                 "Wybierz", ".osm", "Open Street Map");
 
-        FilePicker mopFilePicker = addFilePicker("Wybierz układ MOPów",
+        FilePicker mopFilePicker = addFilePicker("Układ MOPów",
                 "Wybierz", ".xml", "Spreadsheet");
 
-        FilePicker travelMatricesFilePicker = addFilePicker("Wybierz macierze podróży",
+        FilePicker travelMatricesFilePicker = addFilePicker("Macierze podróży",
                 "Wybierz", ".csv", "CSV file");
 
         JButton submit = new JButton("Przeprowadź symulację");
