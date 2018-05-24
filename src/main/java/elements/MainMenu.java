@@ -2,14 +2,12 @@ package elements;
 
 import methods.CustomMethod;
 import methods.Method;
-import org.json.JSONException;
 import way.TrafficInfoParser;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.File;
-import java.io.IOException;
 
 public class MainMenu {
 
@@ -84,21 +82,7 @@ public class MainMenu {
         menuItem = new JMenuItem("Układ MOP-ów",
                 KeyEvent.VK_T);
         menuItem.addActionListener(event -> {
-            try {
-                mainFrame.setMopPointsFromServer();
-                JOptionPane.showMessageDialog(mainFrame.getFrame(),
-                        "Poprawnie załadowano dane.");
-            } catch (JSONException e) {
-                JOptionPane.showMessageDialog(mainFrame.getFrame(),
-                        "Niepoprawne dane na serwerze.",
-                        "Nie udało się załadować danych",
-                        JOptionPane.WARNING_MESSAGE);
-            } catch (IOException e) {
-                JOptionPane.showMessageDialog(mainFrame.getFrame(),
-                        "Brak możliwości połączenia z serwerem.",
-                        "Nie udało się załadować danych",
-                        JOptionPane.WARNING_MESSAGE);
-            }
+            mainFrame.setMopPointsFromServer();
         });
         menu.add(menuItem);
         mainFrame.getFrame().setJMenuBar(menuBar);

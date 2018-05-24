@@ -3,6 +3,7 @@ package elements;
 import config.AppConfig;
 import methods.Method;
 import mop.*;
+import org.json.JSONException;
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.OSMTileFactoryInfo;
 import org.jxmapviewer.input.CenterMapListener;
@@ -90,13 +91,26 @@ public class MainFrame {
         repaint();
     }
 
-    public void setMopPointsFromServer() throws IOException {
+    public void setMopPointsFromServer() {
         String urlQueryString = AppConfig.getMopsUrl();
         ServerDataHandler serverDataHandler = new ServerDataHandler(urlQueryString);
-        mopInfos = serverDataHandler.parseMops();
-        this.mopPoints = mopInfos.stream().map((MopInfo m) -> new MopPoint(m.getName(),
-                Color.red, m, this)).collect(Collectors.toSet());
-        repaint();
+        try {
+            mopInfos = serverDataHandler.parseMops();
+            this.mopPoints = mopInfos.stream().map((MopInfo m) -> new MopPoint(m.getName(),
+                    Color.red, m, this)).collect(Collectors.toSet());
+            JOptionPane.showMessageDialog(frame,
+                    "Poprawnie załadowano dane.");
+        } catch (JSONException e) {
+            JOptionPane.showMessageDialog(frame,
+                    "Niepoprawne dane na serwerze.",
+                    "Nie udało się załadować danych",
+                    JOptionPane.WARNING_MESSAGE);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(frame,
+                    "Brak możliwości połączenia z serwerem.",
+                    "Nie udało się załadować danych",
+                    JOptionPane.WARNING_MESSAGE);
+        }
     }
 
     public JFrame getFrame() {
