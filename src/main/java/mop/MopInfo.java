@@ -91,6 +91,9 @@ public class MopInfo {
     }
 
     public void setParkingSpacesInfo(MopParkingSpacesInfo parkingSpacesInfo) {
+        this.route.removeSpacesInfo(direction, this.parkingSpacesInfo);
         this.parkingSpacesInfo = parkingSpacesInfo;
+        this.route.addSpacesInfo(direction, this.parkingSpacesInfo);
+        System.out.println(this.route.getSpacesByDirection().get(direction).getCarSpaces());
     }
 }

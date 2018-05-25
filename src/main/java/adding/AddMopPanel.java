@@ -23,6 +23,7 @@ public class AddMopPanel extends JPanel {
                 int y = e.getY();
                 GeoPosition gp = mainFrame.getMapViewer().convertPointToGeoPosition(new Point(x, y));
                 Route route = mainFrame.getRoutesMap().findRouteByGeoPosition(gp);
+                System.out.println(route.getSpacesByDirection().entrySet().iterator().next().getValue().getCarSpaces());
                 ConfirmMopPositionDialog dialog;
                 if (route != null) {
                     dialog = new ConfirmMopPositionDialog(route, gp, mainFrame);

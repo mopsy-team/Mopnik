@@ -1,7 +1,9 @@
 package way;
 
 import methods.CustomMethod;
+import methods.Method;
 import methods.MethodResult;
+import mop.MopParkingSpacesInfo;
 import org.jxmapviewer.viewer.GeoPosition;
 
 import java.util.ArrayList;
@@ -15,7 +17,7 @@ public class Route {
     private double mileageEnd;
     private List<GeoPosition> geoPositions = new ArrayList<>();
     private TrafficInfo trafficInfo;
-    private Map<String, MethodResult> spacesByDirection;
+    private Map<String, MopParkingSpacesInfo> spacesByDirection;
     private MethodResult spacesNeeded;
 
     public Route(String name, double mileageBegin, double mileageEnd, List<GeoPosition> geoPositions,
@@ -42,8 +44,8 @@ public class Route {
         this.mileageBegin = mileageBegin;
         this.mileageEnd = mileageEnd;
         this.spacesByDirection = new HashMap<>();
-        this.spacesByDirection.put(" ", new MethodResult(0, 0, 0));
-        this.spacesByDirection.put("", new MethodResult(0, 0, 0));
+        this.spacesByDirection.put(" ", new MopParkingSpacesInfo(0, 0, 0));
+        this.spacesByDirection.put("", new MopParkingSpacesInfo(0, 0, 0));
         if (trafficInfo != null)
             this.spacesNeeded = new CustomMethod().compute(this);
     }
@@ -68,18 +70,18 @@ public class Route {
         return mileageEnd - mileageBegin;
     }
 
-    public Map<String, MethodResult> getSpacesByDirection() {
+    public Map<String, MopParkingSpacesInfo> getSpacesByDirection() {
         return spacesByDirection;
     }
 
     public NSpaces nSpaces() {
         int lacks = 0;
         int toomany = 0;
-        for (MethodResult mr : spacesByDirection.values()) {
-            lacks += (mr.getCar() < spacesNeeded.getCar() ? 1 : 0)
-                    + (mr.getTruck() < spacesNeeded.getTruck() ? 1 : 0);
-            toomany += (mr.getCar() > spacesNeeded.getCar() * 1.5 ? 1 : 0)
-                    + (mr.getTruck() > spacesNeeded.getTruck() * 1.5 ? 1 : 0);
+        for (MopParkingSpacesInfo mr : spacesByDirection.values()) {
+            lacks += (mr.getCarSpaces() < spacesNeeded.getCar() ? 1 : 0)
+                    + (mr.getTruckSpaces() < spacesNeeded.getTruck() ? 1 : 0);
+            toomany += (mr.getCarSpaces() > spacesNeeded.getCar() * 1.5 ? 1 : 0)
+                    + (mr.getTruckSpaces() > spacesNeeded.getTruck() * 1.5 ? 1 : 0);
         }
         if (lacks > 2) {
             return NSpaces.VERY_LOW;
@@ -106,7 +108,7 @@ public class Route {
         return geoPositions;
     }
 
-    public void addSpacesInfo(String direction, MethodResult methodResult) {
+    public void addSpacesInfo(String direction, MopParkingSpacesInfo mopParkingSpacesInfo) {
         if (spacesByDirection.size() == 2 && spacesByDirection.containsKey(" ")) {
             spacesByDirection = new HashMap<>();
         }
@@ -114,10 +116,17 @@ public class Route {
             return;
         }
         if (spacesByDirection.containsKey(direction)) {
-            spacesByDirection.get(direction).add(methodResult);
+            spacesByDirection.get(direction).add(mopParkingSpacesInfo);
         } else {
-            spacesByDirection.put(direction, methodResult);
+            spacesByDirection.put(direction, mopParkingSpacesInfo);
         }
+    }
+
+    public void removeSpacesInfo(String direction, MopParkingSpacesInfo mopParkingSpacesInfo) {
+        MopParkingSpacesInfo mr = new MopParkingSpacesInfo(-mopParkingSpacesInfo.getCarSpaces(),
+                -mopParkingSpacesInfo.getTruckSpaces(),
+                -mopParkingSpacesInfo.getBusSpaces());
+        addSpacesInfo(direction, mr);
     }
 
     public Route add(Route route) {
@@ -135,10 +144,10 @@ public class Route {
         first.geoPositions.addAll(second.geoPositions);
         TrafficInfo tinfo = trafficInfo.add(route.getTrafficInfo());
         Route res = new Route(name, milbeg, milend, first.geoPositions, tinfo);
-        for (Map.Entry<String, MethodResult> entry : route.getSpacesByDirection().entrySet()) {
+        for (Map.Entry<String, MopParkingSpacesInfo> entry : route.getSpacesByDirection().entrySet()) {
             res.addSpacesInfo(entry.getKey(), entry.getValue());
         }
-        for (Map.Entry<String, MethodResult> entry : this.spacesByDirection.entrySet()) {
+        for (Map.Entry<String, MopParkingSpacesInfo> entry : this.spacesByDirection.entrySet()) {
             res.addSpacesInfo(entry.getKey(), entry.getValue());
         }
         return res;

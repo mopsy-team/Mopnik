@@ -203,6 +203,7 @@ public class MainFrame {
         }
         MopInfo mopInfo = new MopInfo("", "", "", geoPosition, road, direction, 0,
                 new MopParkingSpacesInfo(), new MopEquipmentInfo(), mileage);
+        mopInfo.setRoute(route);
         mopPoints.add(new MopPoint(name, mopInfo, MopType.ADDED, this));
         new AddedMopInfoDialog(mopInfo, this);
         repaint();

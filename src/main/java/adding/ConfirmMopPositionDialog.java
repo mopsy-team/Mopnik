@@ -2,6 +2,7 @@ package adding;
 
 import elements.MainFrame;
 import methods.MethodResult;
+import mop.MopParkingSpacesInfo;
 import org.jxmapviewer.viewer.GeoPosition;
 import way.Route;
 
@@ -28,7 +29,7 @@ public class ConfirmMopPositionDialog extends JDialog {
 
         ButtonGroup group = new ButtonGroup();
         JPanel radioPanel = new JPanel(new GridLayout(0, 1));
-        for ( Map.Entry<String, MethodResult> entry: route.getSpacesByDirection().entrySet()) {
+        for ( Map.Entry<String, MopParkingSpacesInfo> entry: route.getSpacesByDirection().entrySet()) {
             JRadioButton radioButton = new JRadioButton(entry.getKey());
             radioPanel.add(radioButton);
             group.add(radioButton);

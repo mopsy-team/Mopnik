@@ -3,6 +3,7 @@ package way;
 import methods.CustomMethod;
 import methods.Method;
 import methods.MethodResult;
+import mop.MopParkingSpacesInfo;
 import util.TitledTable;
 
 import javax.swing.*;
@@ -30,18 +31,18 @@ public class TrafficInfoDialog extends JDialog {
         Method m = new CustomMethod();
         MethodResult methodResult = m.compute(route);
 
-        Map<String, MethodResult> spacesByDirection = route.getSpacesByDirection();
+        Map<String, MopParkingSpacesInfo> spacesByDirection = route.getSpacesByDirection();
 
-        for (Map.Entry<String, MethodResult> entry : spacesByDirection.entrySet()) {
+        for (Map.Entry<String, MopParkingSpacesInfo> entry : spacesByDirection.entrySet()) {
             String dir = entry.getKey();
-            MethodResult mr = entry.getValue();
+            MopParkingSpacesInfo mr = entry.getValue();
             String[] columnNames = {"", "", "", ""};
             Object[][] data = {
                     {"Rodzaj pojazdu", "Średniodobowe natężenie ruchu",
                             "Liczba miejsc", "Liczba potrzebnych miejsc"},
-                    {"Osobowe", sdrCar, mr.getCar(), methodResult.getCar()},
-                    {"Ciężarowe", sdrTruck, mr.getTruck(), methodResult.getTruck()},
-                    {"Autobusy", sdrBus, mr.getBus(), methodResult.getBus()},
+                    {"Osobowe", sdrCar, mr.getCarSpaces(), methodResult.getCar()},
+                    {"Ciężarowe", sdrTruck, mr.getTruckSpaces(), methodResult.getTruck()},
+                    {"Autobusy", sdrBus, mr.getBusSpaces(), methodResult.getBus()},
             };
             this.add(new TitledTable("Kierunek: " + dir,
                     data, columnNames));
