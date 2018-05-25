@@ -201,4 +201,14 @@ public class MainFrame {
         new AddedMopInfoDialog(mopInfo, this);
         repaint();
     }
+
+    public void removeMop(MopInfo mopInfo) {
+        for (MopPoint mopPoint : mopPoints) {
+            if (mopPoint.getMopInfo() == mopInfo) {
+                mopPoints.remove(mopPoint);
+                break;
+            }
+        }
+        repaint();
+    }
 }

@@ -43,6 +43,12 @@ public class AddedMopInfoDialog extends MopInfoDialog {
         this.add(submit);
 
         JButton remove = new JButton("Usuń MOPa");
+        remove.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                mainFrame.removeMop(mopInfo);
+            }
+        });
         this.add(remove);
     }
 
