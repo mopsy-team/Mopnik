@@ -1,5 +1,7 @@
 package way;
 
+import org.jxmapviewer.viewer.GeoPosition;
+
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
@@ -73,6 +75,28 @@ public class RoutesMap {
 
     int size() {
         return routes.size();
+    }
+
+    public Route findRouteByGeoPosition(GeoPosition geoPosition) {
+
+        Route res = null;
+        double diff = Double.MAX_VALUE;
+        for (Map.Entry<String, TreeSet<Route>> entry : routes.entrySet()) {
+            for (Route r : entry.getValue()) {
+                for (GeoPosition gp: r.getGeoPositions()) {
+                    double newDiff = computeDiff(geoPosition, gp);
+                    if (newDiff < diff) {
+                        diff = newDiff;
+                        res = r;
+                    }
+                }
+            }
+        }
+        return res;
+    }
+
+    private double computeDiff (GeoPosition g1, GeoPosition g2) {
+        return Math.pow(g1.getLatitude()-g2.getLatitude(), 2) + Math.pow(g1.getLongitude()-g2.getLongitude(), 2);
     }
 
     private void remove(Route route) {

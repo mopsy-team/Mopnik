@@ -1,6 +1,8 @@
 package adding;
 
 import elements.MainFrame;
+import org.jxmapviewer.viewer.GeoPosition;
+import way.Route;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +21,15 @@ public class AddMopPanel extends JPanel {
                 mainFrame.getFrame().remove(AddMopPanel.this);
                 int x = e.getX();
                 int y = e.getY();
-                mainFrame.addMop("Nowy mop", x+5, y-15);
+                GeoPosition gp = mainFrame.getMapViewer().convertPointToGeoPosition(new Point(x, y));
+                Route route = mainFrame.getRoutesMap().findRouteByGeoPosition(gp);
+                ConfirmMopPositionDialog dialog;
+                if (route != null) {
+                    dialog = new ConfirmMopPositionDialog(route, gp, mainFrame);
+                }
+                else {
+                    mainFrame.addMop("Nowy mop", gp, route, "");
+                }
             }
 
             @Override

@@ -1,9 +1,7 @@
 package elements;
 
 import config.AppConfig;
-import way.RoutePainter;
-import way.TrafficInfoParser;
-import way.TrafficMap;
+import way.*;
 import methods.Method;
 import mop.*;
 import org.json.JSONException;
@@ -15,7 +13,6 @@ import org.jxmapviewer.input.PanMouseInputListener;
 import org.jxmapviewer.input.ZoomMouseWheelListenerCursor;
 import org.jxmapviewer.painter.CompoundPainter;
 import org.jxmapviewer.viewer.*;
-import way.RoutesMap;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
@@ -171,6 +168,10 @@ public class MainFrame {
         this.routesMap = routesMap;
     }
 
+    public JXMapViewer getMapViewer(){
+        return mapViewer;
+    }
+
     public void repaint() {
         mapViewer.removeAll();
         WaypointPainter<MopPoint> waypointPainter = new MopPointPainter();
@@ -193,10 +194,15 @@ public class MainFrame {
         frame.revalidate();
     }
 
-    public void addMop(String name, int x, int y) {
-        GeoPosition gp = mapViewer.convertPointToGeoPosition(new Point(x, y));
-        MopInfo mopInfo = new MopInfo("", "", "", gp, "", "", 0,
-                new MopParkingSpacesInfo(), new MopEquipmentInfo(), 0);
+    public void addMop(String name, GeoPosition geoPosition, Route route, String direction) {
+        String road = "";
+        double mileage = 0;
+        if (route != null) {
+            road = route.getName();
+            mileage = (route.getMileageBegin() + route.getMileageEnd()) /2;
+        }
+        MopInfo mopInfo = new MopInfo("", "", "", geoPosition, road, direction, 0,
+                new MopParkingSpacesInfo(), new MopEquipmentInfo(), mileage);
         mopPoints.add(new MopPoint(name, mopInfo, MopType.ADDED, this));
         new AddedMopInfoDialog(mopInfo, this);
         repaint();

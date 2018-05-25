@@ -83,12 +83,16 @@ public class TrafficMap {
             boolean first = true;
             Double oldMileage = 0.;
             Double newMileage = 0.;
+            GeoPosition oldGeo = new GeoPosition(0, 0);
+            GeoPosition newGeo;
             for (OSMNode node : nodes) {
                 newMileage = Double.parseDouble(node.getAllTags().get("milestone"));
+                newGeo = new GeoPosition(Double.parseDouble(node.lat), Double.parseDouble(node.lon));
                 if (!first) {
-                    routesMap.add(new Route(entry.getKey(), oldMileage, newMileage, new TrafficInfo()));
+                    routesMap.add(new Route(entry.getKey(), oldMileage, newMileage, oldGeo, newGeo, new TrafficInfo()));
                 }
                 oldMileage = newMileage;
+                oldGeo = newGeo;
                 first = false;
             }
         }

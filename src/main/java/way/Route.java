@@ -2,17 +2,39 @@ package way;
 
 import methods.CustomMethod;
 import methods.MethodResult;
+import org.jxmapviewer.viewer.GeoPosition;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Route {
     private String name;
     private double mileageBegin;
     private double mileageEnd;
+    private List<GeoPosition> geoPositions = new ArrayList<>();
     private TrafficInfo trafficInfo;
     private Map<String, MethodResult> spacesByDirection;
     private MethodResult spacesNeeded;
+
+    public Route(String name, double mileageBegin, double mileageEnd, List<GeoPosition> geoPositions,
+                 TrafficInfo trafficInfo) {
+        this(name, mileageBegin, mileageEnd, trafficInfo);
+        this.geoPositions = geoPositions;
+    }
+
+    public Route(String name, double mileageBegin, double mileageEnd, GeoPosition geoPositionBegin,
+                 GeoPosition geoPositionEnd, TrafficInfo trafficInfo) {
+        this(name, mileageBegin, mileageEnd, trafficInfo);
+        geoPositions.add(geoPositionBegin);
+        double latBegin = geoPositionBegin.getLatitude(), lonBegin = geoPositionBegin.getLongitude();
+        double latDiff = (geoPositionEnd.getLatitude() - geoPositionBegin.getLatitude()) / (mileageEnd - mileageBegin);
+        double lonDiff = (geoPositionEnd.getLongitude() - geoPositionBegin.getLongitude()) / (mileageEnd - mileageBegin);
+        for (int i = 1; mileageBegin * i < mileageEnd; ++i) {
+            geoPositions.add(new GeoPosition(latBegin + i * latDiff, lonBegin + i * lonDiff));
+        }
+    }
 
     public Route(String name, double mileageBegin, double mileageEnd, TrafficInfo trafficInfo) {
         this.name = name;
@@ -27,7 +49,7 @@ public class Route {
     }
 
     public Route() {
-        new Route("", 0, 0, new TrafficInfo());
+        this("", 0, 0, new TrafficInfo());
     }
 
     public String getName() {
@@ -80,6 +102,10 @@ public class Route {
         this.spacesNeeded = new CustomMethod().compute(this);
     }
 
+    public List<GeoPosition> getGeoPositions() {
+        return geoPositions;
+    }
+
     public void addSpacesInfo(String direction, MethodResult methodResult) {
         if (spacesByDirection.size() == 2 && spacesByDirection.containsKey(" ")) {
             spacesByDirection = new HashMap<>();
@@ -96,10 +122,19 @@ public class Route {
 
     public Route add(Route route) {
         String name = this.name;
-        double milbeg = Math.min(mileageBegin, route.mileageBegin);
-        double milend = Math.max(mileageEnd, route.mileageEnd);
+        Route first, second;
+        if (mileageBegin < route.mileageBegin) {
+            first = this;
+            second = route;
+        } else {
+            first = this;
+            second = route;
+        }
+        double milbeg = first.mileageBegin;
+        double milend = second.mileageEnd;
+        first.geoPositions.addAll(second.geoPositions);
         TrafficInfo tinfo = trafficInfo.add(route.getTrafficInfo());
-        Route res = new Route(name, milbeg, milend, tinfo);
+        Route res = new Route(name, milbeg, milend, first.geoPositions, tinfo);
         for (Map.Entry<String, MethodResult> entry : route.getSpacesByDirection().entrySet()) {
             res.addSpacesInfo(entry.getKey(), entry.getValue());
         }
