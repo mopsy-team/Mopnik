@@ -8,6 +8,9 @@ import org.jxmapviewer.viewer.DefaultWaypoint;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class MopPoint extends DefaultWaypoint {
     private static final Log log = LogFactory.getLog(MopPoint.class);
@@ -41,7 +44,23 @@ public class MopPoint extends DefaultWaypoint {
             this.button.setContentAreaFilled(false);
             this.button.setToolTipText(mopInfo.getName());
         }
-        this.button.addMouseListener(new PointListener(this.button, mopInfo, frame));
+        if (mopType == MopType.EXISTING) {
+            this.button.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    MopInfoDialog dialog = new ExistingMopInfoDialog(mopInfo, frame);
+                }
+            });
+        }
+        else {
+            this.button.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    MopInfoDialog dialog = new AddedMopInfoDialog(mopInfo, frame);
+                }
+
+            });
+        }
     }
 
     /**

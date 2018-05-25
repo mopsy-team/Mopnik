@@ -13,6 +13,16 @@ public class MopEquipmentInfo {
     private boolean carWash;
     private boolean carRepairShop;
 
+    public MopEquipmentInfo() {
+        this(false, false, false, false, false,
+                false, false, false, false, false, false);
+    }
+
+    public MopEquipmentInfo(boolean[] booleans){
+        this(booleans[0], booleans[1], booleans[2], booleans[3], booleans[4], booleans[5],
+                    booleans[6], booleans[7], booleans[8], booleans[9], booleans[10]);
+    }
+
     public MopEquipmentInfo(boolean security, boolean fence, boolean cctv, boolean light,
                             boolean petrolStation, boolean dangerousGoods, boolean restaurant,
                             boolean accommodation, boolean toilet, boolean carWash,

@@ -196,8 +196,9 @@ public class MainFrame {
     public void addMop(String name, int x, int y) {
         GeoPosition gp = mapViewer.convertPointToGeoPosition(new Point(x, y));
         MopInfo mopInfo = new MopInfo("", "", "", gp, "", "", 0,
-                null, null, 0);
+                new MopParkingSpacesInfo(), new MopEquipmentInfo(), 0);
         mopPoints.add(new MopPoint(name, mopInfo, MopType.ADDED, this));
+        new AddedMopInfoDialog(mopInfo, this);
         repaint();
     }
 }

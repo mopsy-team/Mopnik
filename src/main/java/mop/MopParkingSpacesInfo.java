@@ -6,6 +6,10 @@ public class MopParkingSpacesInfo {
     private int truckSpaces;
     private int busSpaces;
 
+    public MopParkingSpacesInfo() {
+        new MopParkingSpacesInfo(0, 0, 0);
+    }
+
     public MopParkingSpacesInfo(int carSpaces, int truckSpaces, int busSpaces) {
         this.carSpaces = carSpaces;
         this.truckSpaces = truckSpaces;
