@@ -99,12 +99,14 @@ public class MainMenu {
     }
 
     private JMenu simulationMenu() {
-
         JMenu menu = new JMenu("Symulacje");
         menu.setMnemonic(KeyEvent.VK_S);
-        menu.addActionListener(event -> {
+
+        JMenuItem menuItem = new JMenuItem("Przeprowadź symulację", KeyEvent.VK_R);
+        menuItem.addActionListener(event -> {
             new SimulationConfigDialog();
         });
+        menu.add(menuItem);
         return menu;
     }
 }
