@@ -44,7 +44,7 @@ public class MainFrame {
     private List<MouseListener> listeners;
 
     public MainFrame() {
-        frame = new JFrame("MOPY");
+        frame = new JFrame("Mopnik");
         mapViewer = new JXMapViewer();
         mapViewer.setName("MapViewer");
 
@@ -135,11 +135,12 @@ public class MainFrame {
     }
 
     public void show() {
-        setMopPointsFromFile(
-                new File(getClass().getClassLoader().getResource("MOP-12.2017-final2.xlsx").getFile()));
+        File mopsFile =  AppConfig.getFile(AppConfig.getMopFilename());
 
-        File file = new File("kraj.csv");
-        if (TrafficInfoParser.assignRoutes(this, file) == -1) {
+        setMopPointsFromFile(mopsFile);
+
+        File matrixFile =  AppConfig.getFile(AppConfig.getMatrixFilename());
+        if (TrafficInfoParser.assignRoutes(this, matrixFile) == -1) {
             JOptionPane.showMessageDialog(getFrame(),
                     "Wskazany plik nie istnieje lub jest w złym formacie.",
                     "Zły format pliku",
