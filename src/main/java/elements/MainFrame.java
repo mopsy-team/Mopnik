@@ -1,9 +1,6 @@
 package elements;
 
 import config.AppConfig;
-import way.RoutePainter;
-import way.TrafficInfoParser;
-import way.TrafficMap;
 import methods.Method;
 import mop.*;
 import org.json.JSONException;
@@ -15,15 +12,17 @@ import org.jxmapviewer.input.PanMouseInputListener;
 import org.jxmapviewer.input.ZoomMouseWheelListenerCursor;
 import org.jxmapviewer.painter.CompoundPainter;
 import org.jxmapviewer.viewer.*;
+import way.RoutePainter;
 import way.RoutesMap;
+import way.TrafficInfoParser;
+import way.TrafficMap;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -149,7 +148,7 @@ public class MainFrame {
 
         repaint();
 
-        MainMenu.create(this);
+        MainMenu mainMenu = new MainMenu(this);
         frame.pack();
         frame.setVisible(true);
 
