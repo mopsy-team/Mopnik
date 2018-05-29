@@ -58,10 +58,8 @@ public class MopInfoDialog extends JDialog {
 
             this.add(new TitledTable("Średniodobowe natężenie ruchu", trafficData, columnNames));
 
-
-            System.out.println(frame.getMethods().size());
             for (Method method : frame.getMethods()) {
-                MethodResult methodResult = method.compute(mopInfo.getTrafficInfo());
+                MethodResult methodResult = method.compute(mopInfo.getRoute());
                 Object[][] neededSpaces = {{methodResult.getCar(), methodResult.getTruck(), methodResult.getBus()}};
                 columnNames = new String[]{"Pojazdy osobowe", "Pojazdy ciążarowe", "Autobusy"};
                 this.add(new TitledTable("Potrzebne miejsca parkingowe", neededSpaces, columnNames));

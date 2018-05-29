@@ -1,9 +1,9 @@
 package methods;
 
 public class MethodResult {
-    private final long car;
-    private final long truck;
-    private final long bus;
+    private long car;
+    private long truck;
+    private long bus;
 
     public MethodResult(long car, long truck, long bus) {
         this.car = car;
@@ -21,5 +21,11 @@ public class MethodResult {
 
     public Long getTruck() {
         return truck;
+    }
+
+    public void add(MethodResult mr) {
+        this.car += mr.getCar();
+        this.truck += mr.getTruck();
+        this.bus += mr.getBus();
     }
 }

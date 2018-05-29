@@ -1,6 +1,6 @@
 package methods;
 
-import way.TrafficInfo;
+import way.Route;
 
 import java.util.Collection;
 
@@ -20,7 +20,7 @@ public abstract class AbstractMethod implements Method {
     }
 
     @Override
-    public abstract MethodResult compute(TrafficInfo trafficInfo);
+    public abstract MethodResult compute(Route route);
 
     @Override
     public boolean isSet() {

@@ -11,17 +11,21 @@ import org.jxmapviewer.input.PanKeyListener;
 import org.jxmapviewer.input.PanMouseInputListener;
 import org.jxmapviewer.input.ZoomMouseWheelListenerCursor;
 import org.jxmapviewer.painter.CompoundPainter;
-import org.jxmapviewer.viewer.DefaultTileFactory;
-import org.jxmapviewer.viewer.GeoPosition;
-import org.jxmapviewer.viewer.TileFactoryInfo;
-import org.jxmapviewer.viewer.WaypointPainter;
+import org.jxmapviewer.viewer.*;
+import way.RoutePainter;
+import way.RoutesMap;
+import way.TrafficInfoParser;
+import way.TrafficMap;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
 import java.awt.*;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -30,13 +34,19 @@ public class MainFrame {
     private final JFrame frame;
     private final JXMapViewer mapViewer;
     private Set<MopPoint> mopPoints;
+    private Set<Waypoint> mileages;
     private CompoundPainter<JXMapViewer> painter;
     private Set<MopInfo> mopInfos;
     private Set<Method> methods;
+    private TrafficMap trafficMap;
+    private RoutesMap routesMap = null;
+    private boolean first = true;
+    private List<MouseListener> listeners;
 
     public MainFrame() {
-        frame = new JFrame("MOPY");
+        frame = new JFrame("Mopnik");
         mapViewer = new JXMapViewer();
+        mapViewer.setName("MapViewer");
 
         // Create a TileFactoryInfo for OpenStreetMap
         TileFactoryInfo info = new OSMTileFactoryInfo();
@@ -67,7 +77,10 @@ public class MainFrame {
         mopPoints = new HashSet<>();
         mopInfos = new HashSet<>();
         methods = new HashSet<>();
-
+        listeners = new ArrayList<>();
+        trafficMap = new TrafficMap();
+        trafficMap.setRoutesMap(this);
+        mileages = trafficMap.mileages();
     }
 
     public void setMopPoints(Set<MopPoint> mopPoints) {
@@ -122,12 +135,21 @@ public class MainFrame {
     }
 
     public void show() {
-        setMopPointsFromFile(
-                new File(getClass().getClassLoader().getResource("MOP-12.2017-final2.xlsx").getFile()));
+        File mopsFile =  AppConfig.getFile(AppConfig.getMopFilename());
+
+        setMopPointsFromFile(mopsFile);
+
+        File matrixFile =  AppConfig.getFile(AppConfig.getMatrixFilename());
+        if (TrafficInfoParser.assignRoutes(this, matrixFile) == -1) {
+            JOptionPane.showMessageDialog(getFrame(),
+                    "Wskazany plik nie istnieje lub jest w złym formacie.",
+                    "Zły format pliku",
+                    JOptionPane.WARNING_MESSAGE);
+        }
 
         repaint();
 
-        MainMenu.create(this);
+        MainMenu mainMenu = new MainMenu(this);
         frame.pack();
         frame.setVisible(true);
 
@@ -138,16 +160,36 @@ public class MainFrame {
     }
 
     public Set<Method> getMethods() {
-        System.out.println(methods.size());
         return methods;
     }
 
-    private void repaint() {
+    public RoutesMap getRoutesMap() {
+        return routesMap;
+    }
+
+    public void setRoutesMap(RoutesMap routesMap) {
+        this.routesMap = routesMap;
+    }
+
+    public void repaint() {
         mapViewer.removeAll();
         WaypointPainter<MopPoint> waypointPainter = new MopPointPainter();
         waypointPainter.setWaypoints(mopPoints);
         painter.addPainter(waypointPainter);
-        System.out.println(mopPoints.size());
+        // WaypointPainter<Waypoint> mils = new WaypointPainter<>();
+        // mils.setWaypoints(mileages);
+        // painter.addPainter(mils);
+        for (MouseListener listener : listeners) {
+            mapViewer.removeMouseListener(listener);
+        }
+        listeners = new ArrayList<>();
+        for (RoutePainter routePainter : trafficMap.routes(routesMap)) {
+            painter.addPainter(routePainter);
+            MouseListener ml = routePainter.mouseListenerOnRoute(mapViewer);
+            mapViewer.addMouseListener(ml);
+            listeners.add(ml);
+        }
+        first = false;
         for (MopPoint w : mopPoints) {
             mapViewer.add(w.getButton());
         }

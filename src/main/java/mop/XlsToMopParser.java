@@ -14,8 +14,7 @@ public class XlsToMopParser {
     private XSSFWorkbook workbook;
 
     public XlsToMopParser(File file) {
-        System.out.println(file);
-        FileInputStream fis = null;
+        FileInputStream fis;
         try {
             fis = new FileInputStream(file);
             this.workbook = new XSSFWorkbook(fis);
@@ -72,8 +71,7 @@ public class XlsToMopParser {
                 res.add(new MopInfo(branch, locality, name, g, road, direction, type, parkingSpacesInfo,
                         equipmentInfo, mileage));
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return null;
         }
         return res;
