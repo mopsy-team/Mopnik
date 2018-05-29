@@ -22,8 +22,9 @@ public class Route {
         this.spacesByDirection = new HashMap<>();
         this.spacesByDirection.put(" ", new MethodResult(0, 0, 0));
         this.spacesByDirection.put("", new MethodResult(0, 0, 0));
-        if (trafficInfo != null)
+        if (trafficInfo != null) {
             this.spacesNeeded = new CustomMethod().compute(this);
+        }
     }
 
     public Route() {
@@ -96,10 +97,10 @@ public class Route {
 
     public Route add(Route route) {
         String name = this.name;
-        double milbeg = Math.min(mileageBegin, route.mileageBegin);
-        double milend = Math.max(mileageEnd, route.mileageEnd);
-        TrafficInfo tinfo = trafficInfo.add(route.getTrafficInfo());
-        Route res = new Route(name, milbeg, milend, tinfo);
+        double milBeg = Math.min(mileageBegin, route.mileageBegin);
+        double milEnd = Math.max(mileageEnd, route.mileageEnd);
+        TrafficInfo trafficInfo = this.trafficInfo.add(route.getTrafficInfo());
+        Route res = new Route(name, milBeg, milEnd, trafficInfo);
         for (Map.Entry<String, MethodResult> entry : route.getSpacesByDirection().entrySet()) {
             res.addSpacesInfo(entry.getKey(), entry.getValue());
         }

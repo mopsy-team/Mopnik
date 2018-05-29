@@ -13,24 +13,30 @@ import java.io.File;
 
 public class MainMenu {
 
-    public static void create(MainFrame mainFrame) {
+    private Dimension dialogSize;
+    private MainFrame mainFrame;
+
+    public MainMenu(MainFrame _mainFrame) {
         //Where the GUI is created:
-        JMenuBar menuBar;
-        JMenu menu;
-        JMenuItem menuItem;
-        JRadioButtonMenuItem rbMenuItem;
-        JCheckBoxMenuItem cbMenuItem;
-        Dimension dialogSize = new Dimension(800, 600);
+        //JRadioButtonMenuItem rbMenuItem;
+        //JCheckBoxMenuItem cbMenuItem;
+        mainFrame = _mainFrame;
+        dialogSize = new Dimension(800, 600);
 
-//Create the menu bar.
-        menuBar = new JMenuBar();
+        JMenuBar menuBar = new JMenuBar();
+        menuBar.add(addFromFileMenu());
+        menuBar.add(predictionsMenu());
+        menuBar.add(addFromServerMenu());
+        menuBar.add(simulationMenu());
+        mainFrame.getFrame().setJMenuBar(menuBar);
+    }
 
-//Build the first menu.
-        menu = new JMenu("Dodaj dane z pliku");
+    private JMenu addFromFileMenu() {
+
+        JMenu menu = new JMenu("Dodaj dane z pliku");
         menu.setMnemonic(KeyEvent.VK_D);
-        menuBar.add(menu);
 
-//a group of JMenuItems
+        JMenuItem menuItem;
         menuItem = new JMenuItem("Średniodobowe natężenie ruchu",
                 KeyEvent.VK_S);
         menuItem.addActionListener(event -> {
@@ -49,7 +55,6 @@ public class MainMenu {
         });
         menu.add(menuItem);
 
-
         menuItem = new JMenuItem("Układ MOPów",
                 KeyEvent.VK_U);
         menuItem.addActionListener(event -> {
@@ -62,9 +67,12 @@ public class MainMenu {
             }
         });
         menu.add(menuItem);
+        return menu;
+    }
 
-        menu = new JMenu("Predykcje");
-        menuBar.add(menu);
+    private JMenu predictionsMenu() {
+        JMenu menu = new JMenu("Predykcje");
+        menu.setMnemonic(KeyEvent.VK_P);
 
         JMenu mopPredictions = new JMenu("Zajętości MOP-ów");
 
@@ -75,28 +83,30 @@ public class MainMenu {
         });
         mopPredictions.add(item);
         menu.add(mopPredictions);
+        return menu;
+    }
 
-        //Build the download data from server menu.
-        menu = new JMenu("Dodaj dane z serwera");
+    private JMenu addFromServerMenu() {
+        JMenu menu = new JMenu("Dodaj dane z serwera");
         menu.setMnemonic(KeyEvent.VK_A);
-        menuBar.add(menu);
 
-        menuItem = new JMenuItem("Układ MOP-ów",
-                KeyEvent.VK_T);
+        JMenuItem menuItem = new JMenuItem("Układ MOP-ów", KeyEvent.VK_U);
         menuItem.addActionListener(event -> {
             mainFrame.setMopPointsFromServer();
         });
         menu.add(menuItem);
-
-        menuBar.add(menuItem);
-
-        menu = new JMenu("Symulacje");
-        menu.addActionListener( event -> {
-            new SimulationConfigDialog();
-        });
-        menuBar.add(menu);
-
-        mainFrame.getFrame().setJMenuBar(menuBar);
+        return menu;
     }
 
+    private JMenu simulationMenu() {
+        JMenu menu = new JMenu("Symulacje");
+        menu.setMnemonic(KeyEvent.VK_S);
+
+        JMenuItem menuItem = new JMenuItem("Przeprowadź symulację", KeyEvent.VK_R);
+        menuItem.addActionListener(event -> {
+            new SimulationConfigDialog();
+        });
+        menu.add(menuItem);
+        return menu;
+    }
 }
