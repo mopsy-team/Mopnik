@@ -44,8 +44,8 @@ public class Route {
         this.mileageBegin = mileageBegin;
         this.mileageEnd = mileageEnd;
         this.spacesByDirection = new HashMap<>();
-        this.spacesByDirection.put(" ", new MopParkingSpacesInfo(0, 0, 0));
-        this.spacesByDirection.put("", new MopParkingSpacesInfo(0, 0, 0));
+        this.spacesByDirection.put("1", new MopParkingSpacesInfo(0, 0, 0));
+        this.spacesByDirection.put("2", new MopParkingSpacesInfo(0, 0, 0));
         if (trafficInfo != null)
             this.spacesNeeded = new CustomMethod().compute(this);
     }
@@ -109,10 +109,10 @@ public class Route {
     }
 
     public void addSpacesInfo(String direction, MopParkingSpacesInfo mopParkingSpacesInfo) {
-        if (spacesByDirection.size() == 2 && spacesByDirection.containsKey(" ")) {
+        if (spacesByDirection.size() == 2 && spacesByDirection.containsKey("1")) {
             spacesByDirection = new HashMap<>();
         }
-        if (direction.equals("") || direction.equals(" ")) {
+        if (direction.equals("1") || direction.equals("2")) {
             return;
         }
         if (spacesByDirection.containsKey(direction)) {

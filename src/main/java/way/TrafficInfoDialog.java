@@ -22,9 +22,7 @@ public class TrafficInfoDialog extends JDialog {
             sdrCar = route.getTrafficInfo().getCar() / 2;
             sdrTruck = route.getTrafficInfo().getTruck() / 2;
             sdrBus = route.getTrafficInfo().getBus() / 2;
-        } else {
-            this.setTitle("A1 od do");
-        }
+        } 
         this.setLocationRelativeTo(null); // center the dialog.
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
