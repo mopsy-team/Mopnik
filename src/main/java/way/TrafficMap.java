@@ -5,6 +5,7 @@ import br.zuq.osm.parser.OSMParser;
 import br.zuq.osm.parser.model.OSM;
 import br.zuq.osm.parser.model.OSMNode;
 import br.zuq.osm.parser.model.Way;
+import config.AppConfig;
 import elements.MainFrame;
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.painter.Painter;
@@ -13,7 +14,6 @@ import org.jxmapviewer.viewer.GeoPosition;
 import org.jxmapviewer.viewer.Waypoint;
 import org.jxmapviewer.viewer.WaypointPainter;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.Statement;
@@ -21,12 +21,11 @@ import java.util.*;
 
 
 public class TrafficMap {
-    private final String path = getClass().getClassLoader().getResource("poland-latest6.osm").getPath();
     private OSM osm = null;
 
     public TrafficMap() {
         try {
-            osm = OSMParser.parse(new FileInputStream(new File(path)));
+            osm = OSMParser.parse(new FileInputStream(AppConfig.getFile(AppConfig.getMapFilename())));
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);

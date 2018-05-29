@@ -1,6 +1,5 @@
 package util;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -27,7 +26,7 @@ public class JSONParser {
         }
     }
 
-    public JSONObject readJsonFromUrl(String _url) throws IOException, JSONException {
+    public JSONObject readJsonFromUrl(String _url) throws IOException {
         String dataFromUrl = readUrl(_url);
         return new JSONObject(dataFromUrl);
     }

@@ -46,8 +46,9 @@ public class Route {
         this.spacesByDirection = new HashMap<>();
         this.spacesByDirection.put("1", new MopParkingSpacesInfo(0, 0, 0));
         this.spacesByDirection.put("2", new MopParkingSpacesInfo(0, 0, 0));
-        if (trafficInfo != null)
+        if (trafficInfo != null) {
             this.spacesNeeded = new CustomMethod().compute(this);
+        }
     }
 
     public Route() {
