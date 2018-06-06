@@ -3,12 +3,13 @@ package mop;
 import elements.MainFrame;
 import methods.Method;
 import methods.MethodResult;
+import util.AbstractDialog;
 import util.TitledTable;
 
 import javax.swing.*;
 
 
-public abstract class MopInfoDialog extends JDialog {
+public abstract class MopInfoDialog extends AbstractDialog {
 
     protected TitledTable information;
     protected TitledTable parkingSpaces;

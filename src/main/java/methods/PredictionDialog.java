@@ -1,13 +1,14 @@
 package methods;
 
 import elements.MainFrame;
+import util.AbstractDialog;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.Arrays;
 import java.util.Collection;
 
-public class PredictionDialog extends JDialog {
+public class PredictionDialog extends AbstractDialog {
     public PredictionDialog(Method method, MainFrame frame) {
         super();
         this.setSize(800, 600);

@@ -1,11 +1,12 @@
 package simulations;
 
+import util.AbstractDialog;
 import util.FilePicker;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class SimulationConfigDialog extends JDialog {
+public class SimulationConfigDialog extends AbstractDialog {
 
     public SimulationConfigDialog() {
         super();
