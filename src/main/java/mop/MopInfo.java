@@ -7,16 +7,16 @@ import way.TrafficInfo;
 public class MopInfo {
 
     // General information about MOP
-    private final String branch;
-    private final String locality;
+    private String branch;
+    private String locality;
     private final String name;
     private final GeoPosition geoPosition;
     private final String road;
     private final String direction;
-    private final int type;
-    private final double mileage;
-    private final MopParkingSpacesInfo parkingSpacesInfo;
-    private final MopEquipmentInfo equipmentInfo;
+    private int type;
+    private double mileage;
+    private MopParkingSpacesInfo parkingSpacesInfo;
+    private MopEquipmentInfo equipmentInfo;
     private Route route = new Route();
 
     public MopInfo(String branch, String locality, String name, GeoPosition geoPosition,
@@ -84,5 +84,16 @@ public class MopInfo {
 
     public TrafficInfo getTrafficInfo() {
         return route.getTrafficInfo();
+    }
+
+    public void setEquipmentInfo(MopEquipmentInfo equipmentInfo) {
+        this.equipmentInfo = equipmentInfo;
+    }
+
+    public void setParkingSpacesInfo(MopParkingSpacesInfo parkingSpacesInfo) {
+        this.route.removeSpacesInfo(direction, this.parkingSpacesInfo);
+        this.parkingSpacesInfo = parkingSpacesInfo;
+        this.route.addSpacesInfo(direction, this.parkingSpacesInfo);
+        System.out.println(this.route.getSpacesByDirection().get(direction).getCarSpaces());
     }
 }

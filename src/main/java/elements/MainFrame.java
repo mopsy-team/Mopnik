@@ -1,6 +1,7 @@
 package elements;
 
 import config.AppConfig;
+import way.*;
 import methods.Method;
 import mop.*;
 import org.json.JSONException;
@@ -12,10 +13,6 @@ import org.jxmapviewer.input.PanMouseInputListener;
 import org.jxmapviewer.input.ZoomMouseWheelListenerCursor;
 import org.jxmapviewer.painter.CompoundPainter;
 import org.jxmapviewer.viewer.*;
-import way.RoutePainter;
-import way.RoutesMap;
-import way.TrafficInfoParser;
-import way.TrafficMap;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
@@ -99,8 +96,8 @@ public class MainFrame {
         } else {
             mopInfos = mopInfosTemp;
         }
-        this.mopPoints = mopInfos.stream().map((MopInfo m) -> new MopPoint(m.getName(),
-                Color.red, m, this)).collect(Collectors.toSet());
+        this.mopPoints = mopInfos.stream().map((MopInfo m) ->
+                new MopPoint(m.getName(), m, MopType.EXISTING, this)).collect(Collectors.toSet());
         repaint();
     }
 
@@ -110,7 +107,7 @@ public class MainFrame {
         try {
             mopInfos = serverDataHandler.parseMops();
             this.mopPoints = mopInfos.stream().map((MopInfo m) -> new MopPoint(m.getName(),
-                    Color.red, m, this)).collect(Collectors.toSet());
+                    m,  MopType.EXISTING, this)).collect(Collectors.toSet());
             JOptionPane.showMessageDialog(frame,
                     "Poprawnie załadowano dane.");
         } catch (JSONException e) {
@@ -171,14 +168,15 @@ public class MainFrame {
         this.routesMap = routesMap;
     }
 
+    public JXMapViewer getMapViewer(){
+        return mapViewer;
+    }
+
     public void repaint() {
         mapViewer.removeAll();
         WaypointPainter<MopPoint> waypointPainter = new MopPointPainter();
         waypointPainter.setWaypoints(mopPoints);
         painter.addPainter(waypointPainter);
-        // WaypointPainter<Waypoint> mils = new WaypointPainter<>();
-        // mils.setWaypoints(mileages);
-        // painter.addPainter(mils);
         for (MouseListener listener : listeners) {
             mapViewer.removeMouseListener(listener);
         }
@@ -194,5 +192,30 @@ public class MainFrame {
             mapViewer.add(w.getButton());
         }
         frame.revalidate();
+    }
+
+    public void addMop(String name, GeoPosition geoPosition, Route route, String direction) {
+        String road = "";
+        double mileage = 0;
+        if (route != null) {
+            road = route.getName();
+            mileage = (route.getMileageBegin() + route.getMileageEnd()) /2;
+        }
+        MopInfo mopInfo = new MopInfo("", "", "", geoPosition, road, direction, 0,
+                new MopParkingSpacesInfo(), new MopEquipmentInfo(), mileage);
+        mopInfo.setRoute(route);
+        mopPoints.add(new MopPoint(name, mopInfo, MopType.ADDED, this));
+        new AddedMopInfoDialog(mopInfo, this);
+        repaint();
+    }
+
+    public void removeMop(MopInfo mopInfo) {
+        for (MopPoint mopPoint : mopPoints) {
+            if (mopPoint.getMopInfo() == mopInfo) {
+                mopPoints.remove(mopPoint);
+                break;
+            }
+        }
+        repaint();
     }
 }

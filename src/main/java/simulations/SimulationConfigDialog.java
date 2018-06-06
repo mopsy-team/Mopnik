@@ -10,6 +10,7 @@ public class SimulationConfigDialog extends JDialog {
     public SimulationConfigDialog() {
         super();
         Dimension dialogSize = new Dimension(640, 400);
+
         this.setSize(dialogSize);
         this.setTitle("Ustal dane wejściowe symulacji");
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));

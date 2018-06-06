@@ -8,7 +8,12 @@ import util.TitledTable;
 import javax.swing.*;
 
 
-public class MopInfoDialog extends JDialog {
+public abstract class MopInfoDialog extends JDialog {
+
+    protected TitledTable information;
+    protected TitledTable parkingSpaces;
+    protected TitledTable equipmentTable;
+    protected TitledTable trafficInfoTable;
 
     public MopInfoDialog(MopInfo mopInfo, MainFrame frame) {
         super();
@@ -25,8 +30,8 @@ public class MopInfoDialog extends JDialog {
                 {"Kierunek", mopInfo.getDirection()},
                 {"Pikietaż", mopInfo.getMileage()}
         };
-        this.add(new TitledTable("podstawowe informacje o " + mopInfo.getName(),
-                data, columnNames));
+        information = new TitledTable("podstawowe informacje o " + mopInfo.getName(),
+                data, columnNames);
 
         Object[][] spacesData = {
                 {"Dla pojazdów osobowych", mopInfo.getParkingSpacesInfo().getCarSpaces()},
@@ -34,20 +39,21 @@ public class MopInfoDialog extends JDialog {
                 {"Dla pojazdów autobusowych", mopInfo.getParkingSpacesInfo().getBusSpaces()}
         };
 
-        this.add(new TitledTable("Liczba miejsc parkingowych", spacesData, columnNames));
+        parkingSpaces = new TitledTable("Liczba miejsc parkingowych", spacesData, columnNames);
 
         MopEquipmentInfo eq = mopInfo.getEquipmentInfo();
         Object[][] equipmentData = {
                 {"Ochrona", "Ogrodzenie", "Monitoring", "Oświetlenie", "Stacja paliw",
                         "<html> Pojazdy <br> niebezpieczne", "Restauracja", "Toalety",
-                        "Myjnia", "Warsztat"},
+                        "Myjnia", "Warsztat", "Hotel"},
                 {mapYesNo(eq.isSecurity()), mapYesNo(eq.isFence()), mapYesNo(eq.isCctv()),
                         mapYesNo(eq.isLight()), mapYesNo(eq.isPetrolStation()), mapYesNo(eq.isDangerousGoods()),
                         mapYesNo(eq.isRestaurant()), mapYesNo(eq.isAccommodation()), mapYesNo(eq.isToilet()),
-                        mapYesNo(eq.isCarWash()), mapYesNo(eq.isCarRepairShop())}
+                        mapYesNo(eq.isCarWash()), mapYesNo(eq.isCarRepairShop()), mapYesNo(eq.isAccommodation())}
         };
-        String[] eqColumnNames = {"", "", "", "", "", "", "", "", "", ""};
-        this.add(new TitledTable("Wyposażenie", equipmentData, eqColumnNames));
+        String[] eqColumnNames = {"", "", "", "", "", "", "", "", "", "", ""};
+
+        equipmentTable = new TitledTable("Wyposażenie", equipmentData, eqColumnNames);
 
         if (mopInfo.getTrafficInfo() != null) {
             Object[][] trafficData = {
@@ -56,20 +62,33 @@ public class MopInfoDialog extends JDialog {
                     {"Pojazdy autobusowa", mopInfo.getTrafficInfo().getBus()}
             };
 
-            this.add(new TitledTable("Średniodobowe natężenie ruchu", trafficData, columnNames));
+            trafficInfoTable = new TitledTable("Średniodobowe natężenie ruchu", trafficData, columnNames);
 
+            /*
             for (Method method : frame.getMethods()) {
                 MethodResult methodResult = method.compute(mopInfo.getRoute());
                 Object[][] neededSpaces = {{methodResult.getCar(), methodResult.getTruck(), methodResult.getBus()}};
                 columnNames = new String[]{"Pojazdy osobowe", "Pojazdy ciążarowe", "Autobusy"};
                 this.add(new TitledTable("Potrzebne miejsca parkingowe", neededSpaces, columnNames));
             }
+            */
+        }
+
+        this.add(information);
+        this.add(parkingSpaces);
+        this.add(equipmentTable);
+        if (mopInfo.getTrafficInfo() != null) {
+            this.add(trafficInfoTable);
         }
 
         this.setVisible(true);
     }
 
-    private String mapYesNo(boolean flag) {
+    protected String mapYesNo(boolean flag) {
         return flag ? "TAK" : "NIE";
+    }
+
+    protected boolean mapYesNoToBool(String s) {
+        return s.equals("TAK");
     }
 }

@@ -1,5 +1,6 @@
 package elements;
 
+import adding.AddMopPanel;
 import methods.CustomMethod;
 import methods.Method;
 import methods.PredictionDialog;
@@ -28,6 +29,7 @@ public class MainMenu {
         menuBar.add(predictionsMenu());
         menuBar.add(addFromServerMenu());
         menuBar.add(simulationMenu());
+        menuBar.add(addingMenu());
         mainFrame.getFrame().setJMenuBar(menuBar);
     }
 
@@ -107,6 +109,17 @@ public class MainMenu {
             new SimulationConfigDialog();
         });
         menu.add(menuItem);
+        return menu;
+    }
+
+    private JMenu addingMenu() {
+        JMenu menu = new JMenu("Dodaj...");
+        JMenuItem menuItemMop = new JMenuItem("MOP");
+        AddMopPanel addMopPanel = new AddMopPanel(mainFrame);
+        menuItemMop.addActionListener(event -> addMopPanel.setVisible());
+        JMenuItem menuItemRoute = new JMenuItem("Drogę");
+        menu.add(menuItemMop);
+        menu.add(menuItemRoute);
         return menu;
     }
 }

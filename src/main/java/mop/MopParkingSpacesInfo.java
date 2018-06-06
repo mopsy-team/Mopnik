@@ -1,10 +1,16 @@
 package mop;
 
+import methods.MethodResult;
+
 public class MopParkingSpacesInfo {
 
     private int carSpaces;
     private int truckSpaces;
     private int busSpaces;
+
+    public MopParkingSpacesInfo() {
+        new MopParkingSpacesInfo(0, 0, 0);
+    }
 
     public MopParkingSpacesInfo(int carSpaces, int truckSpaces, int busSpaces) {
         this.carSpaces = carSpaces;
@@ -22,5 +28,11 @@ public class MopParkingSpacesInfo {
 
     public Integer getBusSpaces() {
         return busSpaces;
+    }
+
+    public void add(MopParkingSpacesInfo mr) {
+        this.carSpaces += mr.getCarSpaces();
+        this.truckSpaces += mr.getTruckSpaces();
+        this.busSpaces += mr.getBusSpaces();
     }
 }

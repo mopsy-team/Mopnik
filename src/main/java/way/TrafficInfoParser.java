@@ -56,9 +56,7 @@ public class TrafficInfoParser {
             if (route != null) {
                 mop.setRoute(route);
                 MopParkingSpacesInfo mopParkingSpacesInfo = mop.getParkingSpacesInfo();
-                MethodResult mr = new MethodResult(mopParkingSpacesInfo.getCarSpaces(),
-                        mopParkingSpacesInfo.getTruckSpaces(), mopParkingSpacesInfo.getBusSpaces());
-                route.addSpacesInfo(mop.getDirection(), mr);
+                route.addSpacesInfo(mop.getDirection(), mopParkingSpacesInfo);
             } else {
                 mop.setRoute(new Route());
             }

@@ -82,12 +82,16 @@ public class TrafficMap {
             boolean first = true;
             Double oldMileage = 0.;
             Double newMileage = 0.;
+            GeoPosition oldGeo = new GeoPosition(0, 0);
+            GeoPosition newGeo;
             for (OSMNode node : nodes) {
                 newMileage = Double.parseDouble(node.getAllTags().get("milestone"));
+                newGeo = new GeoPosition(Double.parseDouble(node.lat), Double.parseDouble(node.lon));
                 if (!first) {
-                    routesMap.add(new Route(entry.getKey(), oldMileage, newMileage, new TrafficInfo()));
+                    routesMap.add(new Route(entry.getKey(), oldMileage, newMileage, oldGeo, newGeo, new TrafficInfo()));
                 }
                 oldMileage = newMileage;
+                oldGeo = newGeo;
                 first = false;
             }
         }
@@ -116,7 +120,6 @@ public class TrafficMap {
                 if (node.getAllTags().containsKey("milestone") && way.getAllTags().containsKey("ref")) {
                     String refs[] = way.getAllTags().get("ref").replaceAll("\\s+", "").split(";");
                     for (String ref : refs) {
-                        //String ref = way.getAllTags().get("ref").replaceAll("\\s+", "");
                         if (nodes.containsKey(ref)) {
                             nodes.get(ref).add(node);
                         } else {
@@ -128,12 +131,16 @@ public class TrafficMap {
         }
         List<RoutePainter> res = new ArrayList<>();
         for (Map.Entry<String, Set<OSMNode>> entry : nodes.entrySet()) {
-            if (!entry.getKey().equals("S8")) {
+            if (!entry.getKey().equals("S8")) { // Milestones on S8 are incorrect.
                 boolean first = true;
                 OSMNode last = null;
                 double lastMilestone = 0.0;
                 for (OSMNode node : entry.getValue()) {
                     double newMilestone = Double.parseDouble(node.getAllTags().get("milestone"));
+
+                    // This condition is to omit nodes that are to close to some other node.
+                    // Milestone is an integer and two nodes being less than two kilometers apart
+                    // may in fact be placed on the same crossroads.
                     if (!first && Integer.parseInt(last.getAllTags().get("milestone")) <
                             Integer.parseInt(node.getAllTags().get("milestone")) - 2) {
                         List<GeoPosition> track = Arrays.asList(
