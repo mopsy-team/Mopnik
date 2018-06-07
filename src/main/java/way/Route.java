@@ -33,7 +33,7 @@ public class Route {
         double latBegin = geoPositionBegin.getLatitude(), lonBegin = geoPositionBegin.getLongitude();
         double latDiff = (geoPositionEnd.getLatitude() - geoPositionBegin.getLatitude()) / (mileageEnd - mileageBegin);
         double lonDiff = (geoPositionEnd.getLongitude() - geoPositionBegin.getLongitude()) / (mileageEnd - mileageBegin);
-        for (int i = 1; mileageBegin * i < mileageEnd; ++i) {
+        for (int i = 1; mileageBegin + i < mileageEnd; ++i) {
             geoPositions.add(new GeoPosition(latBegin + i * latDiff, lonBegin + i * lonDiff));
         }
     }

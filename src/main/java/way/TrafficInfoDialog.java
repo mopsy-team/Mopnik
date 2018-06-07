@@ -4,12 +4,13 @@ import methods.CustomMethod;
 import methods.Method;
 import methods.MethodResult;
 import mop.MopParkingSpacesInfo;
+import util.AbstractDialog;
 import util.TitledTable;
 
 import javax.swing.*;
 import java.util.Map;
 
-public class TrafficInfoDialog extends JDialog {
+public class TrafficInfoDialog extends AbstractDialog {
     private Route route;
 
     public TrafficInfoDialog(Route route) {
