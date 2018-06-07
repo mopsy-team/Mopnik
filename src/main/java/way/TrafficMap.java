@@ -120,18 +120,20 @@ public class TrafficMap {
                 if (node.getAllTags().containsKey("milestone") && way.getAllTags().containsKey("ref")) {
                     String refs[] = way.getAllTags().get("ref").replaceAll("\\s+", "").split(";");
                     for (String ref : refs) {
-                        if (nodes.containsKey(ref)) {
-                            nodes.get(ref).add(node);
-                        } else {
+                        if (!nodes.containsKey(ref)) {
                             nodes.put(ref, new TreeSet<>(osmNodeComparator));
                         }
+                        nodes.get(ref).add(node);
                     }
                 }
             }
         }
         List<RoutePainter> res = new ArrayList<>();
         for (Map.Entry<String, Set<OSMNode>> entry : nodes.entrySet()) {
-            if (!entry.getKey().equals("S8")) { // Milestones on S8 are incorrect.
+            HashSet<String> incorrectWays = new HashSet<>();
+            incorrectWays.add("S7");
+            incorrectWays.add("S8");
+            if (!incorrectWays.contains(entry.getKey())) { // Milestones on S8 are incorrect.
                 boolean first = true;
                 OSMNode last = null;
                 double lastMilestone = 0.0;

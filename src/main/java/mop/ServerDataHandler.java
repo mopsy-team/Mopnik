@@ -20,8 +20,7 @@ public class ServerDataHandler {
     public HashSet<MopInfo> parseMops() throws IOException {
 
         HashSet<MopInfo> res = new HashSet<>();
-        JSONParser jsonParser = new JSONParser();
-        JSONObject json = jsonParser.readJsonFromUrl(url);
+        JSONObject json = JSONParser.readJsonFromUrl(url);
         Iterator<?> keys = json.keys();
         while (keys.hasNext()) {
             String key = (String) keys.next();

@@ -1,7 +1,6 @@
 package way;
 
 import methods.CustomMethod;
-import methods.Method;
 import methods.MethodResult;
 import mop.MopParkingSpacesInfo;
 import org.jxmapviewer.viewer.GeoPosition;
@@ -33,7 +32,7 @@ public class Route {
         double latBegin = geoPositionBegin.getLatitude(), lonBegin = geoPositionBegin.getLongitude();
         double latDiff = (geoPositionEnd.getLatitude() - geoPositionBegin.getLatitude()) / (mileageEnd - mileageBegin);
         double lonDiff = (geoPositionEnd.getLongitude() - geoPositionBegin.getLongitude()) / (mileageEnd - mileageBegin);
-        for (int i = 1; mileageBegin + i < mileageEnd; ++i) {
+        for (int i = 0; mileageBegin + i < mileageEnd; ++i) {
             geoPositions.add(new GeoPosition(latBegin + i * latDiff, lonBegin + i * lonDiff));
         }
     }
@@ -77,11 +76,11 @@ public class Route {
 
     public NSpaces nSpaces() {
         int lacks = 0;
-        int toomany = 0;
+        int tooMany = 0;
         for (MopParkingSpacesInfo mr : spacesByDirection.values()) {
             lacks += (mr.getCarSpaces() < spacesNeeded.getCar() ? 1 : 0)
                     + (mr.getTruckSpaces() < spacesNeeded.getTruck() ? 1 : 0);
-            toomany += (mr.getCarSpaces() > spacesNeeded.getCar() * 1.5 ? 1 : 0)
+            tooMany += (mr.getCarSpaces() > spacesNeeded.getCar() * 1.5 ? 1 : 0)
                     + (mr.getTruckSpaces() > spacesNeeded.getTruck() * 1.5 ? 1 : 0);
         }
         if (lacks > 2) {
@@ -90,7 +89,7 @@ public class Route {
         if (lacks > 0) {
             return NSpaces.LOW;
         }
-        if (toomany < 4) {
+        if (tooMany < 4) {
             return NSpaces.SUFFICIENT;
         }
         return NSpaces.LARGE;
@@ -140,11 +139,11 @@ public class Route {
             first = this;
             second = route;
         }
-        double milbeg = first.mileageBegin;
-        double milend = second.mileageEnd;
+        double milBeg = first.mileageBegin;
+        double milEnd = second.mileageEnd;
         first.geoPositions.addAll(second.geoPositions);
-        TrafficInfo tinfo = trafficInfo.add(route.getTrafficInfo());
-        Route res = new Route(name, milbeg, milend, first.geoPositions, tinfo);
+        TrafficInfo tInfo = trafficInfo.add(route.getTrafficInfo());
+        Route res = new Route(name, milBeg, milEnd, first.geoPositions, tInfo);
         for (Map.Entry<String, MopParkingSpacesInfo> entry : route.getSpacesByDirection().entrySet()) {
             res.addSpacesInfo(entry.getKey(), entry.getValue());
         }

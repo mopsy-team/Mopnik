@@ -1,6 +1,7 @@
 package elements;
 
 import adding.AddMopPanel;
+import config.ConfigDialog;
 import methods.CustomMethod;
 import methods.Method;
 import methods.PredictionDialog;
@@ -30,6 +31,7 @@ public class MainMenu {
         menuBar.add(addFromServerMenu());
         menuBar.add(simulationMenu());
         menuBar.add(addingMenu());
+        menuBar.add(configMenu());
         mainFrame.getFrame().setJMenuBar(menuBar);
     }
 
@@ -120,6 +122,18 @@ public class MainMenu {
         JMenuItem menuItemRoute = new JMenuItem("Drogę");
         menu.add(menuItemMop);
         menu.add(menuItemRoute);
+        return menu;
+    }
+
+    private JMenu configMenu() {
+        JMenu menu = new JMenu("Konfiguracja");
+        menu.setMnemonic(KeyEvent.VK_K);
+
+        JMenuItem menuItem = new JMenuItem("Nazwy plików i url", KeyEvent.VK_U);
+        menuItem.addActionListener(event -> {
+            new ConfigDialog();
+        });
+        menu.add(menuItem);
         return menu;
     }
 }
