@@ -1,8 +1,10 @@
 package config;
 
+import util.AbstractDialog;
+
 import javax.swing.*;
 
-public class ConfigDialog extends JDialog {
+public class ConfigDialog extends AbstractDialog {
     public ConfigDialog() {
         super();
         this.setSize(640, 480);

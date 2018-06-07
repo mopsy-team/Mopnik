@@ -1,21 +1,17 @@
 package adding;
 
 import elements.MainFrame;
-import methods.MethodResult;
 import mop.MopParkingSpacesInfo;
 import org.jxmapviewer.viewer.GeoPosition;
+import util.AbstractDialog;
 import way.Route;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.Enumeration;
 import java.util.Map;
 
-public class ConfirmMopPositionDialog extends JDialog {
+public class ConfirmMopPositionDialog extends AbstractDialog {
     public ConfirmMopPositionDialog(Route route, GeoPosition gp, MainFrame mainFrame) {
         super();
         this.setSize(300, 240);
