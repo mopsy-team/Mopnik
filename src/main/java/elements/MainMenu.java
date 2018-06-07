@@ -1,6 +1,7 @@
 package elements;
 
 import adding.AddMopPanel;
+import adding.AddRoutePanel;
 import methods.CustomMethod;
 import methods.Method;
 import methods.PredictionDialog;
@@ -118,6 +119,8 @@ public class MainMenu {
         AddMopPanel addMopPanel = new AddMopPanel(mainFrame);
         menuItemMop.addActionListener(event -> addMopPanel.setVisible());
         JMenuItem menuItemRoute = new JMenuItem("Drogę");
+        AddRoutePanel addRoutePanel = new AddRoutePanel(mainFrame);
+        menuItemRoute.addActionListener(e -> addRoutePanel.setVisible());
         menu.add(menuItemMop);
         menu.add(menuItemRoute);
         return menu;

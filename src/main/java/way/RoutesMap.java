@@ -11,7 +11,7 @@ public class RoutesMap {
     private Map<String, TreeSet<Route>> routes;
     private Comparator<Route> routesComparator = Comparator.comparingDouble(Route::getMileageBegin);
 
-    RoutesMap() {
+    public RoutesMap() {
         routes = new HashMap<>();
     }
 

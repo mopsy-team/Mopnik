@@ -18,6 +18,7 @@ import javax.swing.*;
 import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.MouseListener;
+import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,6 +38,8 @@ public class MainFrame {
     private Set<Method> methods;
     private TrafficMap trafficMap;
     private RoutesMap routesMap = null;
+    private RoutesMap addedRoutesMap = new RoutesMap();
+    private List<RoutePainter> addedRoutePainters = new ArrayList<>();
     private boolean first = true;
     private List<MouseListener> listeners;
 
@@ -187,6 +190,12 @@ public class MainFrame {
             mapViewer.addMouseListener(ml);
             listeners.add(ml);
         }
+        for (RoutePainter routePainter: addedRoutePainters) {
+            painter.addPainter(routePainter);
+            MouseListener ml = routePainter.mouseListenerOnRoute(mapViewer);
+            mapViewer.addMouseListener(ml);
+            listeners.add(ml);
+        }
         first = false;
         for (MopPoint w : mopPoints) {
             mapViewer.add(w.getButton());
@@ -207,6 +216,19 @@ public class MainFrame {
         mopPoints.add(new MopPoint(name, mopInfo, MopType.ADDED, this));
         new AddedMopInfoDialog(mopInfo, this);
         repaint();
+    }
+
+    public void addRoute(String name, Point2D begin, Point2D end, int milBegin, int milEnd) {
+        GeoPosition gpBeg = mapViewer.convertPointToGeoPosition(begin);
+        GeoPosition gpEnd = mapViewer.convertPointToGeoPosition(end);
+           Route route = new Route(name, milBegin, milEnd,
+                   gpBeg, gpEnd, null);
+           addedRoutesMap.add(route);
+           List<GeoPosition> track = new ArrayList<>();
+           track.add(gpBeg);
+           track.add(gpEnd);
+           addedRoutePainters.add(new RoutePainter(track, route));
+           repaint();
     }
 
     public void removeMop(MopInfo mopInfo) {

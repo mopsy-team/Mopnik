@@ -78,6 +78,9 @@ public class Route {
     public NSpaces nSpaces() {
         int lacks = 0;
         int toomany = 0;
+        if (spacesNeeded == null || spacesNeeded == null) {
+            return NSpaces.NO_INFO;
+        }
         for (MopParkingSpacesInfo mr : spacesByDirection.values()) {
             lacks += (mr.getCarSpaces() < spacesNeeded.getCar() ? 1 : 0)
                     + (mr.getTruckSpaces() < spacesNeeded.getTruck() ? 1 : 0);

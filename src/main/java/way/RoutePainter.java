@@ -13,6 +13,7 @@ import java.awt.event.MouseListener;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -66,14 +67,17 @@ public class RoutePainter implements Painter<JXMapViewer> {
             if (nSpaces == NSpaces.LARGE) {
                 color = Color.green;
             }
-            if (nSpaces == NSpaces.SUFFICIENT) {
+            else if (nSpaces == NSpaces.SUFFICIENT) {
                 color = Color.yellow;
             }
-            if (nSpaces == NSpaces.LOW) {
+            else if (nSpaces == NSpaces.LOW) {
                 color = Color.orange;
             }
-            if (nSpaces == NSpaces.VERY_LOW) {
+            else if (nSpaces == NSpaces.VERY_LOW) {
                 color = Color.red;
+            }
+            else {
+                color = Color.black;
             }
         }
 
