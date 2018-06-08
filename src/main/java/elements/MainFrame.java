@@ -218,11 +218,13 @@ public class MainFrame {
         repaint();
     }
 
-    public void addRoute(String name, Point2D begin, Point2D end, int milBegin, int milEnd) {
+    public void addRoute(String name, Point2D begin, Point2D end, int milBegin, int milEnd, String dir1, String dir2) {
         GeoPosition gpBeg = mapViewer.convertPointToGeoPosition(begin);
         GeoPosition gpEnd = mapViewer.convertPointToGeoPosition(end);
            Route route = new Route(name, milBegin, milEnd,
-                   gpBeg, gpEnd, null);
+                   gpBeg, gpEnd, new TrafficInfo());
+           route.addSpacesInfo(dir1, new MopParkingSpacesInfo(0, 0, 0));
+           route.addSpacesInfo(dir2, new MopParkingSpacesInfo(0, 0, 0));
            addedRoutesMap.add(route);
            List<GeoPosition> track = new ArrayList<>();
            track.add(gpBeg);

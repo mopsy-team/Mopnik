@@ -51,7 +51,6 @@ public class ConfirmMopPositionDialog extends JDialog {
         this.add(radioPanel);
         this.add(submit);
         this.setVisible(true);
-        // TODO remember to add parking info to route.
     }
 
 }

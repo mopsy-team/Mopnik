@@ -32,7 +32,7 @@ public class AddRoutePanel extends JPanel {
                         System.out.println(x2);
                         Point2D p1 = new Point2D.Double(x1, y1);
                         Point2D p2 = new Point2D.Double(x2, y2);
-                        mainFrame.addRoute("A1", p1, p2, 0, 50);
+                        new ConfirmRouteDialog(p1, p2, mainFrame);
                         counter = 0;
                         setVisible(false);
                     }
