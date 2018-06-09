@@ -40,6 +40,7 @@ public class ConfirmRouteDialog extends AbstractDialog {
                     dir1.getText(), dir2.getText());
             this.setVisible(false);
         });
+        getRootPane().setDefaultButton(submit);
         this.add(submit);
         this.setVisible(true);
     }

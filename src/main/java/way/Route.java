@@ -78,7 +78,7 @@ public class Route {
     public NSpaces nSpaces() {
         int lacks = 0;
         int toomany = 0;
-        if (spacesNeeded == null || spacesNeeded == null) {
+        if (spacesNeeded == null ||  spacesByDirection == null) {
             return NSpaces.NO_INFO;
         }
         for (MopParkingSpacesInfo mr : spacesByDirection.values()) {
