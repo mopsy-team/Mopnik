@@ -13,7 +13,6 @@ import org.jxmapviewer.viewer.DefaultWaypoint;
 import org.jxmapviewer.viewer.GeoPosition;
 import org.jxmapviewer.viewer.Waypoint;
 import org.jxmapviewer.viewer.WaypointPainter;
-
 import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.Statement;

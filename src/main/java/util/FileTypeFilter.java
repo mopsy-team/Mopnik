@@ -2,16 +2,16 @@ package util;
 
 // Source of this code: http://www.codejava.net/java-se/swing/file-picker-component-in-swing
 
-import java.io.File;
 import javax.swing.filechooser.FileFilter;
+import java.io.File;
 
 public class FileTypeFilter extends FileFilter {
 
-    private String extension;
+    private String[] extensions;
     private String description;
 
-    public FileTypeFilter(String extension, String description) {
-        this.extension = extension;
+    public FileTypeFilter(String[] extensions, String description) {
+        this.extensions = extensions;
         this.description = description;
     }
 
@@ -20,10 +20,15 @@ public class FileTypeFilter extends FileFilter {
         if (file.isDirectory()) {
             return true;
         }
-        return file.getName().toLowerCase().endsWith(extension);
+        for(String extension : extensions) {
+            if (file.getName().toLowerCase().endsWith(extension)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public String getDescription() {
-        return description + String.format(" (*%s)", extension);
+        return description;
     }
 }

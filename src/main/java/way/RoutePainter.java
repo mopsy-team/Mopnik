@@ -12,6 +12,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,6 +101,14 @@ public class RoutePainter implements Painter<JXMapViewer> {
 //        int ys[] = track.stream().mapToInt(gp -> (int)Math.round(tf.geoToPixel(gp, zoom).getY())).toArray();
 //        g.drawPolyline(xs, ys, xs.length);
         lines = new ArrayList<>();
+        for (int i = 0; i < track.size(); i++) {
+            double x = tf.geoToPixel(track.get(i), zoom).getX();
+            double y = tf.geoToPixel(track.get(i), zoom).getY();
+            double width = 20;
+            double height = 20;
+            Rectangle2D junction = new Rectangle2D.Double(x-width/2, y-height/2, width, height);
+            g.draw(junction);
+        }
         for (int i = 0; i < track.size() - 1; i++) {
             double x1 = tf.geoToPixel(track.get(i), zoom).getX();
             double y1 = tf.geoToPixel(track.get(i), zoom).getY();

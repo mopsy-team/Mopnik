@@ -2,15 +2,10 @@ package util;
 
 // Source of this code: http://www.codejava.net/java-se/swing/file-picker-component-in-swing
 
-import java.awt.FlowLayout;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 public class FilePicker extends JPanel {
     private String textFieldLabel;
@@ -26,11 +21,11 @@ public class FilePicker extends JPanel {
     public static final int MODE_OPEN = 1;
     public static final int MODE_SAVE = 2;
 
-    public FilePicker(String textFieldLabel, String buttonLabel) {
+    public FilePicker(String textFieldLabel, String buttonLabel, JFileChooser _fileChooser) {
         this.textFieldLabel = textFieldLabel;
         this.buttonLabel = buttonLabel;
 
-        fileChooser = new JFileChooser();
+        fileChooser = _fileChooser;
 
         setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
@@ -65,8 +60,8 @@ public class FilePicker extends JPanel {
         }
     }
 
-    public void addFileTypeFilter(String extension, String description) {
-        FileTypeFilter filter = new FileTypeFilter(extension, description);
+    public void addFileTypeFilter(String[] extensions, String description) {
+        FileTypeFilter filter = new FileTypeFilter(extensions, description);
         fileChooser.addChoosableFileFilter(filter);
     }
 

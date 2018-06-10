@@ -17,9 +17,22 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <configuration>
+                    <mainClass>App</mainClass>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
     <dependencies>
+        <dependency>
+            <groupId>mopsim</groupId>
+            <artifactId>mopsim</artifactId>
+            <version>0.2</version>
+        </dependency>
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
