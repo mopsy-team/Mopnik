@@ -4,14 +4,12 @@ import mopsim.MOPSimRun;
 import mopsim.config_group.MOPSimConfigGroup;
 import util.AbstractDialog;
 import util.FilePicker;
+import util.VerticalTitledTable;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
-import static config.AppConfig.getMapFilename;
-import static config.AppConfig.getMopFilename;
-import static config.AppConfig.getPath;
+import static config.AppConfig.*;
 
 public class SimulationConfigDialog extends AbstractDialog {
 
@@ -20,8 +18,9 @@ public class SimulationConfigDialog extends AbstractDialog {
     private FilePicker carPicker;
     private FilePicker truckPicker;
     private FilePicker busPicker;
-    private JTable input;
+    private VerticalTitledTable input;
     private JFileChooser fileChooser;
+
     public SimulationConfigDialog() {
         super();
 
@@ -33,15 +32,20 @@ public class SimulationConfigDialog extends AbstractDialog {
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
         networkPicker = addFilePicker("Plik z siecią drogową",
-                "Wybierz", new String[]{".xml", ".osm"}, "Open Street Map");
+                "Wybierz", new String[]{".xml", ".osm"},
+                getPath(getMapXmlFilename()), "Mapa drogowa");
         mopPicker = addFilePicker("Układ MOPów",
-                "Wybierz", ".json", "json");
+                "Wybierz", ".json",
+                getPath(getMopCSVFilename()), "Plik JSON");
         carPicker = addFilePicker("Macierz samochodów osobowych",
-                "Wybierz", ".csv", "CSV file");
+                "Wybierz", ".csv",
+                getPath(getCarMatrixFilename()), "Plik CSV");
         truckPicker = addFilePicker("Macierz samochodów ciężarowych",
-                "Wybierz", ".csv", "CSV file");
+                "Wybierz", ".csv",
+                getPath(getTruckMatrixFilename()), "Plik CSV");
         busPicker = addFilePicker("Macierz autobusów",
-                "Wybierz", ".csv", "CSV file");
+                "Wybierz", ".csv",
+                getPath(getBusMatrixFilename()), "Plik CSV");
 
         this.add(inputTable());
         this.add(submitButton());
@@ -54,6 +58,7 @@ public class SimulationConfigDialog extends AbstractDialog {
         JButton submit = new JButton("Przeprowadź symulację");
         submit.addActionListener(
                 e -> {
+                    input.endEditing();
                     int carNr = makeInt(input.getValueAt(0, 1));
                     int truckNr = makeInt(input.getValueAt(1, 1));
                     int busNr = makeInt(input.getValueAt(2, 1));
@@ -80,17 +85,14 @@ public class SimulationConfigDialog extends AbstractDialog {
                         message = "Liczba autobusów jest dodatnia, " +
                                 "ale nie wybrano macierzy autobusów";
                     }
-                    System.out.println(carNr + " " + truckNr + " " + busNr + simulationId +
-                    " " + carPath + " " + truckPath + " " + busPath + " " + mopPath);
                     if (!message.equals("")) {
                         JOptionPane.showMessageDialog(this, message);
-                    }
-                    else {
+                    } else {
                         if (mopPath.equals("")) {
-                            mopPath = getPath(getMopFilename());
+                            mopPath = getPath(getMopCSVFilename());
                         }
                         if (networkPath.equals("")) {
-                            networkPath = getPath(getMapFilename());
+                            networkPath = getPath(getMapXmlFilename());
                         }
                         MOPSimConfigGroup mopsimConfig = new MOPSimConfigGroup();
                         mopsimConfig.setCarNr(carNr);
@@ -111,14 +113,13 @@ public class SimulationConfigDialog extends AbstractDialog {
         return submit;
     }
 
-    private FilePicker addFilePicker(String textFieldLabel, String buttonLabel, String extension, String description) {
-        String[] extenstions = {extension};
-        return addFilePicker(textFieldLabel, buttonLabel, extenstions, description);
+    private FilePicker addFilePicker(String textFieldLabel, String buttonLabel, String extension, String initialValue, String description) {
+        return addFilePicker(textFieldLabel, buttonLabel, new String[]{extension}, initialValue, description);
     }
 
 
-    private FilePicker addFilePicker(String textFieldLabel, String buttonLabel, String[] extensions, String description) {
-        FilePicker filePicker = new FilePicker(textFieldLabel, buttonLabel, fileChooser);
+    private FilePicker addFilePicker(String textFieldLabel, String buttonLabel, String[] extensions, String initialValue, String description) {
+        FilePicker filePicker = new FilePicker(textFieldLabel, buttonLabel, initialValue, fileChooser);
         filePicker.setMode(FilePicker.MODE_OPEN);
         filePicker.addFileTypeFilter(extensions, description);
         this.add(filePicker);
@@ -135,7 +136,7 @@ public class SimulationConfigDialog extends AbstractDialog {
         return ret;
     }
 
-    private JTable inputTable() {
+    private VerticalTitledTable inputTable() {
         String[] columnNames = {"", ""};
         Object[][] spacesData = {
                 {"Liczba pojazdów osobowych", ""},
@@ -144,13 +145,7 @@ public class SimulationConfigDialog extends AbstractDialog {
                 {"Id symulacji", ""},
                 {"Liczba wątków", "1"}
         };
-        DefaultTableModel model = new DefaultTableModel(spacesData, columnNames) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return column > 0;
-            }
-        };
-        input = new JTable(model);
+        input = new VerticalTitledTable("Stałe użyte w symulacji", spacesData, columnNames);
         return input;
     }
 }

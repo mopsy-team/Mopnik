@@ -7,28 +7,20 @@ import java.io.File;
 
 public class FileTypeFilter extends FileFilter {
 
-    private String[] extensions;
+    private String extension;
     private String description;
 
-    public FileTypeFilter(String[] extensions, String description) {
-        this.extensions = extensions;
+    public FileTypeFilter(String extension, String description) {
+        this.extension = extension;
         this.description = description;
     }
 
     @Override
     public boolean accept(File file) {
-        if (file.isDirectory()) {
-            return true;
-        }
-        for(String extension : extensions) {
-            if (file.getName().toLowerCase().endsWith(extension)) {
-                return true;
-            }
-        }
-        return false;
+        return file.isDirectory() || file.getName().toLowerCase().endsWith(extension);
     }
 
     public String getDescription() {
-        return description;
+        return description + String.format(" (*%s)", extension);
     }
 }

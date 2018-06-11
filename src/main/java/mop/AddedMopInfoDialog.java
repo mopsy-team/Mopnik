@@ -24,6 +24,9 @@ public class AddedMopInfoDialog extends MopInfoDialog {
         submit.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                parkingSpaces.endEditing();
+                equipmentTable.endEditing();
+
                 Object[] ps = parkingSpaces.getColumn(1);
 
                 mopInfo.setParkingSpacesInfo(new MopParkingSpacesInfo(makeInt(ps[0]), makeInt(ps[1]), makeInt(ps[2])));

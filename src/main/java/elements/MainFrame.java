@@ -132,11 +132,11 @@ public class MainFrame {
     }
 
     public void show() {
-        File mopsFile =  AppConfig.getFile(AppConfig.getMopFilename());
+        File mopsFile =  AppConfig.getFile(AppConfig.getMopXlsxFilename());
 
         setMopPointsFromFile(mopsFile);
 
-        File matrixFile =  AppConfig.getFile(AppConfig.getMatrixFilename());
+        File matrixFile =  AppConfig.getFile(AppConfig.getSumMatrixFilename());
         if (TrafficInfoParser.assignRoutes(this, matrixFile) == -1) {
             JOptionPane.showMessageDialog(getFrame(),
                     "Wskazany plik nie istnieje lub jest w złym formacie.",

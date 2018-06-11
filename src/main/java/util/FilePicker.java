@@ -3,6 +3,7 @@ package util;
 // Source of this code: http://www.codejava.net/java-se/swing/file-picker-component-in-swing
 
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,7 +22,7 @@ public class FilePicker extends JPanel {
     public static final int MODE_OPEN = 1;
     public static final int MODE_SAVE = 2;
 
-    public FilePicker(String textFieldLabel, String buttonLabel, JFileChooser _fileChooser) {
+    public FilePicker(String textFieldLabel, String buttonLabel, String initialValue, JFileChooser _fileChooser) {
         this.textFieldLabel = textFieldLabel;
         this.buttonLabel = buttonLabel;
 
@@ -32,7 +33,7 @@ public class FilePicker extends JPanel {
         // creates the GUI
         label = new JLabel(textFieldLabel);
 
-        textField = new JTextField(30);
+        textField = new JTextField(initialValue, 30);
         button = new JButton(buttonLabel);
 
         button.addActionListener(new ActionListener() {
@@ -61,8 +62,16 @@ public class FilePicker extends JPanel {
     }
 
     public void addFileTypeFilter(String[] extensions, String description) {
-        FileTypeFilter filter = new FileTypeFilter(extensions, description);
-        fileChooser.addChoosableFileFilter(filter);
+        for (String extension : extensions) {
+            FileTypeFilter filter = new FileTypeFilter(extension, description);
+            FileFilter[] fileFilters = fileChooser.getChoosableFileFilters();
+            for (FileFilter fileFilter : fileFilters) {
+                if (!fileFilter.getDescription().equals(filter.getDescription())) {
+                    fileChooser.addChoosableFileFilter(filter);
+                    break;
+                }
+            }
+        }
     }
 
     public void setMode(int mode) {
@@ -71,9 +80,5 @@ public class FilePicker extends JPanel {
 
     public String getSelectedFilePath() {
         return textField.getText();
-    }
-
-    public JFileChooser getFileChooser() {
-        return this.fileChooser;
     }
 }

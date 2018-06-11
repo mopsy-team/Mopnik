@@ -73,7 +73,6 @@ public class ServerDataHandler {
                         equipmentInfo, mileage));
             }
         }
-        System.out.println(res.size());
         if (res.size() == 0) {
             throw new JSONException("Data on server contain no valid MOPs");
         }
