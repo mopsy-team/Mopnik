@@ -29,6 +29,7 @@ public class SimulationConfigDialog extends AbstractDialog {
 
         this.setSize(dialogSize);
         this.setTitle("Ustal dane wejściowe symulacji");
+        this.setLocationRelativeTo(null);
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
         networkPicker = addFilePicker("Plik z siecią drogową",

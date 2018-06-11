@@ -20,7 +20,7 @@ public abstract class MopInfoDialog extends AbstractDialog {
         super();
         this.setSize(1000, 750);
         this.setTitle(mopInfo.getName());
-        this.setLocationRelativeTo(null); // center the dialog.
+        this.setLocationRelativeTo(null);
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
         String[] columnNames = {"", ""};

@@ -24,6 +24,7 @@ public class GenerateMapDialog extends AbstractDialog {
 
         this.setSize(dialogSize);
         this.setTitle("Generacja siatki drogowej");
+        this.setLocationRelativeTo(null);
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
         networkPicker = addFilePicker("Plik z siecią drogową",
