@@ -32,7 +32,7 @@ public class SimulationConfigDialog extends AbstractDialog {
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
         networkPicker = addFilePicker("Plik z siecią drogową",
-                "Wybierz", new String[]{".xml", ".osm"},
+                "Wybierz", ".xml",
                 getPath(getMapXmlFilename()), "Mapa drogowa");
         mopPicker = addFilePicker("Układ MOPów",
                 "Wybierz", ".json",

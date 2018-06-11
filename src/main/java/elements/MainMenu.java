@@ -5,6 +5,7 @@ import config.ConfigDialog;
 import methods.CustomMethod;
 import methods.Method;
 import methods.PredictionDialog;
+import simulations.GenerateMapDialog;
 import simulations.SimulationConfigDialog;
 import way.TrafficInfoParser;
 
@@ -111,6 +112,13 @@ public class MainMenu {
             new SimulationConfigDialog();
         });
         menu.add(menuItem);
+
+        menuItem = new JMenuItem("Generuj siatkę drogową", KeyEvent.VK_G);
+        menuItem.addActionListener(event -> {
+            new GenerateMapDialog();
+        });
+        menu.add(menuItem);
+
         return menu;
     }
 
