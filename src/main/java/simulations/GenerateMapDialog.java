@@ -63,9 +63,11 @@ public class GenerateMapDialog extends AbstractDialog {
                         if (networkPath.equals("")) {
                             networkPath = getPath(getMapXmlFilename());
                         }
-                        NetworkCreator networkCreator = new NetworkCreator("dupnij se lolka", outPath);
-                        networkCreator.loadNetworkFromOsm(networkPath);
+                        NetworkCreator networkCreator = new NetworkCreator(networkPath, outPath);
+                        networkCreator.loadNetworkFromOsm();
                         networkCreator.write();
+                        JOptionPane.showMessageDialog(this,
+                                "Poprawnie wygenerowano mapę.");
                         this.setVisible(false);
                     }
                 });

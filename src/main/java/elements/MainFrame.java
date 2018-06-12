@@ -124,7 +124,7 @@ public class MainFrame {
                     JOptionPane.WARNING_MESSAGE);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(frame,
-                    "Brak możliwości połączenia z serwerem.",
+                    "Brak możliwości połączenia z serwerem lub niepoprawny URL.",
                     "Nie udało się załadować danych",
                     JOptionPane.WARNING_MESSAGE);
         }

@@ -106,8 +106,12 @@ public class SimulationConfigDialog extends AbstractDialog {
                         mopsimConfig.setMopData(mopPath);
                         mopsimConfig.setMapPath(networkPath);
                         mopsimConfig.setSimulationId(simulationId);
-                        //mopsimConfig.setThreadsNr(threadsNr);
+                        mopsimConfig.setThreadNr(threadsNr);
                         MOPSimRun.run(mopsimConfig);
+
+                        JOptionPane.showMessageDialog(this,
+                                "Zakończono przeprowadzanie symulacji.");
+
                         this.setVisible(false);
                     }
                 });
