@@ -1,12 +1,17 @@
 package elements;
 
 import adding.AddMopPanel;
+import config.AppConfig;
 import config.ConfigDialog;
 import methods.CustomMethod;
 import methods.Method;
 import methods.PredictionDialog;
+import mop.JSONToMopParser;
+import mop.SetUrlDialog;
+import org.json.JSONObject;
 import simulations.GenerateMapDialog;
 import simulations.SimulationConfigDialog;
+import util.JSONParser;
 import way.TrafficInfoParser;
 
 import javax.swing.*;
@@ -33,9 +38,25 @@ public class MainMenu {
         menuBar.add(simulationMenu());
         menuBar.add(addingMenu());
         menuBar.add(configMenu());
+        menuBar.add(exportToFileMenu());
         mainFrame.getFrame().setJMenuBar(menuBar);
     }
 
+    private JMenu exportToFileMenu() {
+        JMenu menu = new JMenu("Wyeksportuj do pliku");
+        menu.setMnemonic(KeyEvent.VK_W);
+
+        JMenuItem menuItem;
+        menuItem = new JMenuItem("Układ MOPów",
+                KeyEvent.VK_U);
+        menuItem.addActionListener(event -> {
+            JSONObject json = JSONToMopParser.parseSet(mainFrame.getMopInfos());
+            JSONParser.writeJsonToFile(json, AppConfig.getMopJSONFilename());
+        });
+
+        menu.add(menuItem);
+        return menu;
+    }
     private JMenu addFromFileMenu() {
 
         JMenu menu = new JMenu("Dodaj dane z pliku");
@@ -92,12 +113,17 @@ public class MainMenu {
     }
 
     private JMenu addFromServerMenu() {
-        JMenu menu = new JMenu("Dodaj dane z serwera");
+        JMenu menu = new JMenu("Dane z serwera");
         menu.setMnemonic(KeyEvent.VK_A);
 
-        JMenuItem menuItem = new JMenuItem("Układ MOP-ów", KeyEvent.VK_U);
+        JMenuItem menuItem = new JMenuItem("Dodaj układ MOP-ów", KeyEvent.VK_U);
         menuItem.addActionListener(event -> {
             mainFrame.setMopPointsFromServer();
+        });
+        menu.add(menuItem);
+        menuItem = new JMenuItem("Zmien adres serwera", KeyEvent.VK_Z);
+        menuItem.addActionListener(event -> {
+            new SetUrlDialog();
         });
         menu.add(menuItem);
         return menu;

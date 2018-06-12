@@ -7,6 +7,7 @@ import way.TrafficInfo;
 public class MopInfo {
 
     // General information about MOP
+    private int id;
     private String branch;
     private String locality;
     private final String name;
@@ -19,9 +20,11 @@ public class MopInfo {
     private MopEquipmentInfo equipmentInfo;
     private Route route = new Route();
 
-    public MopInfo(String branch, String locality, String name, GeoPosition geoPosition,
+    public MopInfo(int id, String branch, String locality, String name, GeoPosition geoPosition,
                    String road, String direction, int type,
                    MopParkingSpacesInfo parkingSpacesInfo, MopEquipmentInfo equipmentInfo, double mileage) {
+        this.id = id;
+
         this.branch = branch;
         this.locality = locality;
         this.name = name;
@@ -32,6 +35,10 @@ public class MopInfo {
         this.parkingSpacesInfo = parkingSpacesInfo;
         this.equipmentInfo = equipmentInfo;
         this.mileage = mileage;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getBranch() {

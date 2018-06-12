@@ -28,6 +28,7 @@ import java.util.stream.Collectors;
 
 public class MainFrame {
 
+    public static int id = 10000;
     private final JFrame frame;
     private final JXMapViewer mapViewer;
     private Set<MopPoint> mopPoints;
@@ -41,6 +42,12 @@ public class MainFrame {
     private List<MouseListener> listeners;
 
     public MainFrame() {
+        try {
+            AppConfig.loadConfig();
+        } catch (IOException e) {
+            AppConfig.save();
+        }
+
         frame = new JFrame("Mopnik");
         mapViewer = new JXMapViewer();
         mapViewer.setName("MapViewer");
@@ -107,7 +114,7 @@ public class MainFrame {
         try {
             mopInfos = serverDataHandler.parseMops();
             this.mopPoints = mopInfos.stream().map((MopInfo m) -> new MopPoint(m.getName(),
-                    m,  MopType.EXISTING, this)).collect(Collectors.toSet());
+                    m, MopType.EXISTING, this)).collect(Collectors.toSet());
             JOptionPane.showMessageDialog(frame,
                     "Poprawnie załadowano dane.");
         } catch (JSONException e) {
@@ -132,11 +139,11 @@ public class MainFrame {
     }
 
     public void show() {
-        File mopsFile =  AppConfig.getFile(AppConfig.getMopXlsxFilename());
+        File mopsFile = AppConfig.getFile(AppConfig.getMopXlsxFilename());
 
         setMopPointsFromFile(mopsFile);
 
-        File matrixFile =  AppConfig.getFile(AppConfig.getSumMatrixFilename());
+        File matrixFile = AppConfig.getFile(AppConfig.getSumMatrixFilename());
         if (TrafficInfoParser.assignRoutes(this, matrixFile) == -1) {
             JOptionPane.showMessageDialog(getFrame(),
                     "Wskazany plik nie istnieje lub jest w złym formacie.",
@@ -168,7 +175,7 @@ public class MainFrame {
         this.routesMap = routesMap;
     }
 
-    public JXMapViewer getMapViewer(){
+    public JXMapViewer getMapViewer() {
         return mapViewer;
     }
 
@@ -199,10 +206,11 @@ public class MainFrame {
         double mileage = 0;
         if (route != null) {
             road = route.getName();
-            mileage = (route.getMileageBegin() + route.getMileageEnd()) /2;
+            mileage = (route.getMileageBegin() + route.getMileageEnd()) / 2;
         }
-        MopInfo mopInfo = new MopInfo("", "", "", geoPosition, road, direction, 0,
+        MopInfo mopInfo = new MopInfo(id, "", "", "", geoPosition, road, direction, 0,
                 new MopParkingSpacesInfo(), new MopEquipmentInfo(), mileage);
+        id++; //todo
         mopInfo.setRoute(route);
         mopPoints.add(new MopPoint(name, mopInfo, MopType.ADDED, this));
         new AddedMopInfoDialog(mopInfo, this);

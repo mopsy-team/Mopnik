@@ -37,7 +37,7 @@ public class SimulationConfigDialog extends AbstractDialog {
                 getPath(getMapXmlFilename()), "Mapa drogowa");
         mopPicker = addFilePicker("Układ MOPów",
                 "Wybierz", ".json",
-                getPath(getMopCSVFilename()), "Plik JSON");
+                getPath(getMopJSONFilename()), "Plik JSON");
         carPicker = addFilePicker("Macierz samochodów osobowych",
                 "Wybierz", ".csv",
                 getPath(getCarMatrixFilename()), "Plik CSV");
@@ -90,7 +90,7 @@ public class SimulationConfigDialog extends AbstractDialog {
                         JOptionPane.showMessageDialog(this, message);
                     } else {
                         if (mopPath.equals("")) {
-                            mopPath = getPath(getMopCSVFilename());
+                            mopPath = getPath(getMopJSONFilename());
                         }
                         if (networkPath.equals("")) {
                             networkPath = getPath(getMapXmlFilename());

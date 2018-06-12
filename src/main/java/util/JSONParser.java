@@ -42,10 +42,21 @@ public class JSONParser {
         return new JSONObject(dataFromUrl);
     }
 
-    public static void writeJsonToFile(JSONObject jsonObject, String filepath) throws FileNotFoundException {
+    public static void writeJsonToFile(JSONObject jsonObject, String filepath) {
         String jsonString = jsonObject.toString();
-        PrintWriter out = new PrintWriter(filepath);
-        out.print(jsonString);
-        out.close();
+        File file = new File(filepath);
+        try {
+            file.createNewFile();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+        try {
+            PrintWriter pw = new PrintWriter(file);
+            pw.print(jsonString);
+            pw.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 }
