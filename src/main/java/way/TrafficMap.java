@@ -7,12 +7,14 @@ import br.zuq.osm.parser.model.OSMNode;
 import br.zuq.osm.parser.model.Way;
 import config.AppConfig;
 import elements.MainFrame;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.painter.Painter;
 import org.jxmapviewer.viewer.DefaultWaypoint;
 import org.jxmapviewer.viewer.GeoPosition;
 import org.jxmapviewer.viewer.Waypoint;
 import org.jxmapviewer.viewer.WaypointPainter;
+import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 
 import java.io.FileInputStream;
 import java.sql.Connection;
@@ -22,6 +24,7 @@ import java.util.*;
 
 public class TrafficMap {
     private OSM osm = null;
+    private static String tag = "distance";
 
     public TrafficMap() {
         try {
@@ -54,20 +57,18 @@ public class TrafficMap {
 
     public void setRoutesMap(MainFrame mainFrame) {
         Comparator<OSMNode> nodesComparator = (o1, o2) -> {
-            if (o1.getAllTags().containsKey("milestone") &&
-                    o2.getAllTags().containsKey("milestone")) {
-                Double mileage1 = Double.parseDouble(o1.getAllTags().get("milestone"));
-                Double mileage2 = Double.parseDouble(o2.getAllTags().get("milestone"));
-                return mileage1.compareTo(mileage2);
-            }
-            return 0;
+            Double mileage1 = getDistance(o1);
+            Double mileage2 = getDistance(o2);
+            return mileage1.compareTo(mileage2);
         };
         TreeMap<String, TreeSet<OSMNode>> milestoneNodes = new TreeMap<>();
-        for (Way way : osm.getWays()) {
-            for (OSMNode node : way.nodes) {
-                if (node.getAllTags().containsKey("milestone") && way.getAllTags().containsKey("ref")) {
-                    String refs[] = way.getAllTags().get("ref").replaceAll("\\s+", "").split(";");
-                    for (String ref : refs) {
+        for (OSMNode node : osm.getNodes()) {
+            if (node.getAllTags().containsKey("ref")) {
+                double distance = getDistance(node);
+                if (distance == -1) { continue; }
+                String refs[] = node.getAllTags().get("ref").replaceAll("\\s+", "").split(";");
+                for (String ref : refs) {
+                    if (ref.contains("A") || ref.contains("S")) {
                         if (!milestoneNodes.containsKey(ref)) {
                             milestoneNodes.put(ref, new TreeSet<>(nodesComparator));
                         }
@@ -82,20 +83,22 @@ public class TrafficMap {
             boolean first = true;
             Double oldMileage = 0.;
             Double newMileage = 0.;
-            GeoPosition oldGeo = new GeoPosition(0, 0);
-            GeoPosition newGeo;
+            List<GeoPosition> geoPositions = new ArrayList<>();
             for (OSMNode node : nodes) {
-                newMileage = Double.parseDouble(node.getAllTags().get("milestone"));
-                newGeo = new GeoPosition(Double.parseDouble(node.lat), Double.parseDouble(node.lon));
-                if (!first) {
-                    routesMap.add(new Route(entry.getKey(), oldMileage, newMileage, oldGeo, newGeo, new TrafficInfo()));
+                newMileage = getDistance(node);
+                if (newMileage == -1) { continue; }
+                geoPositions.add(new GeoPosition(Double.parseDouble(node.lat), Double.parseDouble(node.lon)));
+                if (!first && geoPositions.size() > 50) {
+                    routesMap.add(new Route(entry.getKey(), oldMileage, newMileage, geoPositions, new TrafficInfo()));
+                    oldMileage = newMileage;
+                    geoPositions = new ArrayList<>();
                 }
-                oldMileage = newMileage;
-                oldGeo = newGeo;
                 first = false;
             }
+            routesMap.add(new Route(entry.getKey(), oldMileage, newMileage, geoPositions, new TrafficInfo()));
         }
         mainFrame.setRoutesMap(routesMap);
+        System.out.println("SIZE: " + routesMap.size());
     }
 
     public Set<Waypoint> mileages() {
@@ -111,6 +114,7 @@ public class TrafficMap {
         return waypointSet;
     }
 
+    /*
     public List<RoutePainter> routes(RoutesMap routesMap) {
         Map<String, Set<OSMNode>> nodes = new HashMap<>();
         Comparator<OSMNode> osmNodeComparator =
@@ -159,7 +163,15 @@ public class TrafficMap {
             }
         }
         return res;
-    }
+    } */
 
+    private double getDistance(OSMNode node) {
+        if (node.getAllTags().containsKey(tag)) {
+            if (NumberUtils.isCreatable(node.getAllTags().get(tag))) {
+                return Double.parseDouble(node.getAllTags().get(tag).replaceAll(",", "."));
+            }
+        }
+        return -1.;
+    }
 
 }

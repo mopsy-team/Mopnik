@@ -184,7 +184,7 @@ public class MainFrame {
             mapViewer.removeMouseListener(listener);
         }
         listeners = new ArrayList<>();
-        for (RoutePainter routePainter : trafficMap.routes(routesMap)) {
+        for (RoutePainter routePainter : routesMap.routePainters()) {
             painter.addPainter(routePainter);
             MouseListener ml = routePainter.mouseListenerOnRoute(mapViewer);
             mapViewer.addMouseListener(ml);

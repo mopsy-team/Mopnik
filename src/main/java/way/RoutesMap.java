@@ -2,10 +2,7 @@ package way;
 
 import org.jxmapviewer.viewer.GeoPosition;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeSet;
+import java.util.*;
 
 public class RoutesMap {
     private Map<String, TreeSet<Route>> routes;
@@ -74,7 +71,11 @@ public class RoutesMap {
     }
 
     int size() {
-        return routes.size();
+        int res = 0;
+        for (Map.Entry<String, TreeSet<Route>> entry: routes.entrySet()) {
+            res += entry.getValue().size();
+        }
+        return res;
     }
 
     public Route findRouteByGeoPosition(GeoPosition geoPosition) {
@@ -93,6 +94,19 @@ public class RoutesMap {
             }
         }
         return res;
+    }
+
+    public List<RoutePainter> routePainters() {
+        List<RoutePainter> routePainters = new ArrayList<>();
+        for (Map.Entry<String, TreeSet<Route>> entry: routes.entrySet()) {
+            for (Route route: entry.getValue()) {
+                RoutePainter rp = route.getRoutePainter();
+                if (rp != null) {
+                    routePainters.add(route.getRoutePainter());
+                }
+            }
+        }
+        return routePainters;
     }
 
     private double computeDiff (GeoPosition g1, GeoPosition g2) {

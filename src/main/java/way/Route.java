@@ -157,6 +157,15 @@ public class Route {
         return res;
     }
 
+    public RoutePainter getRoutePainter() {
+        if (geoPositions.size() > 0) {
+            return new RoutePainter(geoPositions, this);
+        }
+        else {
+            return null;
+        }
+    }
+
     public void setSpacesNeeded(MethodResult mr) {
         spacesNeeded = mr;
     }
