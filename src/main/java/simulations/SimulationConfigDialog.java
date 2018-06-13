@@ -9,8 +9,6 @@ import util.VerticalTitledTable;
 import javax.swing.*;
 import java.awt.*;
 
-import static config.AppConfig.*;
-
 public class SimulationConfigDialog extends AbstractDialog {
 
     private FilePicker networkPicker;
@@ -89,15 +87,15 @@ public class SimulationConfigDialog extends AbstractDialog {
                         message = "Liczba autobusów jest dodatnia, " +
                                 "ale nie wybrano macierzy autobusów";
                     }
+                    if (mopPath.equals("")) {
+                        message = "Nie wybrano pliku z MOP-ami";
+                    }
+                    if (networkPath.equals("")) {
+                        message = "Nie wybrano pliku z mapą";
+                    }
                     if (!message.equals("")) {
                         JOptionPane.showMessageDialog(this, message);
                     } else {
-                        if (mopPath.equals("")) {
-                            mopPath = getPath(getMopJSONFilename());
-                        }
-                        if (networkPath.equals("")) {
-                            networkPath = mopsimConfig.getMapPath();
-                        }
                         mopsimConfig.setCarNr(carNr);
                         mopsimConfig.setTruckNr(truckNr);
                         mopsimConfig.setBusNr(busNr);

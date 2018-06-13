@@ -130,6 +130,7 @@ public class MainFrame {
         }
         this.mopPoints = mopInfos.stream().map((MopInfo m) ->
                 new MopPoint(m.getName(), m, MopType.EXISTING, this)).collect(Collectors.toSet());
+        AppConfig.save();
         repaint();
     }
 
@@ -164,7 +165,7 @@ public class MainFrame {
     }
 
     public void show() {
-        File mopsFile = AppConfig.getFile(AppConfig.getMopXlsxFilename());
+        File mopsFile = AppConfig.getFile(AppConfig.getMopFilename());
 
         setMopPointsFromFile(mopsFile);
 

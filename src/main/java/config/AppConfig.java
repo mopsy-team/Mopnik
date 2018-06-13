@@ -7,19 +7,14 @@ import java.nio.charset.StandardCharsets;
 
 public class AppConfig {
     private static final String shadowFilename = "config.txt";
-    private static String mopXlsxFilename = "MOP-12.2017-final2.xlsx";
-    private static String mopJSONFilename = "mop_data.json"; //todo
+    private static String mopFilename = "MOP-12.2017-final2.xlsx";
     private static String mapOsmFilename = "poland-latest6.osm";
     private static String SDRFilename = "kraj.csv";
     private static String mopsUrl = "http://reach.mimuw.edu.pl:8008/mops/?format=json";
 
 
-    public static void setMopXlsxFilename(String mopXlsxFilename) {
-        AppConfig.mopXlsxFilename = mopXlsxFilename;
-    }
-
-    public static void setMopJSONFilename(String mopJSONFilename) {
-        AppConfig.mopJSONFilename = mopJSONFilename;
+    public static void setMopFilename(String mopFilename) {
+        AppConfig.mopFilename = mopFilename;
     }
 
     public static void setMapOsmFilename(String mapOsmFilename) {
@@ -34,12 +29,8 @@ public class AppConfig {
         AppConfig.SDRFilename = SDRFilename;
     }
 
-    public static String getMopXlsxFilename() {
-        return mopXlsxFilename;
-    }
-
-    public static String getMopJSONFilename() {
-        return mopJSONFilename;
+    public static String getMopFilename() {
+        return mopFilename;
     }
 
     public static String getSDRFilename() {
@@ -82,18 +73,17 @@ public class AppConfig {
         CSVReader reader = new CSVReader(isr);
         String[] nextLine;
         if ((nextLine = reader.readNext()) != null) {
-            mopXlsxFilename = nextLine[0];
-            mopJSONFilename = nextLine[1];
-            mapOsmFilename = nextLine[2];
-            mopsUrl = nextLine[3];
-            SDRFilename = nextLine[4];
+            mopFilename = nextLine[0];
+            mapOsmFilename = nextLine[1];
+            mopsUrl = nextLine[2];
+            SDRFilename = nextLine[3];
         }
     }
 
     public static void save() {
         try {
             FileWriter writer = new FileWriter(shadowFilename);
-            writer.append(String.format("%s,%s,%s,%s,%s", mopXlsxFilename, mopJSONFilename,
+            writer.append(String.format("%s,%s,%s,%s", mopFilename,
                     mapOsmFilename, mopsUrl, SDRFilename));
             writer.flush();
             writer.close();

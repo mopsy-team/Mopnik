@@ -2,15 +2,13 @@ package elements;
 
 import adding.AddMopPanel;
 import config.AppConfig;
+import export.ExportMopsToJSONDialog;
 import methods.CustomMethod;
 import methods.Method;
 import methods.PredictionDialog;
-import mop.JSONToMopParser;
 import mop.SetUrlDialog;
-import org.json.JSONObject;
 import simulations.GenerateMapDialog;
 import simulations.SimulationConfigDialog;
-import util.JSONParser;
 import way.TrafficInfoParser;
 
 import javax.swing.*;
@@ -45,10 +43,7 @@ public class MainMenu {
         menuItem = new JMenuItem("Układ MOPów",
                 KeyEvent.VK_U);
         menuItem.addActionListener(event -> {
-            JSONObject json = JSONToMopParser.parseSet(mainFrame.getMopInfos());
-            JSONParser.writeJsonToFile(json, AppConfig.getMopJSONFilename());
-            JOptionPane.showMessageDialog(mainFrame.getFrame(),
-                    "Poprawnie wyeksportowano dane.");
+            new ExportMopsToJSONDialog(mainFrame);
         });
 
         menu.add(menuItem);
@@ -74,6 +69,7 @@ public class MainMenu {
                             "Zły format pliku",
                             JOptionPane.WARNING_MESSAGE);
                 }
+                AppConfig.save();
             }
         });
         menu.add(menuItem);
