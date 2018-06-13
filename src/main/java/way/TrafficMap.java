@@ -66,7 +66,7 @@ public class TrafficMap {
             if (node.getAllTags().containsKey("ref")) {
                 double distance = getDistance(node);
                 if (distance == -1) { continue; }
-                String refs[] = node.getAllTags().get("ref").replaceAll("\\s+", "").split(";");
+                String refs[] = NameAdjuster.getWayNames(node);
                 for (String ref : refs) {
                     if (ref.contains("A") || ref.contains("S")) {
                         if (!milestoneNodes.containsKey(ref)) {
@@ -81,21 +81,35 @@ public class TrafficMap {
         for (Map.Entry<String, TreeSet<OSMNode>> entry : milestoneNodes.entrySet()) {
             TreeSet<OSMNode> nodes = entry.getValue();
             boolean first = true;
-            Double oldMileage = 0.;
+            Double firstMileage = 0.;
+            Double lastMileage = 0.;
             Double newMileage = 0.;
             List<GeoPosition> geoPositions = new ArrayList<>();
             for (OSMNode node : nodes) {
                 newMileage = getDistance(node);
                 if (newMileage == -1) { continue; }
-                geoPositions.add(new GeoPosition(Double.parseDouble(node.lat), Double.parseDouble(node.lon)));
-                if (!first && geoPositions.size() > 50) {
-                    routesMap.add(new Route(entry.getKey(), oldMileage, newMileage, geoPositions, new TrafficInfo()));
-                    oldMileage = newMileage;
+                if ((entry.getKey().contains("S3") && newMileage < 10) ||
+                        entry.getKey().contains("S6") ||
+                        entry.getKey().contains("S11"))  {continue;}
+                if (Math.abs(newMileage - lastMileage) > 50) {
+                    routesMap.add(new Route(entry.getKey(), firstMileage, newMileage, geoPositions, new TrafficInfo()));
+                    first = true;
                     geoPositions = new ArrayList<>();
+                    geoPositions.add(new GeoPosition(Double.parseDouble(node.lat), Double.parseDouble(node.lon)));
+                    lastMileage = newMileage;
+                    continue;
                 }
+                geoPositions.add(new GeoPosition(Double.parseDouble(node.lat), Double.parseDouble(node.lon)));
+                if (!first && geoPositions.size() > 20) {
+                    routesMap.add(new Route(entry.getKey(), firstMileage, newMileage, geoPositions, new TrafficInfo()));
+                    firstMileage = newMileage;
+                    geoPositions = new ArrayList<>();
+                    geoPositions.add(new GeoPosition(Double.parseDouble(node.lat), Double.parseDouble(node.lon)));
+                }
+                lastMileage = newMileage;
                 first = false;
             }
-            routesMap.add(new Route(entry.getKey(), oldMileage, newMileage, geoPositions, new TrafficInfo()));
+            routesMap.add(new Route(entry.getKey(), firstMileage, newMileage, geoPositions, new TrafficInfo()));
         }
         mainFrame.setRoutesMap(routesMap);
         System.out.println("SIZE: " + routesMap.size());

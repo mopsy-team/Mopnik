@@ -28,6 +28,7 @@ public class TrafficInfoParser {
             }
             while ((nextLine = reader.readNext()) != null) {
                 String name = nextLine[1];
+                // name = name.replaceAll("[a-z]+", "");
                 double begin = Double.parseDouble(nextLine[3]) + Double.parseDouble(nextLine[4]) / 1000;
                 double end = Double.parseDouble(nextLine[5]) + Double.parseDouble(nextLine[6]) / 1000;
                 int sum = Integer.parseInt(nextLine[10]);
