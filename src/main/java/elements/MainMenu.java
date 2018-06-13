@@ -25,9 +25,6 @@ public class MainMenu {
     private MainFrame mainFrame;
 
     public MainMenu(MainFrame _mainFrame) {
-        //Where the GUI is created:
-        //JRadioButtonMenuItem rbMenuItem;
-        //JCheckBoxMenuItem cbMenuItem;
         mainFrame = _mainFrame;
         dialogSize = new Dimension(800, 600);
 
@@ -106,9 +103,7 @@ public class MainMenu {
 
         JMenuItem item = new JMenuItem("Domyślna metodyka");
         Method method = new CustomMethod();
-        item.addActionListener(event -> {
-            new PredictionDialog(method, mainFrame);
-        });
+        item.addActionListener(event -> new PredictionDialog(method, mainFrame));
         mopPredictions.add(item);
         menu.add(mopPredictions);
         return menu;
@@ -119,14 +114,10 @@ public class MainMenu {
         menu.setMnemonic(KeyEvent.VK_A);
 
         JMenuItem menuItem = new JMenuItem("Dodaj układ MOP-ów", KeyEvent.VK_U);
-        menuItem.addActionListener(event -> {
-            mainFrame.setMopPointsFromServer();
-        });
+        menuItem.addActionListener(event -> mainFrame.setMopPointsFromServer());
         menu.add(menuItem);
         menuItem = new JMenuItem("Zmien adres serwera", KeyEvent.VK_Z);
-        menuItem.addActionListener(event -> {
-            new SetUrlDialog();
-        });
+        menuItem.addActionListener(event -> new SetUrlDialog());
         menu.add(menuItem);
         return menu;
     }
@@ -136,15 +127,11 @@ public class MainMenu {
         menu.setMnemonic(KeyEvent.VK_S);
 
         JMenuItem menuItem = new JMenuItem("Przeprowadź symulację", KeyEvent.VK_R);
-        menuItem.addActionListener(event -> {
-            new SimulationConfigDialog();
-        });
+        menuItem.addActionListener(event -> new SimulationConfigDialog(mainFrame.getMopsimConfig()));
         menu.add(menuItem);
 
         menuItem = new JMenuItem("Generuj siatkę drogową", KeyEvent.VK_G);
-        menuItem.addActionListener(event -> {
-            new GenerateMapDialog();
-        });
+        menuItem.addActionListener(event -> new GenerateMapDialog());
         menu.add(menuItem);
 
         return menu;
@@ -166,9 +153,7 @@ public class MainMenu {
         menu.setMnemonic(KeyEvent.VK_K);
 
         JMenuItem menuItem = new JMenuItem("Nazwy plików i url", KeyEvent.VK_U);
-        menuItem.addActionListener(event -> {
-            new ConfigDialog();
-        });
+        menuItem.addActionListener(event -> new ConfigDialog());
         menu.add(menuItem);
         return menu;
     }

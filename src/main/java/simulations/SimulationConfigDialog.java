@@ -20,10 +20,12 @@ public class SimulationConfigDialog extends AbstractDialog {
     private FilePicker busPicker;
     private VerticalTitledTable input;
     private JFileChooser fileChooser;
+    private MOPSimConfigGroup mopsimConfig;
 
-    public SimulationConfigDialog() {
+    public SimulationConfigDialog(MOPSimConfigGroup _mopsimConfig) {
         super();
 
+        mopsimConfig = _mopsimConfig;
         fileChooser = new JFileChooser();
         Dimension dialogSize = new Dimension(800, 480);
 
@@ -32,21 +34,22 @@ public class SimulationConfigDialog extends AbstractDialog {
         this.setLocationRelativeTo(null);
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
+        mopsimConfig = new MOPSimConfigGroup();
         networkPicker = addFilePicker("Plik z siecią drogową",
                 "Wybierz", ".xml",
-                getPath(getMapXmlFilename()), "Mapa drogowa");
+                mopsimConfig.getMapPath(), "Mapa drogowa");
         mopPicker = addFilePicker("Układ MOPów",
                 "Wybierz", ".json",
-                getPath(getMopJSONFilename()), "Plik JSON");
+                mopsimConfig.getMopData(), "Plik JSON");
         carPicker = addFilePicker("Macierz samochodów osobowych",
                 "Wybierz", ".csv",
-                getPath(getCarMatrixFilename()), "Plik CSV");
+                mopsimConfig.getCarPath(), "Plik CSV");
         truckPicker = addFilePicker("Macierz samochodów ciężarowych",
                 "Wybierz", ".csv",
-                getPath(getTruckMatrixFilename()), "Plik CSV");
+                mopsimConfig.getTruckPath(), "Plik CSV");
         busPicker = addFilePicker("Macierz autobusów",
                 "Wybierz", ".csv",
-                getPath(getBusMatrixFilename()), "Plik CSV");
+                mopsimConfig.getBusPath(), "Plik CSV");
 
         this.add(inputTable());
         this.add(submitButton());
@@ -93,9 +96,8 @@ public class SimulationConfigDialog extends AbstractDialog {
                             mopPath = getPath(getMopJSONFilename());
                         }
                         if (networkPath.equals("")) {
-                            networkPath = getPath(getMapXmlFilename());
+                            networkPath = mopsimConfig.getMapPath();
                         }
-                        MOPSimConfigGroup mopsimConfig = new MOPSimConfigGroup();
                         mopsimConfig.setCarNr(carNr);
                         mopsimConfig.setTruckNr(truckNr);
                         mopsimConfig.setBusNr(busNr);
@@ -149,8 +151,8 @@ public class SimulationConfigDialog extends AbstractDialog {
                 {"Liczba pojazdów osobowych", ""},
                 {"Liczba pojazdów ciężarowych", ""},
                 {"Liczba pojazdów autobusowych", ""},
-                {"Id symulacji", ""},
-                {"Liczba wątków", "1"}
+                {"Id symulacji", mopsimConfig.getSimulationId()},
+                {"Liczba wątków", mopsimConfig.getThreadNr()}
         };
         input = new VerticalTitledTable("Stałe użyte w symulacji", spacesData, columnNames);
         return input;

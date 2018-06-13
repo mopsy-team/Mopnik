@@ -10,13 +10,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 public class MopPoint extends DefaultWaypoint {
     private static final Log log = LogFactory.getLog(MopPoint.class);
     private final String label;
     private final MopInfo mopInfo;
-    private JButton button = new JButton();
+    private JButton button;
 
     /**
      * @param label   the text
@@ -26,6 +25,7 @@ public class MopPoint extends DefaultWaypoint {
         super(mopInfo.getGeoPosition());
         this.label = label;
         this.mopInfo = mopInfo;
+        button = new JButton();
         Image img = null;
         try {
             if (mopType == MopType.EXISTING) {
@@ -39,7 +39,7 @@ public class MopPoint extends DefaultWaypoint {
         }
         if (img != null) {
             this.button = new JButton(new ImageIcon(img));
-            // TODO(MG) remove the background insted of making it invisible (cut the button)
+            // TODO(MG) remove the background instead of making it invisible (cut the button)
             this.button.setBorderPainted(false);
             this.button.setContentAreaFilled(false);
             this.button.setToolTipText(mopInfo.getName());

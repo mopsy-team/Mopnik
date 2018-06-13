@@ -1,30 +1,11 @@
 <?xml version="1.0"?>
 <!DOCTYPE plans SYSTEM "http://www.matsim.org/files/dtd/plans_v4.dtd">
 <plans>
-<person id="car1"><plan type="car"><act type="h" x="1271900.58313" y="704140.244826" end_time="8:40:00"/><leg mode="car"/><act type="w" x="1271900.58313" y="704140.244826" /></plan></person>
-<person id="car2"><plan type="car"><act type="h" x="1424453.5356" y="633586.342071" end_time="14:26:00"/><leg mode="car"/><act type="w" x="1422985.41837" y="690993.217005" /></plan></person>
-<person id="car3"><plan type="car"><act type="h" x="1198743.03378" y="758415.833932" end_time="16:22:00"/><leg mode="car"/><act type="w" x="1198743.03378" y="758415.833932" /></plan></person>
-<person id="car4"><plan type="car"><act type="h" x="1494250.7331" y="617428.981464" end_time="4:0:00"/><leg mode="car"/><act type="w" x="1404811.51321" y="568879.875528" /></plan></person>
-<person id="car5"><plan type="car"><act type="h" x="1273100.14773" y="829239.633643" end_time="16:49:00"/><leg mode="car"/><act type="w" x="1237521.61223" y="670702.939952" /></plan></person>
-<person id="car6"><plan type="car"><act type="h" x="1494250.7331" y="617428.981464" end_time="0:12:00"/><leg mode="car"/><act type="w" x="1494250.7331" y="617428.981464" /></plan></person>
-<person id="car7"><plan type="car"><act type="h" x="1153888.30446" y="819905.945147" end_time="3:24:00"/><leg mode="car"/><act type="w" x="1073725.04056" y="943766.993421" /></plan></person>
-<person id="car8"><plan type="car"><act type="h" x="1547575.80558" y="858508.679053" end_time="0:7:00"/><leg mode="car"/><act type="w" x="1414921.2602" y="851341.263967" /></plan></person>
-<person id="car9"><plan type="car"><act type="h" x="1271900.58313" y="704140.244826" end_time="23:52:00"/><leg mode="car"/><act type="w" x="1271900.58313" y="704140.244826" /></plan></person>
-<person id="car10"><plan type="car"><act type="h" x="1547444.9175" y="970112.515112" end_time="11:57:00"/><leg mode="car"/><act type="w" x="1517407.48913" y="887277.235" /></plan></person>
-<person id="car11"><plan type="car"><act type="h" x="1570950.23345" y="686918.189512" end_time="19:49:00"/><leg mode="car"/><act type="w" x="1627654.82986" y="618973.429897" /></plan></person>
-<person id="car12"><plan type="car"><act type="h" x="1163180.67106" y="1018018.25967" end_time="5:20:00"/><leg mode="car"/><act type="w" x="1073725.04056" y="943766.993421" /></plan></person>
-<person id="car13"><plan type="car"><act type="h" x="1254811.67873" y="626693.005548" end_time="14:18:00"/><leg mode="car"/><act type="w" x="1073725.04056" y="943766.993421" /></plan></person>
-<person id="truck14"><plan type="car"><act type="h" x="1271257.12465" y="726553.059118" end_time="3:54:00"/><leg mode="car"/><act type="w" x="1073725.04056" y="943766.993421" /></plan></person>
-<person id="truck15"><plan type="car"><act type="h" x="1433679.3197" y="580870.534595" end_time="1:47:00"/><leg mode="car"/><act type="w" x="1699373.09093" y="623595.754301" /></plan></person>
-<person id="truck16"><plan type="car"><act type="h" x="1429680.592" y="755121.357214" end_time="10:51:00"/><leg mode="car"/><act type="w" x="1452470.14847" y="763186.091942" /></plan></person>
-<person id="truck17"><plan type="car"><act type="h" x="1309907.64632" y="935661.387275" end_time="7:47:00"/><leg mode="car"/><act type="w" x="1291761.67832" y="866598.387879" /></plan></person>
-<person id="truck18"><plan type="car"><act type="h" x="1494250.7331" y="617428.981464" end_time="14:51:00"/><leg mode="car"/><act type="w" x="1424632.90739" y="810864.216274" /></plan></person>
-<person id="truck19"><plan type="car"><act type="h" x="1663496.86761" y="591670.37733" end_time="7:20:00"/><leg mode="car"/><act type="w" x="1424402.85431" y="629070.195542" /></plan></person>
-<person id="truck20"><plan type="car"><act type="h" x="1341729.66501" y="664658.011451" end_time="5:7:00"/><leg mode="car"/><act type="w" x="1370317.02181" y="602281.093463" /></plan></person>
-<person id="truck21"><plan type="car"><act type="h" x="1409855.75439" y="649464.387905" end_time="1:35:00"/><leg mode="car"/><act type="w" x="1424608.74092" y="617943.344978" /></plan></person>
-<person id="truck22"><plan type="car"><act type="h" x="1398770.40302" y="631064.694485" end_time="16:46:00"/><leg mode="car"/><act type="w" x="1237521.61223" y="670702.939952" /></plan></person>
-<person id="truck23"><plan type="car"><act type="h" x="1541328.6456" y="614913.653666" end_time="13:48:00"/><leg mode="car"/><act type="w" x="1527046.86826" y="871920.061967" /></plan></person>
-<person id="truck24"><plan type="car"><act type="h" x="1254811.67873" y="626693.005548" end_time="19:26:00"/><leg mode="car"/><act type="w" x="1073725.04056" y="943766.993421" /></plan></person>
-<person id="truck25"><plan type="car"><act type="h" x="1271900.58313" y="704140.244826" end_time="2:39:00"/><leg mode="car"/><act type="w" x="1271900.58313" y="704140.244826" /></plan></person>
-<person id="truck26"><plan type="car"><act type="h" x="1653544.60072" y="779486.756379" end_time="11:45:00"/><leg mode="car"/><act type="w" x="1527046.86826" y="871920.061967" /></plan></person>
+<person id="car1"><plan type="car"><act type="h" x="1628819.17968" y="599921.521638" end_time="18:41:00"/><leg mode="car"/><act type="w" x="1496737.21234" y="592881.537574" /></plan></person>
+<person id="car2"><plan type="car"><act type="h" x="1405156.48025" y="1002734.59097" end_time="14:35:00"/><leg mode="car"/><act type="w" x="1488329.39735" y="935788.736575" /></plan></person>
+<person id="car3"><plan type="car"><act type="h" x="1553190.63248" y="778894.806069" end_time="7:55:00"/><leg mode="car"/><act type="w" x="1527046.86826" y="871920.061967" /></plan></person>
+<person id="car4"><plan type="car"><act type="h" x="1553190.63248" y="778894.806069" end_time="20:19:00"/><leg mode="car"/><act type="w" x="1527046.86826" y="871920.061967" /></plan></person>
+<person id="car5"><plan type="car"><act type="h" x="1387547.7802" y="894611.352709" end_time="5:58:00"/><leg mode="car"/><act type="w" x="1356019.83284" y="700500.79951" /></plan></person>
+<person id="car6"><plan type="car"><act type="h" x="1195306.90604" y="807498.08425" end_time="12:48:00"/><leg mode="car"/><act type="w" x="1292702.20055" y="843030.585154" /></plan></person>
+<person id="car7"><plan type="car"><act type="h" x="1341729.66501" y="664658.011451" end_time="8:28:00"/><leg mode="car"/><act type="w" x="1341729.66501" y="664658.011451" /></plan></person>
 </plans>

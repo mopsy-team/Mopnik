@@ -8,7 +8,8 @@ import util.VerticalTitledTable;
 import javax.swing.*;
 import java.awt.*;
 
-import static config.AppConfig.*;
+import static config.AppConfig.getMapOsmFilename;
+import static config.AppConfig.getPath;
 
 public class GenerateMapDialog extends AbstractDialog {
 
@@ -57,13 +58,12 @@ public class GenerateMapDialog extends AbstractDialog {
                     if (outPath.equals("")) {
                         message = "Proszę wybrać nazwę pliku wyjściowego";
                     }
+                    if (networkPath.equals("")) {
+                        message = "Proszę wybrać nazwę pliku wejściowego";
+                    }
                     if (!message.equals("")) {
                         JOptionPane.showMessageDialog(this, message);
                     } else {
-                        if (networkPath.equals("")) {
-                            networkPath = getPath(getMapXmlFilename());
-                        }
-
                         final String _networkPath = networkPath;
                         Thread thread = new Thread(() -> {
                             NetworkCreator networkCreator = new NetworkCreator(_networkPath, outPath);

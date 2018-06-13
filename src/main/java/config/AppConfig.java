@@ -10,10 +10,6 @@ public class AppConfig {
     private static String mopXlsxFilename = "MOP-12.2017-final2.xlsx";
     private static String mopJSONFilename = "mop_data.json"; //todo
     private static String mapOsmFilename = "poland-latest6.osm";
-    private static String mapXmlFilename = "poland_network.xml";
-    private static String carMatrixFilename = "car_matrix.csv";
-    private static String truckMatrixFilename = "truck_matrix.csv";
-    private static String busMatrixFilename = "bus_matrix.csv";
     private static String SDRFilename = "kraj.csv";
     private static String mopsUrl = "http://reach.mimuw.edu.pl:8008/mops/?format=json";
 
@@ -28,22 +24,6 @@ public class AppConfig {
 
     public static void setMapOsmFilename(String mapOsmFilename) {
         AppConfig.mapOsmFilename = mapOsmFilename;
-    }
-
-    public static void setMapXmlFilename(String mapXmlFilename) {
-        AppConfig.mapXmlFilename = mapXmlFilename;
-    }
-
-    public static void setCarMatrixFilename(String carMatrixFilename) {
-        AppConfig.carMatrixFilename = carMatrixFilename;
-    }
-
-    public static void setTruckMatrixFilename(String truckMatrixFilename) {
-        AppConfig.truckMatrixFilename = truckMatrixFilename;
-    }
-
-    public static void setBusMatrixFilename(String busMatrixFilename) {
-        AppConfig.busMatrixFilename = busMatrixFilename;
     }
 
     public static void setMopsUrl(String mopsUrl) {
@@ -66,28 +46,12 @@ public class AppConfig {
         return SDRFilename;
     }
 
-    public static String getCarMatrixFilename() {
-        return carMatrixFilename;
-    }
-
-    public static String getTruckMatrixFilename() {
-        return truckMatrixFilename;
-    }
-
-    public static String getBusMatrixFilename() {
-        return busMatrixFilename;
-    }
-
     public static String getMopsUrl() {
         return mopsUrl;
     }
 
     public static String getMapOsmFilename() {
         return mapOsmFilename;
-    }
-
-    public static String getMapXmlFilename() {
-        return mapXmlFilename;
     }
 
     public static String getPath(String filename) {
@@ -121,21 +85,16 @@ public class AppConfig {
             mopXlsxFilename = nextLine[0];
             mopJSONFilename = nextLine[1];
             mapOsmFilename = nextLine[2];
-            mapXmlFilename = nextLine[3];
-            carMatrixFilename = nextLine[4];
-            truckMatrixFilename = nextLine[5];
-            busMatrixFilename = nextLine[6];
-            mopsUrl = nextLine[7];
-            SDRFilename = nextLine[8];
+            mopsUrl = nextLine[3];
+            SDRFilename = nextLine[4];
         }
     }
 
     public static void save() {
         try {
             FileWriter writer = new FileWriter(shadowFilename);
-            writer.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s", mopXlsxFilename, mopJSONFilename,
-                    mapOsmFilename, mapXmlFilename, carMatrixFilename, truckMatrixFilename,
-                    busMatrixFilename, mopsUrl, SDRFilename));
+            writer.append(String.format("%s,%s,%s,%s,%s", mopXlsxFilename, mopJSONFilename,
+                    mapOsmFilename, mopsUrl, SDRFilename));
             writer.flush();
             writer.close();
         } catch (Exception e) {

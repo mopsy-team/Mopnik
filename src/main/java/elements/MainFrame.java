@@ -1,6 +1,9 @@
 package elements;
 
 import config.AppConfig;
+import mopsim.config_group.MOPSimConfigGroup;
+import org.json.JSONObject;
+import util.JSONParser;
 import way.*;
 import methods.Method;
 import mop.*;
@@ -39,6 +42,11 @@ public class MainFrame {
     private RoutesMap routesMap = null;
     private boolean first = true;
     private List<MouseListener> listeners;
+    private MOPSimConfigGroup mopsimConfig;
+
+    public MOPSimConfigGroup getMopsimConfig() {
+        return mopsimConfig;
+    }
 
     public MainFrame() {
         try {
@@ -46,6 +54,7 @@ public class MainFrame {
         } catch (IOException e) {
             AppConfig.save();
         }
+        mopsimConfig = new MOPSimConfigGroup();
 
         frame = new JFrame("Mopnik");
         mapViewer = new JXMapViewer();
@@ -92,8 +101,25 @@ public class MainFrame {
     }
 
     public void setMopPointsFromFile(File file) {
-        XlsToMopParser xlsToMopParser = new XlsToMopParser(file);
-        Set<MopInfo> mopInfosTemp = xlsToMopParser.parseMops();
+        Set<MopInfo> mopInfosTemp;
+        String filepath = file.getAbsolutePath();
+        if (filepath.endsWith(".json")) {
+            try {
+                JSONObject json = JSONParser.readJsonFromFile(filepath);
+                mopInfosTemp = JSONToMopParser.parseJSON(json);
+            } catch (IOException e) {
+                e.printStackTrace();
+                mopInfosTemp = null;
+            }
+        }
+        else if(filepath.endsWith(".xlsx")) {
+            XlsToMopParser xlsToMopParser = new XlsToMopParser(file);
+            mopInfosTemp = xlsToMopParser.parseMops();
+        }
+        else {
+            System.out.println("Failed to read file " + filepath);
+            mopInfosTemp = null;
+        }
         if (mopInfosTemp == null) {
             JOptionPane.showMessageDialog(frame,
                     "Wskazany plik nie istnieje lub jest w złym formacie.",
