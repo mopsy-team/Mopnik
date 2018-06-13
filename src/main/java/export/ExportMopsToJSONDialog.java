@@ -54,6 +54,7 @@ public class ExportMopsToJSONDialog extends AbstractDialog {
                     if (!message.equals("")) {
                         JOptionPane.showMessageDialog(this, message);
                     } else {
+                        outPath = outPath + ".json";
                         JSONObject json = JSONToMopParser.parseSet(mainFrame.getMopInfos());
                         JSONParser.writeJsonToFile(json, outPath);
                         JOptionPane.showMessageDialog(mainFrame.getFrame(),
