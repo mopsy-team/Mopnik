@@ -8,6 +8,7 @@ import util.VerticalTitledTable;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 
 public class SimulationConfigDialog extends AbstractDialog {
 
@@ -25,6 +26,7 @@ public class SimulationConfigDialog extends AbstractDialog {
 
         mopsimConfig = _mopsimConfig;
         fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
         Dimension dialogSize = new Dimension(800, 480);
 
         this.setSize(dialogSize);

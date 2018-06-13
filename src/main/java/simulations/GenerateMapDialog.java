@@ -7,6 +7,7 @@ import util.VerticalTitledTable;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 
 import static config.AppConfig.getMapOsmFilename;
 import static config.AppConfig.getPath;
@@ -21,6 +22,7 @@ public class GenerateMapDialog extends AbstractDialog {
         super();
 
         fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
         Dimension dialogSize = new Dimension(600, 150);
 
         this.setSize(dialogSize);

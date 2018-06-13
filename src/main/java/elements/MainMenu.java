@@ -58,7 +58,8 @@ public class MainMenu {
         menuItem = new JMenuItem("Średniodobowe natężenie ruchu",
                 KeyEvent.VK_S);
         menuItem.addActionListener(event -> {
-            final JFileChooser fc = new JFileChooser();
+            JFileChooser fc = new JFileChooser();
+            fc.setCurrentDirectory(new File(System.getProperty("user.dir")));
             fc.setPreferredSize(dialogSize);
             int returnVal = fc.showOpenDialog(fc);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -77,7 +78,8 @@ public class MainMenu {
         menuItem = new JMenuItem("Układ MOPów",
                 KeyEvent.VK_U);
         menuItem.addActionListener(event -> {
-            final JFileChooser fc = new JFileChooser();
+            JFileChooser fc = new JFileChooser();
+            fc.setCurrentDirectory(new File(System.getProperty("user.dir")));
             fc.setPreferredSize(dialogSize);
             int returnVal = fc.showOpenDialog(fc);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -90,7 +92,8 @@ public class MainMenu {
         menuItem = new JMenuItem("Mapa drogowa",
                 KeyEvent.VK_M);
         menuItem.addActionListener(event -> {
-            final JFileChooser fc = new JFileChooser();
+            JFileChooser fc = new JFileChooser();
+            fc.setCurrentDirectory(new File(System.getProperty("user.dir")));
             fc.setPreferredSize(dialogSize);
             int returnVal = fc.showOpenDialog(fc);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
