@@ -4,15 +4,13 @@ import org.json.JSONObject;
 import org.jxmapviewer.viewer.GeoPosition;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 public class JSONToMopParser {
     public static HashSet<MopInfo> parseJSON(JSONObject json) {
         HashSet<MopInfo> res = new HashSet<>();
-        Iterator<?> keys = json.keys();
-        while (keys.hasNext()) {
-            String key = (String) keys.next();
+
+        for (String key : json.keySet()) {
             if (json.get(key) instanceof JSONObject) {
                 JSONObject mop = (JSONObject) json.get(key);
 

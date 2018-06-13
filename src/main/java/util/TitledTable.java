@@ -41,6 +41,7 @@ public abstract class TitledTable extends JPanel {
     public Object getValueAt(int x, int y) {
         return jTable.getValueAt(x, y);
     }
+
     public void endEditing() {
         if(jTable.isEditing()){
             jTable.getCellEditor().stopCellEditing();
