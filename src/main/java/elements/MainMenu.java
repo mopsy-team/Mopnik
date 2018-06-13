@@ -52,6 +52,8 @@ public class MainMenu {
         menuItem.addActionListener(event -> {
             JSONObject json = JSONToMopParser.parseSet(mainFrame.getMopInfos());
             JSONParser.writeJsonToFile(json, AppConfig.getMopJSONFilename());
+            JOptionPane.showMessageDialog(mainFrame.getFrame(),
+                    "Poprawnie wyeksportowano dane.");
         });
 
         menu.add(menuItem);

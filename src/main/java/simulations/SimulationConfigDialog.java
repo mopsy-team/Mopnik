@@ -111,7 +111,7 @@ public class SimulationConfigDialog extends AbstractDialog {
                         Thread thread = new Thread(() -> {
                             MOPSimRun.run(mopsimConfig);
                             JOptionPane.showMessageDialog(this,
-                                    "Zakończono przeprowadzanie symulacji.");
+                                    "Zakończono symulację.");
                             this.setVisible(false);
                         });
                         thread.start();

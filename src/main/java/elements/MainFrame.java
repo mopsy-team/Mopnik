@@ -142,7 +142,7 @@ public class MainFrame {
 
         setMopPointsFromFile(mopsFile);
 
-        File matrixFile = AppConfig.getFile(AppConfig.getSumMatrixFilename());
+        File matrixFile = AppConfig.getFile(AppConfig.getSDRFilename());
         if (TrafficInfoParser.assignRoutes(this, matrixFile) == -1) {
             JOptionPane.showMessageDialog(getFrame(),
                     "Wskazany plik nie istnieje lub jest w złym formacie.",
@@ -211,6 +211,7 @@ public class MainFrame {
         MopInfo mopInfo = new MopInfo(id, "", "", "", geoPosition, road, direction, 0,
                 new MopParkingSpacesInfo(), new MopEquipmentInfo(), mileage);
         mopInfo.setRoute(route);
+        mopInfos.add(mopInfo);
         mopPoints.add(new MopPoint(name, mopInfo, MopType.ADDED, this));
         new AddedMopInfoDialog(mopInfo, this);
         repaint();
@@ -223,6 +224,7 @@ public class MainFrame {
                 break;
             }
         }
+        mopInfos.remove(mopInfo);
         repaint();
     }
 }

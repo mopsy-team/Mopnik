@@ -14,8 +14,8 @@ public class AppConfig {
     private static String carMatrixFilename = "car_matrix.csv";
     private static String truckMatrixFilename = "truck_matrix.csv";
     private static String busMatrixFilename = "bus_matrix.csv";
+    private static String SDRFilename = "kraj.csv";
     private static String mopsUrl = "http://reach.mimuw.edu.pl:8008/mops/?format=json";
-    private static String sumMatrixFilename = "kraj.csv";
 
 
     public static void setMopXlsxFilename(String mopXlsxFilename) {
@@ -50,8 +50,8 @@ public class AppConfig {
         AppConfig.mopsUrl = mopsUrl;
     }
 
-    public static void setSumMatrixFilename(String sumMatrixFilename) {
-        AppConfig.sumMatrixFilename = sumMatrixFilename;
+    public static void setSDRFilename(String SDRFilename) {
+        AppConfig.SDRFilename = SDRFilename;
     }
 
     public static String getMopXlsxFilename() {
@@ -62,8 +62,8 @@ public class AppConfig {
         return mopJSONFilename;
     }
 
-    public static String getSumMatrixFilename() {
-        return sumMatrixFilename;
+    public static String getSDRFilename() {
+        return SDRFilename;
     }
 
     public static String getCarMatrixFilename() {
@@ -126,7 +126,7 @@ public class AppConfig {
             truckMatrixFilename = nextLine[5];
             busMatrixFilename = nextLine[6];
             mopsUrl = nextLine[7];
-            sumMatrixFilename = nextLine[8];
+            SDRFilename = nextLine[8];
         }
     }
 
@@ -135,7 +135,7 @@ public class AppConfig {
             FileWriter writer = new FileWriter(shadowFilename);
             writer.append(String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s", mopXlsxFilename, mopJSONFilename,
                     mapOsmFilename, mapXmlFilename, carMatrixFilename, truckMatrixFilename,
-                    busMatrixFilename, mopsUrl, sumMatrixFilename));
+                    busMatrixFilename, mopsUrl, SDRFilename));
             writer.flush();
             writer.close();
         } catch (Exception e) {

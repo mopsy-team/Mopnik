@@ -25,8 +25,8 @@ public class XlsToMopParser {
         }
     }
 
-    public XlsToMopParser(String filestring) {
-        new XlsToMopParser(new File(filestring));
+    public XlsToMopParser(String fileString) {
+        new XlsToMopParser(new File(fileString));
     }
 
     // TODO (MG) rewrite to parse csv file
