@@ -28,7 +28,6 @@ import java.util.stream.Collectors;
 
 public class MainFrame {
 
-    public static int id = 10000;
     private final JFrame frame;
     private final JXMapViewer mapViewer;
     private Set<MopPoint> mopPoints;
@@ -208,9 +207,9 @@ public class MainFrame {
             road = route.getName();
             mileage = (route.getMileageBegin() + route.getMileageEnd()) / 2;
         }
+        int id = mopPoints.size();
         MopInfo mopInfo = new MopInfo(id, "", "", "", geoPosition, road, direction, 0,
                 new MopParkingSpacesInfo(), new MopEquipmentInfo(), mileage);
-        id++; //todo
         mopInfo.setRoute(route);
         mopPoints.add(new MopPoint(name, mopInfo, MopType.ADDED, this));
         new AddedMopInfoDialog(mopInfo, this);
