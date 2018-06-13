@@ -253,4 +253,9 @@ public class MainFrame {
         mopInfos.remove(mopInfo);
         repaint();
     }
+
+    public void setMapFromFile(File mapFromFile) {
+        return;
+        //todo MG
+    }
 }

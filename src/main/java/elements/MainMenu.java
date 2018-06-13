@@ -90,6 +90,19 @@ public class MainMenu {
             }
         });
         menu.add(menuItem);
+
+        menuItem = new JMenuItem("Mapa drogowa",
+                KeyEvent.VK_M);
+        menuItem.addActionListener(event -> {
+            final JFileChooser fc = new JFileChooser();
+            fc.setPreferredSize(dialogSize);
+            int returnVal = fc.showOpenDialog(fc);
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                File file = fc.getSelectedFile();
+                mainFrame.setMapFromFile(file);
+            }
+        });
+        menu.add(menuItem);
         return menu;
     }
 

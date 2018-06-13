@@ -65,11 +65,14 @@ public class FilePicker extends JPanel {
         for (String extension : extensions) {
             FileTypeFilter filter = new FileTypeFilter(extension, description);
             FileFilter[] fileFilters = fileChooser.getChoosableFileFilters();
+            boolean add = true;
             for (FileFilter fileFilter : fileFilters) {
-                if (!fileFilter.getDescription().equals(filter.getDescription())) {
-                    fileChooser.addChoosableFileFilter(filter);
-                    break;
+                if (fileFilter.getDescription().equals(filter.getDescription())) {
+                    add = false;
                 }
+            }
+            if (add) {
+                fileChooser.addChoosableFileFilter(filter);
             }
         }
     }
