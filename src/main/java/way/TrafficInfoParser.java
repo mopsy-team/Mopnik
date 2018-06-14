@@ -2,7 +2,6 @@ package way;
 
 import com.opencsv.CSVReader;
 import elements.MainFrame;
-import methods.MethodResult;
 import mop.MopInfo;
 import mop.MopParkingSpacesInfo;
 
@@ -23,10 +22,6 @@ public class TrafficInfoParser {
                     StandardCharsets.UTF_8);
             CSVReader reader = new CSVReader(isr);
             String[] nextLine;
-            nextLine = reader.readNext();
-            for (String s : nextLine) {
-                System.out.print(s + "| ");
-            }
             while ((nextLine = reader.readNext()) != null) {
                 String name = nextLine[1];
                 // name = name.replaceAll("[a-z]+", "");

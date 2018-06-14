@@ -2,23 +2,16 @@ package util;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
-import javax.swing.JTable.*;
 import java.awt.*;
 
-public class TitledTable extends JPanel {
-    private JTable jTable;
+public abstract class TitledTable extends JPanel {
+    protected JTable jTable;
     public TitledTable(String title, Object[][] data, String[] columnNames) {
-        jTable = new JTable(data, columnNames);
         this.setLayout(new CardLayout(10, 10));
         this.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
                 title,
                 TitledBorder.CENTER,
                 TitledBorder.TOP));
-        jTable.setRowHeight(30);
-        this.add(jTable);
-
-        System.out.println(jTable.getDefaultEditor(Object.class).getClass());
-
     }
 
     public void setNotEditable() {
@@ -45,4 +38,13 @@ public class TitledTable extends JPanel {
         return res;
     }
 
+    public Object getValueAt(int x, int y) {
+        return jTable.getValueAt(x, y);
+    }
+
+    public void endEditing() {
+        if(jTable.isEditing()){
+            jTable.getCellEditor().stopCellEditing();
+        }
+    }
 }

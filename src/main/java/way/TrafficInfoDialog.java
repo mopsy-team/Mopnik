@@ -5,7 +5,7 @@ import methods.Method;
 import methods.MethodResult;
 import mop.MopParkingSpacesInfo;
 import util.AbstractDialog;
-import util.TitledTable;
+import util.VerticalTitledTable;
 
 import javax.swing.*;
 import java.util.Map;
@@ -23,7 +23,7 @@ public class TrafficInfoDialog extends AbstractDialog {
             sdrCar = route.getTrafficInfo().getCar() / 2;
             sdrTruck = route.getTrafficInfo().getTruck() / 2;
             sdrBus = route.getTrafficInfo().getBus() / 2;
-        } 
+        }
         this.setLocationRelativeTo(null); // center the dialog.
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
@@ -43,7 +43,7 @@ public class TrafficInfoDialog extends AbstractDialog {
                     {"Ciężarowe", sdrTruck, mr.getTruckSpaces(), methodResult.getTruck()},
                     {"Autobusy", sdrBus, mr.getBusSpaces(), methodResult.getBus()},
             };
-            this.add(new TitledTable("Kierunek: " + dir,
+            this.add(new VerticalTitledTable("Kierunek: " + dir,
                     data, columnNames));
         }
         this.setVisible(true);

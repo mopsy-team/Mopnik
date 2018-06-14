@@ -1,6 +1,9 @@
 package elements;
 
 import config.AppConfig;
+import mopsim.config_group.MOPSimConfigGroup;
+import org.json.JSONObject;
+import util.JSONParser;
 import way.*;
 import methods.Method;
 import mop.*;
@@ -41,8 +44,20 @@ public class MainFrame {
     private List<RoutePainter> addedRoutePainters = new ArrayList<>();
     private boolean first = true;
     private List<MouseListener> listeners;
+    private MOPSimConfigGroup mopsimConfig;
+
+    public MOPSimConfigGroup getMopsimConfig() {
+        return mopsimConfig;
+    }
 
     public MainFrame() {
+        try {
+            AppConfig.loadConfig();
+        } catch (IOException e) {
+            AppConfig.save();
+        }
+        mopsimConfig = new MOPSimConfigGroup();
+
         frame = new JFrame("Mopnik");
         mapViewer = new JXMapViewer();
         mapViewer.setName("MapViewer");
@@ -87,8 +102,25 @@ public class MainFrame {
     }
 
     public void setMopPointsFromFile(File file) {
-        XlsToMopParser xlsToMopParser = new XlsToMopParser(file);
-        Set<MopInfo> mopInfosTemp = xlsToMopParser.parseMops();
+        Set<MopInfo> mopInfosTemp;
+        String filepath = file.getAbsolutePath();
+        if (filepath.endsWith(".json")) {
+            try {
+                JSONObject json = JSONParser.readJsonFromFile(filepath);
+                mopInfosTemp = JSONToMopParser.parseJSON(json);
+            } catch (IOException e) {
+                e.printStackTrace();
+                mopInfosTemp = null;
+            }
+        }
+        else if(filepath.endsWith(".xlsx")) {
+            XlsToMopParser xlsToMopParser = new XlsToMopParser(file);
+            mopInfosTemp = xlsToMopParser.parseMops();
+        }
+        else {
+            System.out.println("Failed to read file " + filepath);
+            mopInfosTemp = null;
+        }
         if (mopInfosTemp == null) {
             JOptionPane.showMessageDialog(frame,
                     "Wskazany plik nie istnieje lub jest w złym formacie.",
@@ -99,6 +131,7 @@ public class MainFrame {
         }
         this.mopPoints = mopInfos.stream().map((MopInfo m) ->
                 new MopPoint(m.getName(), m, MopType.EXISTING, this)).collect(Collectors.toSet());
+        AppConfig.save();
         repaint();
     }
 
@@ -108,7 +141,7 @@ public class MainFrame {
         try {
             mopInfos = serverDataHandler.parseMops();
             this.mopPoints = mopInfos.stream().map((MopInfo m) -> new MopPoint(m.getName(),
-                    m,  MopType.EXISTING, this)).collect(Collectors.toSet());
+                    m, MopType.EXISTING, this)).collect(Collectors.toSet());
             JOptionPane.showMessageDialog(frame,
                     "Poprawnie załadowano dane.");
         } catch (JSONException e) {
@@ -118,7 +151,7 @@ public class MainFrame {
                     JOptionPane.WARNING_MESSAGE);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(frame,
-                    "Brak możliwości połączenia z serwerem.",
+                    "Brak możliwości połączenia z serwerem lub niepoprawny URL.",
                     "Nie udało się załadować danych",
                     JOptionPane.WARNING_MESSAGE);
         }
@@ -133,13 +166,12 @@ public class MainFrame {
     }
 
     public void show() {
-        File mopsFile =  AppConfig.getFile(AppConfig.getMopFilename());
+        File mopsFile = AppConfig.getFile(AppConfig.getMopFilename());
 
         setMopPointsFromFile(mopsFile);
 
-        File matrixFile =  AppConfig.getFile(AppConfig.getMatrixFilename());
-        RoutesMap routesMap = TrafficInfoParser.assignRoutes(this, matrixFile);
-        if (routesMap == null) {
+        File matrixFile = AppConfig.getFile(AppConfig.getSDRFilename());
+        if (TrafficInfoParser.assignRoutes(this, matrixFile) == -1) {
             JOptionPane.showMessageDialog(getFrame(),
                     "Wskazany plik nie istnieje lub jest w złym formacie.",
                     "Zły format pliku",
@@ -177,7 +209,7 @@ public class MainFrame {
         this.routesMap = routesMap;
     }
 
-    public JXMapViewer getMapViewer(){
+    public JXMapViewer getMapViewer() {
         return mapViewer;
     }
 
@@ -218,11 +250,13 @@ public class MainFrame {
         double mileage = 0;
         if (route != null) {
             road = route.getName();
-            mileage = (route.getMileageBegin() + route.getMileageEnd()) /2;
+            mileage = (route.getMileageBegin() + route.getMileageEnd()) / 2;
         }
-        MopInfo mopInfo = new MopInfo("", "", "", geoPosition, road, direction, 0,
+        int id = mopPoints.size();
+        MopInfo mopInfo = new MopInfo(id, "", "", "", geoPosition, road, direction, 0,
                 new MopParkingSpacesInfo(), new MopEquipmentInfo(), mileage);
         mopInfo.setRoute(route);
+        mopInfos.add(mopInfo);
         mopPoints.add(new MopPoint(name, mopInfo, MopType.ADDED, this));
         new AddedMopInfoDialog(mopInfo, this);
         repaint();
@@ -249,6 +283,12 @@ public class MainFrame {
                 break;
             }
         }
+        mopInfos.remove(mopInfo);
         repaint();
+    }
+
+    public void setMapFromFile(File mapFromFile) {
+        return;
+        //todo MG
     }
 }

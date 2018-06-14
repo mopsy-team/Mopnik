@@ -2,8 +2,8 @@ package util;
 
 // Source of this code: http://www.codejava.net/java-se/swing/file-picker-component-in-swing
 
-import java.io.File;
 import javax.swing.filechooser.FileFilter;
+import java.io.File;
 
 public class FileTypeFilter extends FileFilter {
 
@@ -17,10 +17,7 @@ public class FileTypeFilter extends FileFilter {
 
     @Override
     public boolean accept(File file) {
-        if (file.isDirectory()) {
-            return true;
-        }
-        return file.getName().toLowerCase().endsWith(extension);
+        return file.isDirectory() || file.getName().toLowerCase().endsWith(extension);
     }
 
     public String getDescription() {

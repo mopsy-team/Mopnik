@@ -15,7 +15,6 @@ import org.jxmapviewer.viewer.GeoPosition;
 import org.jxmapviewer.viewer.Waypoint;
 import org.jxmapviewer.viewer.WaypointPainter;
 import org.omg.Messaging.SYNC_WITH_TRANSPORT;
-
 import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.Statement;
@@ -28,7 +27,7 @@ public class TrafficMap {
 
     public TrafficMap() {
         try {
-            osm = OSMParser.parse(new FileInputStream(AppConfig.getFile(AppConfig.getMapFilename())));
+            osm = OSMParser.parse(new FileInputStream(AppConfig.getFile(AppConfig.getMapOsmFilename())));
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
@@ -51,7 +50,7 @@ public class TrafficMap {
         }
 
     }
-
+  
     private double getDistance(OSMNode node) {
         if (node.getAllTags().containsKey(tag)) {
             if (NumberUtils.isCreatable(node.getAllTags().get(tag))) {

@@ -1,10 +1,10 @@
 package mop;
 
 import elements.MainFrame;
-import methods.Method;
-import methods.MethodResult;
 import util.AbstractDialog;
+import util.HorizontalTitledTable;
 import util.TitledTable;
+import util.VerticalTitledTable;
 
 import javax.swing.*;
 
@@ -20,7 +20,7 @@ public abstract class MopInfoDialog extends AbstractDialog {
         super();
         this.setSize(1000, 750);
         this.setTitle(mopInfo.getName());
-        this.setLocationRelativeTo(null); // center the dialog.
+        this.setLocationRelativeTo(null);
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
         String[] columnNames = {"", ""};
@@ -31,7 +31,7 @@ public abstract class MopInfoDialog extends AbstractDialog {
                 {"Kierunek", mopInfo.getDirection()},
                 {"Pikietaż", mopInfo.getMileage()}
         };
-        information = new TitledTable("podstawowe informacje o " + mopInfo.getName(),
+        information = new VerticalTitledTable("podstawowe informacje o " + mopInfo.getName(),
                 data, columnNames);
 
         Object[][] spacesData = {
@@ -40,7 +40,7 @@ public abstract class MopInfoDialog extends AbstractDialog {
                 {"Dla pojazdów autobusowych", mopInfo.getParkingSpacesInfo().getBusSpaces()}
         };
 
-        parkingSpaces = new TitledTable("Liczba miejsc parkingowych", spacesData, columnNames);
+        parkingSpaces = new VerticalTitledTable("Liczba miejsc parkingowych", spacesData, columnNames);
 
         MopEquipmentInfo eq = mopInfo.getEquipmentInfo();
         Object[][] equipmentData = {
@@ -54,7 +54,7 @@ public abstract class MopInfoDialog extends AbstractDialog {
         };
         String[] eqColumnNames = {"", "", "", "", "", "", "", "", "", "", ""};
 
-        equipmentTable = new TitledTable("Wyposażenie", equipmentData, eqColumnNames);
+        equipmentTable = new HorizontalTitledTable("Wyposażenie", equipmentData, eqColumnNames);
 
         if (mopInfo.getTrafficInfo() != null) {
             Object[][] trafficData = {
@@ -63,7 +63,7 @@ public abstract class MopInfoDialog extends AbstractDialog {
                     {"Pojazdy autobusowa", mopInfo.getTrafficInfo().getBus()}
             };
 
-            trafficInfoTable = new TitledTable("Średniodobowe natężenie ruchu", trafficData, columnNames);
+            trafficInfoTable = new HorizontalTitledTable("Średniodobowe natężenie ruchu", trafficData, columnNames);
 
             /*
             for (Method method : frame.getMethods()) {

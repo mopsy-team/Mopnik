@@ -3,7 +3,6 @@ package mop;
 import elements.MainFrame;
 
 import javax.swing.*;
-import javax.swing.event.MouseInputAdapter;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -25,6 +24,9 @@ public class AddedMopInfoDialog extends MopInfoDialog {
         submit.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                parkingSpaces.endEditing();
+                equipmentTable.endEditing();
+
                 Object[] ps = parkingSpaces.getColumn(1);
 
                 mopInfo.setParkingSpacesInfo(new MopParkingSpacesInfo(makeInt(ps[0]), makeInt(ps[1]), makeInt(ps[2])));
@@ -37,7 +39,7 @@ public class AddedMopInfoDialog extends MopInfoDialog {
                 MopEquipmentInfo newMopEquipmentInfo;
                 newMopEquipmentInfo = new MopEquipmentInfo(eiBooleans);
                 mopInfo.setEquipmentInfo(newMopEquipmentInfo);
-
+                mainFrame.repaint();
             }
         });
         this.add(submit);

@@ -2,15 +2,11 @@ package util;
 
 // Source of this code: http://www.codejava.net/java-se/swing/file-picker-component-in-swing
 
-import java.awt.FlowLayout;
+import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 public class FilePicker extends JPanel {
     private String textFieldLabel;
@@ -26,18 +22,18 @@ public class FilePicker extends JPanel {
     public static final int MODE_OPEN = 1;
     public static final int MODE_SAVE = 2;
 
-    public FilePicker(String textFieldLabel, String buttonLabel) {
+    public FilePicker(String textFieldLabel, String buttonLabel, String initialValue, JFileChooser _fileChooser) {
         this.textFieldLabel = textFieldLabel;
         this.buttonLabel = buttonLabel;
 
-        fileChooser = new JFileChooser();
+        fileChooser = _fileChooser;
 
         setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
         // creates the GUI
         label = new JLabel(textFieldLabel);
 
-        textField = new JTextField(30);
+        textField = new JTextField(initialValue, 30);
         button = new JButton(buttonLabel);
 
         button.addActionListener(new ActionListener() {
@@ -65,9 +61,20 @@ public class FilePicker extends JPanel {
         }
     }
 
-    public void addFileTypeFilter(String extension, String description) {
-        FileTypeFilter filter = new FileTypeFilter(extension, description);
-        fileChooser.addChoosableFileFilter(filter);
+    public void addFileTypeFilter(String[] extensions, String description) {
+        for (String extension : extensions) {
+            FileTypeFilter filter = new FileTypeFilter(extension, description);
+            FileFilter[] fileFilters = fileChooser.getChoosableFileFilters();
+            boolean add = true;
+            for (FileFilter fileFilter : fileFilters) {
+                if (fileFilter.getDescription().equals(filter.getDescription())) {
+                    add = false;
+                }
+            }
+            if (add) {
+                fileChooser.addChoosableFileFilter(filter);
+            }
+        }
     }
 
     public void setMode(int mode) {
@@ -76,9 +83,5 @@ public class FilePicker extends JPanel {
 
     public String getSelectedFilePath() {
         return textField.getText();
-    }
-
-    public JFileChooser getFileChooser() {
-        return this.fileChooser;
     }
 }

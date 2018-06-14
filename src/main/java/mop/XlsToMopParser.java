@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.HashSet;
 
 public class XlsToMopParser {
+    public static int id = 0;
     private XSSFWorkbook workbook;
 
     public XlsToMopParser(File file) {
@@ -24,8 +25,8 @@ public class XlsToMopParser {
         }
     }
 
-    public XlsToMopParser(String filestring) {
-        new XlsToMopParser(new File(filestring));
+    public XlsToMopParser(String fileString) {
+        new XlsToMopParser(new File(fileString));
     }
 
     // TODO (MG) rewrite to parse csv file
@@ -68,8 +69,9 @@ public class XlsToMopParser {
                         boolCell(row, 20), boolCell(row, 21), boolCell(row, 22), boolCell(row, 23),
                         boolCell(row, 24), boolCell(row, 25));
 
-                res.add(new MopInfo(branch, locality, name, g, road, direction, type, parkingSpacesInfo,
+                res.add(new MopInfo(id, branch, locality, name, g, road, direction, type, parkingSpacesInfo,
                         equipmentInfo, mileage));
+                id++;
             }
         } catch (Exception e) {
             return null;
