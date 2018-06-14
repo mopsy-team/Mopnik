@@ -59,7 +59,7 @@ public class ExportMopsToJSONDialog extends AbstractDialog {
                         JSONParser.writeJsonToFile(json, outPath);
                         JOptionPane.showMessageDialog(mainFrame.getFrame(),
                                 "Poprawnie wyeksportowano dane.");
-                        this.setVisible(false);
+                        this.dispose();
                     }
                 });
         return submit;

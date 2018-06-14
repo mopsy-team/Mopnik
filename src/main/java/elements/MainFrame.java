@@ -45,7 +45,6 @@ public class MainFrame {
     private RoutesMap routesMap = null;
     private RoutesMap addedRoutesMap = new RoutesMap();
     private List<RoutePainter> addedRoutePainters = new ArrayList<>();
-    private boolean first = true;
     private List<MouseListener> listeners;
     private MOPSimConfigGroup mopsimConfig;
 
@@ -238,7 +237,6 @@ public class MainFrame {
             mapViewer.addMouseListener(ml);
             listeners.add(ml);
         }
-        first = false;
         for (MopPoint w : mopPoints) {
             mapViewer.add(w.getButton());
         }
@@ -263,7 +261,7 @@ public class MainFrame {
     }
 
     public void addRoute(String name, GeoPosition gpBeg, GeoPosition gpEnd,
-                         int milBegin, int milEnd, String dir1, String dir2) {
+                         double milBegin, double milEnd, String dir1, String dir2) {
         Route route = new Route(name, milBegin, milEnd,
                 gpBeg, gpEnd, new TrafficInfo());
         route.addSpacesInfo(dir1, new MopParkingSpacesInfo(0, 0, 0));

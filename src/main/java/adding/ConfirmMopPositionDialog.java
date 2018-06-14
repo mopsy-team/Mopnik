@@ -43,7 +43,7 @@ public class ConfirmMopPositionDialog extends AbstractDialog {
                 }
             }
             mainFrame.addMop("Nowy mop", gp, route, direction);
-            this.setVisible(false);
+            this.dispose();
         });
         getRootPane().setDefaultButton(submit);
         this.add(radioPanel);

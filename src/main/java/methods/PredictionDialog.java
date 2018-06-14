@@ -7,9 +7,10 @@ import util.TitledTable;
 import util.VerticalTitledTable;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.util.Arrays;
 import java.util.Collection;
+
+import static util.Validator.makeUnsignedDouble;
 
 public class PredictionDialog extends AbstractDialog {
     public PredictionDialog(Method method, MainFrame frame) {
@@ -42,9 +43,9 @@ public class PredictionDialog extends AbstractDialog {
             table.endEditing();
             try {
                 for (int j = 0; j < fields.size(); ++j) {
-                    f[j].setCar(convertToDouble(table.getValueAt(j, 1)));
-                    f[j].setTruck(convertToDouble(table.getValueAt(j, 2)));
-                    f[j].setBus(convertToDouble(table.getValueAt(j, 3)));
+                    f[j].setCar(makeUnsignedDouble(table.getValueAt(j, 1), "Parametr metodyki"));
+                    f[j].setTruck(makeUnsignedDouble(table.getValueAt(j, 2), "Parametr metodyki"));
+                    f[j].setBus(makeUnsignedDouble(table.getValueAt(j, 3), "Parametr metodyki"));
                 }
                 method.setFields(Arrays.asList(f));
                 frame.changeMethod(method);
@@ -56,14 +57,5 @@ public class PredictionDialog extends AbstractDialog {
         });
         this.add(submit);
         this.setVisible(true);
-    }
-
-    private double convertToDouble(Object d) throws ValidationError{
-        try {
-            return Double.parseDouble(d.toString());
-        }
-        catch (java.lang.NumberFormatException e){
-            throw new ValidationError("Parametr metodyki musi być liczbą dodatnią");
-        }
     }
 }

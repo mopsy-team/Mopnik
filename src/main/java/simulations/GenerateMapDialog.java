@@ -75,7 +75,7 @@ public class GenerateMapDialog extends AbstractDialog {
                             networkCreator.write();
                             JOptionPane.showMessageDialog(this,
                                     "Poprawnie wygenerowano mapę.");
-                            this.setVisible(false);
+                            this.dispose();
                         });
                         thread.start();
                     }

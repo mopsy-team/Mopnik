@@ -51,7 +51,7 @@ public class Route {
     }
 
     public Route() {
-        this("", 0, 0, new TrafficInfo());
+        this("", 0., 0., new TrafficInfo());
     }
 
     public String getName() {

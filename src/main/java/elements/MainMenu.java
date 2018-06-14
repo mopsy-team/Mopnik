@@ -38,8 +38,8 @@ public class MainMenu {
     }
 
     private JMenu exportToFileMenu() {
-        JMenu menu = new JMenu("Wyeksportuj do pliku");
-        menu.setMnemonic(KeyEvent.VK_W);
+        JMenu menu = new JMenu("Eksportuj do pliku");
+        menu.setMnemonic(KeyEvent.VK_E);
 
         JMenuItem menuItem;
         menuItem = new JMenuItem("Układ MOPów",
@@ -55,7 +55,7 @@ public class MainMenu {
     private JMenu addFromFileMenu() {
 
         JMenu menu = new JMenu("Wczytaj dane z pliku");
-        menu.setMnemonic(KeyEvent.VK_D);
+        menu.setMnemonic(KeyEvent.VK_W);
 
         JMenuItem menuItem;
         menuItem = new JMenuItem("Średniodobowe natężenie ruchu",
@@ -126,9 +126,9 @@ public class MainMenu {
 
     private JMenu addFromServerMenu() {
         JMenu menu = new JMenu("Dane z serwera");
-        menu.setMnemonic(KeyEvent.VK_A);
+        menu.setMnemonic(KeyEvent.VK_D);
 
-        JMenuItem menuItem = new JMenuItem("Dodaj układ MOP-ów", KeyEvent.VK_U);
+        JMenuItem menuItem = new JMenuItem("Dodaj układ MOP-ów", KeyEvent.VK_D);
         menuItem.addActionListener(event -> mainFrame.setMopPointsFromServer());
         menu.add(menuItem);
         menuItem = new JMenuItem("Zmień adres serwera", KeyEvent.VK_Z);
@@ -141,7 +141,7 @@ public class MainMenu {
         JMenu menu = new JMenu("Symulacje");
         menu.setMnemonic(KeyEvent.VK_S);
 
-        JMenuItem menuItem = new JMenuItem("Przeprowadź symulację", KeyEvent.VK_R);
+        JMenuItem menuItem = new JMenuItem("Przeprowadź symulację", KeyEvent.VK_P);
         menuItem.addActionListener(event -> new SimulationConfigDialog(mainFrame.getMopsimConfig()));
         menu.add(menuItem);
 

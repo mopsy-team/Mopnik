@@ -32,7 +32,7 @@ public class SetUrlDialog extends AbstractDialog {
                     String url = input.getValueAt(0, 1).toString();
                     AppConfig.setMopsUrl(url);
                     AppConfig.save();
-                    this.setVisible(false);
+                    this.dispose();
                 });
         return submit;
     }
