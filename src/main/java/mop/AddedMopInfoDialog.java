@@ -10,7 +10,7 @@ public class AddedMopInfoDialog extends MopInfoDialog {
 
     public AddedMopInfoDialog(MopInfo mopInfo, MainFrame mainFrame){
         super(mopInfo, mainFrame, true);
-        information.setNotEditable();
+        //information.setNotEditable();
         if (trafficInfoTable != null) {
             trafficInfoTable.setNotEditable();
         }
@@ -26,6 +26,7 @@ public class AddedMopInfoDialog extends MopInfoDialog {
             public void mouseClicked(MouseEvent e) {
                 parkingSpaces.endEditing();
                 equipmentTable.endEditing();
+                information.endEditing();
 
                 Object[] ps = parkingSpaces.getColumn(1);
 
@@ -39,6 +40,12 @@ public class AddedMopInfoDialog extends MopInfoDialog {
                 MopEquipmentInfo newMopEquipmentInfo;
                 newMopEquipmentInfo = new MopEquipmentInfo(eiBooleans);
                 mopInfo.setEquipmentInfo(newMopEquipmentInfo);
+
+                Object[] ins = information.getColumn(1);
+
+                mopInfo.setBranch((String)ins[0]);
+                mopInfo.setLocality((String)ins[1]);
+
                 mainFrame.repaint();
                 AddedMopInfoDialog.super.dispose();
             }

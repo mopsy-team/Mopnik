@@ -45,8 +45,16 @@ public class MopInfo {
         return branch;
     }
 
+    public void setBranch(String b){
+        branch = b;
+    }
+
     public String getLocality() {
         return locality;
+    }
+
+    public void setLocality(String l){
+        locality = l;
     }
 
     public String getName() {
@@ -102,4 +110,5 @@ public class MopInfo {
         this.parkingSpacesInfo = parkingSpacesInfo;
         this.route.addSpacesInfo(direction, this.parkingSpacesInfo);
     }
+
 }
