@@ -100,9 +100,6 @@ public class RoutePainter implements Painter<JXMapViewer> {
         }
         TileFactory tf = map.getTileFactory();
         int zoom = map.getZoom();
-//        int xs[] = track.stream().mapToInt(gp -> (int)Math.round(tf.geoToPixel(gp, zoom).getX())).toArray();
-//        int ys[] = track.stream().mapToInt(gp -> (int)Math.round(tf.geoToPixel(gp, zoom).getY())).toArray();
-//        g.drawPolyline(xs, ys, xs.length);
         lines = new ArrayList<>();
         for (int i = 0; i < track.size() - 1; i++) {
             double x1 = tf.geoToPixel(track.get(i), zoom).getX();

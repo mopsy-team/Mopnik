@@ -65,57 +65,6 @@ public class TrafficMap {
         return waypointSet;
     }
 
-    /*
-    public List<RoutePainter> routes(RoutesMap routesMap) {
-        Map<String, Set<OSMNode>> nodes = new HashMap<>();
-        Comparator<OSMNode> osmNodeComparator =
-                Comparator.comparingDouble(n -> Integer.parseInt(n.getAllTags().get("milestone")));
-        for (Way way : osm.getWays()) {
-            for (OSMNode node : way.nodes) {
-                if (node.getAllTags().containsKey("milestone") && way.getAllTags().containsKey("ref")) {
-                    String refs[] = way.getAllTags().get("ref").replaceAll("\\s+", "").split(";");
-                    for (String ref : refs) {
-                        if (nodes.containsKey(ref)) {
-                            nodes.get(ref).add(node);
-                        } else {
-                            nodes.put(ref, new TreeSet<>(osmNodeComparator));
-                        }
-                    }
-                }
-            }
-        }
-        List<RoutePainter> res = new ArrayList<>();
-        for (Map.Entry<String, Set<OSMNode>> entry : nodes.entrySet()) {
-            if (!entry.getKey().equals("S8")) { // Milestones on S8 are incorrect.
-                boolean first = true;
-                OSMNode last = null;
-                double lastMilestone = 0.0;
-                for (OSMNode node : entry.getValue()) {
-                    double newMilestone = Double.parseDouble(node.getAllTags().get("milestone"));
-
-                    // This condition is to omit nodes that are to close to some other node.
-                    // Milestone is an integer and two nodes being less than two kilometers apart
-                    // may in fact be placed on the same crossroads.
-                    if (!first && Integer.parseInt(last.getAllTags().get("milestone")) <
-                            Integer.parseInt(node.getAllTags().get("milestone")) - 2) {
-                        List<GeoPosition> track = Arrays.asList(
-                                new GeoPosition(Double.parseDouble(last.lat), Double.parseDouble(last.lon)),
-                                new GeoPosition(Double.parseDouble(node.lat), Double.parseDouble(node.lon)));
-                        Route route = null;
-                        if (routesMap != null) {
-                            route = routesMap.find(entry.getKey(), lastMilestone);
-                        }
-                        res.add(new RoutePainter(track, route));
-                    }
-                    first = false;
-                    last = node;
-                    lastMilestone = newMilestone;
-                }
-            }
-        }
-        return res;
-    } */
-
     private double getDistance(OSMNode node) {
         if (node.getAllTags().containsKey(tag)) {
             if (NumberUtils.isCreatable(node.getAllTags().get(tag))) {
