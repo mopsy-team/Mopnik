@@ -182,7 +182,7 @@ public class Route {
 
     public double getDistanceFromGeoPosition(GeoPosition geoPosition) {
         double diff = Double.MAX_VALUE;
-        for (GeoPosition gp: geoPositions.values()) {
+        for (GeoPosition gp : geoPositions.values()) {
             double newDiff = computeDiff(geoPosition, gp);
             if (newDiff < diff) {
                 diff = newDiff;
@@ -191,16 +191,29 @@ public class Route {
         return diff;
     }
 
-    private double computeDiff (GeoPosition g1, GeoPosition g2) {
+    private double computeDiff(GeoPosition g1, GeoPosition g2) {
 
         final int R = 6371; // Radius of the earth
 
-        double latDistance = Math.toRadians(g1.getLatitude()-g2.getLatitude());
-        double lonDistance = Math.toRadians(g1.getLongitude()-g2.getLongitude());
+        double latDistance = Math.toRadians(g1.getLatitude() - g2.getLatitude());
+        double lonDistance = Math.toRadians(g1.getLongitude() - g2.getLongitude());
         double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
                 + Math.cos(Math.toRadians(g1.getLatitude())) * Math.cos(Math.toRadians(g2.getLatitude()))
                 * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         return R * c * 1000;
+    }
+
+    public double findMileage(GeoPosition gp) {
+        double diff = Double.MAX_VALUE;
+        double mileage = 0.;
+        for (double key : geoPositions.keySet()) {
+            double newDiff = computeDiff(geoPositions.get(key), gp);
+            if (newDiff < diff) {
+                diff = newDiff;
+                mileage = key;
+            }
+        }
+        return mileage;
     }
 }

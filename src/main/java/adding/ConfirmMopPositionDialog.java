@@ -12,7 +12,7 @@ import java.util.Enumeration;
 import java.util.Map;
 
 public class ConfirmMopPositionDialog extends AbstractDialog {
-    public ConfirmMopPositionDialog(Route route, GeoPosition gp, MainFrame mainFrame) {
+    public ConfirmMopPositionDialog(Route route, GeoPosition gp, MainFrame mainFrame, double mileage) {
         super();
         this.setSize(300, 240);
         this.setTitle("Potwierdź dodanie MOP-a");
@@ -20,7 +20,7 @@ public class ConfirmMopPositionDialog extends AbstractDialog {
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
         JTextArea textArea = new JTextArea("Wybrano drogę " + route.getName() + " i pikietaż: " +
-                (route.getMileageEnd() + route.getMileageBegin()) / 2 + ". \nWybierz kierunek:");
+                mileage + ". \nWybierz kierunek:");
         textArea.setEditable(false);
         this.add(textArea);
 

@@ -172,8 +172,8 @@ public class MainFrame {
 
         setMopPointsFromFile(mopsFile);
 
-        File matrixFile = AppConfig.getFile(AppConfig.getSDRFilename());
-        RoutesMap routesMap = TrafficInfoParser.assignRoutes(this, matrixFile);
+        File SDRFile = AppConfig.getFile(AppConfig.getSDRFilename());
+        RoutesMap routesMap = TrafficInfoParser.assignRoutes(this, SDRFile);
         if (routesMap == null) {
             JOptionPane.showMessageDialog(getFrame(),
                     "Wskazany plik nie istnieje lub jest w złym formacie.",
