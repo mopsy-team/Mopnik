@@ -1,5 +1,6 @@
 package way;
 
+import methods.Method;
 import org.jxmapviewer.viewer.GeoPosition;
 
 import java.util.*;
@@ -86,17 +87,14 @@ public class RoutesMap {
     }
 
     public Route findRouteByGeoPosition(GeoPosition geoPosition) {
-
         Route res = null;
         double diff = Double.MAX_VALUE;
         for (Map.Entry<String, TreeSet<Route>> entry : routes.entrySet()) {
             for (Route r : entry.getValue()) {
-                for (GeoPosition gp: r.getGeoPositions()) {
-                    double newDiff = computeDiff(geoPosition, gp);
-                    if (newDiff < diff) {
-                        diff = newDiff;
-                        res = r;
-                    }
+                double d = r.getDistanceFromGeoPosition(geoPosition);
+                if (d < diff) {
+                    diff = d;
+                    res = r;
                 }
             }
         }
@@ -116,17 +114,12 @@ public class RoutesMap {
         return routePainters;
     }
 
-    private double computeDiff (GeoPosition g1, GeoPosition g2) {
-
-        final int R = 6371; // Radius of the earth
-
-        double latDistance = Math.toRadians(g1.getLatitude()-g2.getLatitude());
-        double lonDistance = Math.toRadians(g1.getLongitude()-g2.getLongitude());
-        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
-                + Math.cos(Math.toRadians(g1.getLatitude())) * Math.cos(Math.toRadians(g2.getLatitude()))
-                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        return R * c * 1000;
+    public void setSpacesNeeded(Method method) {
+        for (Map.Entry<String, TreeSet<Route>> entry: routes.entrySet()) {
+            for (Route r: entry.getValue()) {
+                r.computeSpacesNeeded(method);
+            }
+        }
     }
 
     private void remove(Route route) {

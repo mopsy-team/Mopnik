@@ -1,6 +1,7 @@
 package elements;
 
 import config.AppConfig;
+import methods.CustomMethod;
 import methods.Method;
 import mop.*;
 import mopsim.config_group.MOPSimConfigGroup;
@@ -39,7 +40,7 @@ public class MainFrame {
     private Set<MopPoint> mopPoints;
     private CompoundPainter<JXMapViewer> painter;
     private Set<MopInfo> mopInfos;
-    private Set<Method> methods;
+    private Method method;
     private TrafficMap trafficMap;
     private RoutesMap routesMap = null;
     private RoutesMap addedRoutesMap = new RoutesMap();
@@ -92,8 +93,8 @@ public class MainFrame {
 
         mopPoints = new HashSet<>();
         mopInfos = new HashSet<>();
-        methods = new HashSet<>();
         listeners = new ArrayList<>();
+        method = new CustomMethod();
         trafficMap = new TrafficMap();
         // trafficMap.setRoutesMap(this);
     }
@@ -134,6 +135,7 @@ public class MainFrame {
         this.mopPoints = mopInfos.stream().map((MopInfo m) ->
                 new MopPoint(m.getName(), m, MopType.EXISTING, this)).collect(Collectors.toSet());
         AppConfig.save();
+        routesMap = TrafficInfoParser.assignMopsToRoutes(this, routesMap);
         repaint();
     }
 
@@ -170,8 +172,6 @@ public class MainFrame {
     public void show() {
         File mopsFile = AppConfig.getFile(AppConfig.getMopFilename());
 
-        setMopPointsFromFile(mopsFile);
-
         File matrixFile =  AppConfig.getFile(AppConfig.getSDRFilename());
         RoutesMap routesMap = TrafficInfoParser.assignRoutes(this, matrixFile);
         if (routesMap == null) {
@@ -183,7 +183,7 @@ public class MainFrame {
             generateRoutesMap(routesMap);
         }
 
-        repaint();
+        setMopPointsFromFile(mopsFile);
 
         MainMenu mainMenu = new MainMenu(this);
         frame.pack();
@@ -196,12 +196,10 @@ public class MainFrame {
         this.routesMap = routesMap;
     }
 
-    public void addMethod(Method method) {
-        methods.add(method);
-    }
-
-    public Set<Method> getMethods() {
-        return methods;
+    public void changeMethod(Method method) {
+        this.method = method;
+        routesMap.setSpacesNeeded(method);
+        repaint();
     }
 
     public RoutesMap getRoutesMap() {
@@ -210,6 +208,8 @@ public class MainFrame {
 
     public void setRoutesMap(RoutesMap routesMap) {
         this.routesMap = routesMap;
+        generateRoutesMap(routesMap);
+        repaint();
     }
 
     public JXMapViewer getMapViewer() {
@@ -226,7 +226,6 @@ public class MainFrame {
         }
         listeners = new ArrayList<>();
         if (routesMap == null) {
-            System.out.println("Nie ma");
             return;
         }
         for (RoutePainter routePainter : routesMap.routePainters()) {
@@ -288,6 +287,20 @@ public class MainFrame {
         }
         mopInfos.remove(mopInfo);
         repaint();
+    }
+
+    public Route findNearestRoute(GeoPosition gp) {
+        Route r1 = routesMap.findRouteByGeoPosition(gp);
+        Route r2 = addedRoutesMap.findRouteByGeoPosition(gp);
+        double d1 = r1.getDistanceFromGeoPosition(gp);
+        double d2 = Double.MAX_VALUE;
+        if (r2 != null) {
+            d2 = r2.getDistanceFromGeoPosition(gp);
+        }
+        if (d1 < d2) {
+            return r1;
+        }
+        return r2;
     }
 
     public void setMapFromFile(File mapFromFile) {

@@ -46,8 +46,12 @@ public class TrafficInfoParser {
     }
 
     static public RoutesMap assignRoutes(MainFrame mainFrame, File file) {
-        Collection<MopInfo> mopInfos = mainFrame.getMopInfos();
         RoutesMap routesMap = parseFromFile(file);
+        return assignMopsToRoutes(mainFrame, routesMap);
+    }
+
+    static public RoutesMap assignMopsToRoutes(MainFrame mainFrame, RoutesMap routesMap) {
+        Collection<MopInfo> mopInfos = mainFrame.getMopInfos();
         for (MopInfo mop : mopInfos) {
             Route route = routesMap.find(mop.getRoad(), mop.getMileage());
             if (route != null) {
@@ -59,5 +63,6 @@ public class TrafficInfoParser {
             }
         }
         return routesMap;
+
     }
 }
