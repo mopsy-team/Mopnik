@@ -13,7 +13,8 @@ import java.util.Collection;
 
 public class TrafficInfoParser {
 
-    static private void parseFromFile(File file, RoutesMap routesMap) {
+    static private RoutesMap parseFromFile(File file) {
+        RoutesMap routesMap = new RoutesMap();
         FileInputStream fis;
         try {
             fis = new FileInputStream(file);
@@ -23,6 +24,7 @@ public class TrafficInfoParser {
             String[] nextLine;
             while ((nextLine = reader.readNext()) != null) {
                 String name = nextLine[1];
+                // name = name.replaceAll("[a-z]+", "");
                 double begin = Double.parseDouble(nextLine[3]) + Double.parseDouble(nextLine[4]) / 1000;
                 double end = Double.parseDouble(nextLine[5]) + Double.parseDouble(nextLine[6]) / 1000;
                 int sum = Integer.parseInt(nextLine[10]);
@@ -35,19 +37,19 @@ public class TrafficInfoParser {
                 int tractor = Integer.parseInt(nextLine[17]);
                 int bicycle = Integer.parseInt(nextLine[18]);
                 TrafficInfo ti = new TrafficInfo(sum, motorcycle, car, van, truckNoTrail, truckWithTrail, bus, tractor, bicycle);
-                routesMap.assignTrafficInfo(name, begin, end, ti);
+                routesMap.add(new Route(name, begin, end, ti));
             }
         } catch (Exception e) {
-            return;
+            return null;
         }
-        return;
+        return routesMap;
     }
 
-    static public int assignRoutes(MainFrame mainFrame, File file) {
+    static public RoutesMap assignRoutes(MainFrame mainFrame, File file) {
         Collection<MopInfo> mopInfos = mainFrame.getMopInfos();
-        parseFromFile(file, mainFrame.getRoutesMap());
+        RoutesMap routesMap = parseFromFile(file);
         for (MopInfo mop : mopInfos) {
-            Route route = mainFrame.getRoutesMap().find(mop.getRoad(), mop.getMileage());
+            Route route = routesMap.find(mop.getRoad(), mop.getMileage());
             if (route != null) {
                 mop.setRoute(route);
                 MopParkingSpacesInfo mopParkingSpacesInfo = mop.getParkingSpacesInfo();
@@ -56,7 +58,6 @@ public class TrafficInfoParser {
                 mop.setRoute(new Route());
             }
         }
-        mainFrame.repaint();
-        return 0;
+        return routesMap;
     }
 }

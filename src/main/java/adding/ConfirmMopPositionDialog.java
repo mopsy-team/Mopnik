@@ -8,6 +8,7 @@ import way.Route;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 import java.util.Enumeration;
 import java.util.Map;
 
@@ -32,7 +33,7 @@ public class ConfirmMopPositionDialog extends AbstractDialog {
             radioPanel.add(radioButton);
             group.add(radioButton);
         }
-        JButton submit = new JButton("Zatwierdź");
+        final JButton submit = new JButton("Zatwierdź");
         submit.addActionListener(e -> {
             String direction = "";
             Enumeration<AbstractButton> enumeration = group.getElements();
@@ -46,10 +47,10 @@ public class ConfirmMopPositionDialog extends AbstractDialog {
             mainFrame.addMop("Nowy mop", gp, route, direction);
             this.setVisible(false);
         });
+        getRootPane().setDefaultButton(submit);
         this.add(radioPanel);
         this.add(submit);
         this.setVisible(true);
-        // TODO remember to add parking info to route.
     }
 
 }

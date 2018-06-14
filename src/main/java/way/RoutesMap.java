@@ -2,16 +2,13 @@ package way;
 
 import org.jxmapviewer.viewer.GeoPosition;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeSet;
+import java.util.*;
 
 public class RoutesMap {
     private Map<String, TreeSet<Route>> routes;
     private Comparator<Route> routesComparator = Comparator.comparingDouble(Route::getMileageBegin);
 
-    RoutesMap() {
+    public RoutesMap() {
         routes = new HashMap<>();
     }
 
@@ -49,13 +46,13 @@ public class RoutesMap {
 
 
     Route findAllAndReplace(String name, double mileageBegin, double mileageEnd) {
-        Route res = findAndRemove(name, mileageBegin + 1.);
+        Route res = find(name, mileageBegin);
         if (res == null) {
             return null;
         }
         mileageBegin = res.getMileageEnd();
         while (mileageBegin < mileageEnd) {
-            Route r = findAndRemove(name, mileageBegin + 1.);
+            Route r = findAndRemove(name, mileageBegin);
             if (r == null) {
                 add(res);
                 return res;
@@ -68,13 +65,24 @@ public class RoutesMap {
     }
 
     public void assignTrafficInfo(String name, double mileageBegin, double mileageEnd, TrafficInfo trafficInfo) {
-        Route route = find(name, mileageBegin + 2);
+        Route route = findAllAndReplace(name, mileageBegin, mileageEnd);
         if (route != null)
             route.setTrafficInfo(trafficInfo);
     }
 
     int size() {
-        return routes.size();
+        int res = 0;
+        for (Map.Entry<String, TreeSet<Route>> entry: routes.entrySet()) {
+            res += entry.getValue().size();
+        }
+        return res;
+    }
+
+    public void addGeoposition(String name, double mileageBeg, GeoPosition geoPosition) {
+        Route r = find(name, mileageBeg);
+        if (r != null) {
+            r.addGeoposition(mileageBeg, geoPosition);
+        }
     }
 
     public Route findRouteByGeoPosition(GeoPosition geoPosition) {
@@ -93,6 +101,19 @@ public class RoutesMap {
             }
         }
         return res;
+    }
+
+    public List<RoutePainter> routePainters() {
+        List<RoutePainter> routePainters = new ArrayList<>();
+        for (Map.Entry<String, TreeSet<Route>> entry: routes.entrySet()) {
+            for (Route route: entry.getValue()) {
+                RoutePainter rp = route.getRoutePainter();
+                if (rp != null) {
+                    routePainters.add(route.getRoutePainter());
+                }
+            }
+        }
+        return routePainters;
     }
 
     private double computeDiff (GeoPosition g1, GeoPosition g2) {

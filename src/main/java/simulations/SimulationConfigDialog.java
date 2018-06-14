@@ -51,12 +51,17 @@ public class SimulationConfigDialog extends AbstractDialog {
                 "Wybierz", ".csv",
                 mopsimConfig.getBusPath(), "Plik CSV");
 
+//         JCheckBox mopCheckBox = new JCheckBox("Wybierz aktywny układ MOPów");
+//         add(mopCheckBox);
+//         FilePicker mopFilePicker = addFilePicker("Układ MOPów",
+//                 "Wybierz", ".xml", "Spreadsheet");
+//         mopFilePicker.setEnabled(true);
+        
         this.add(inputTable());
         this.add(submitButton());
 
         this.setVisible(true);
     }
-
 
     private JButton submitButton() {
         JButton submit = new JButton("Przeprowadź symulację");
@@ -84,11 +89,16 @@ public class SimulationConfigDialog extends AbstractDialog {
                     if (truckPath.equals("") && truckNr > 0) {
                         message = "Liczba samochodów ciężarowych jest dodatnia, " +
                                 "ale nie wybrano macierzy samochodów ciężarowych";
-                    }
+
                     if (busPath.equals("") && busNr > 0) {
                         message = "Liczba autobusów jest dodatnia, " +
                                 "ale nie wybrano macierzy autobusów";
                     }
+                      
+//                     if (mopFilePicker.getSelectedFilePath().equals("")) {
+//                         message += "plik z MOPami \n";
+//                     }
+                      
                     if (mopPath.equals("")) {
                         message = "Nie wybrano pliku z MOP-ami";
                     }
