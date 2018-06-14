@@ -46,13 +46,13 @@ public class RoutesMap {
 
 
     Route findAllAndReplace(String name, double mileageBegin, double mileageEnd) {
-        Route res = findAndRemove(name, mileageBegin + 1.);
+        Route res = find(name, mileageBegin);
         if (res == null) {
             return null;
         }
         mileageBegin = res.getMileageEnd();
         while (mileageBegin < mileageEnd) {
-            Route r = findAndRemove(name, mileageBegin + 1.);
+            Route r = findAndRemove(name, mileageBegin);
             if (r == null) {
                 add(res);
                 return res;
@@ -65,7 +65,7 @@ public class RoutesMap {
     }
 
     public void assignTrafficInfo(String name, double mileageBegin, double mileageEnd, TrafficInfo trafficInfo) {
-        Route route = find(name, mileageBegin + 2);
+        Route route = findAllAndReplace(name, mileageBegin, mileageEnd);
         if (route != null)
             route.setTrafficInfo(trafficInfo);
     }
@@ -76,6 +76,13 @@ public class RoutesMap {
             res += entry.getValue().size();
         }
         return res;
+    }
+
+    public void addGeoposition(String name, double mileageBeg, GeoPosition geoPosition) {
+        Route r = find(name, mileageBeg);
+        if (r != null) {
+            r.addGeoposition(mileageBeg, geoPosition);
+        }
     }
 
     public Route findRouteByGeoPosition(GeoPosition geoPosition) {

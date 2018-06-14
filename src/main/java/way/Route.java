@@ -6,21 +6,18 @@ import methods.MethodResult;
 import mop.MopParkingSpacesInfo;
 import org.jxmapviewer.viewer.GeoPosition;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Route {
     private String name;
     private double mileageBegin;
     private double mileageEnd;
-    private List<GeoPosition> geoPositions = new ArrayList<>();
+    private Map<Double, GeoPosition> geoPositions = new TreeMap<>();
     private TrafficInfo trafficInfo;
     private Map<String, MopParkingSpacesInfo> spacesByDirection;
     private MethodResult spacesNeeded;
 
-    public Route(String name, double mileageBegin, double mileageEnd, List<GeoPosition> geoPositions,
+    public Route(String name, double mileageBegin, double mileageEnd, Map<Double, GeoPosition> geoPositions,
                  TrafficInfo trafficInfo) {
         this(name, mileageBegin, mileageEnd, trafficInfo);
         this.geoPositions = geoPositions;
@@ -29,12 +26,13 @@ public class Route {
     public Route(String name, double mileageBegin, double mileageEnd, GeoPosition geoPositionBegin,
                  GeoPosition geoPositionEnd, TrafficInfo trafficInfo) {
         this(name, mileageBegin, mileageEnd, trafficInfo);
-        geoPositions.add(geoPositionBegin);
+        geoPositions.put(mileageBegin, geoPositionBegin);
         double latBegin = geoPositionBegin.getLatitude(), lonBegin = geoPositionBegin.getLongitude();
         double latDiff = (geoPositionEnd.getLatitude() - geoPositionBegin.getLatitude()) / (mileageEnd - mileageBegin);
         double lonDiff = (geoPositionEnd.getLongitude() - geoPositionBegin.getLongitude()) / (mileageEnd - mileageBegin);
         for (int i = 1; mileageBegin + i < mileageEnd; ++i) {
-            geoPositions.add(new GeoPosition(latBegin + i * latDiff, lonBegin + i * lonDiff));
+            geoPositions.put(mileageBegin + i,
+                    new GeoPosition(latBegin + i * latDiff, lonBegin + i * lonDiff));
         }
     }
 
@@ -108,8 +106,8 @@ public class Route {
         this.spacesNeeded = new CustomMethod().compute(this);
     }
 
-    public List<GeoPosition> getGeoPositions() {
-        return geoPositions;
+    public Collection<GeoPosition> getGeoPositions() {
+        return geoPositions.values();
     }
 
     public void addSpacesInfo(String direction, MopParkingSpacesInfo mopParkingSpacesInfo) {
@@ -145,7 +143,7 @@ public class Route {
         }
         double milbeg = first.mileageBegin;
         double milend = second.mileageEnd;
-        first.geoPositions.addAll(second.geoPositions);
+        first.geoPositions.putAll(second.geoPositions);
         TrafficInfo tinfo = trafficInfo.add(route.getTrafficInfo());
         Route res = new Route(name, milbeg, milend, first.geoPositions, tinfo);
         for (Map.Entry<String, MopParkingSpacesInfo> entry : route.getSpacesByDirection().entrySet()) {
@@ -159,11 +157,15 @@ public class Route {
 
     public RoutePainter getRoutePainter() {
         if (geoPositions.size() > 0) {
-            return new RoutePainter(geoPositions, this);
+            return new RoutePainter(new LinkedList<>(geoPositions.values()), this);
         }
         else {
             return null;
         }
+    }
+
+    public void addGeoposition(Double mileageBegin, GeoPosition geoPosition) {
+        geoPositions.put(mileageBegin, geoPosition);
     }
 
     public void setSpacesNeeded(MethodResult mr) {

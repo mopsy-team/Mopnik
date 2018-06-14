@@ -68,7 +68,9 @@ public class NameAdjuster {
                     refs[i] = "S7k";
                 }
             } else if (ref.equals("S8")) {
-                if (lon > 20.83 && lon < 21.26) {
+                if (lon > 17 && lon < 19.6) {
+                    refs[i] = "S8e";
+                } else if (lon > 20.83 && lon < 21.26) {
                     refs[i] = "S8f";
                 } else if (lon > 21.26 && lon < 21.503) {
                     refs[i] = "S8d";

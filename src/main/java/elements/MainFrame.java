@@ -79,7 +79,7 @@ public class MainFrame {
         methods = new HashSet<>();
         listeners = new ArrayList<>();
         trafficMap = new TrafficMap();
-        trafficMap.setRoutesMap(this);
+        // trafficMap.setRoutesMap(this);
         mileages = trafficMap.mileages();
     }
 
@@ -140,11 +140,14 @@ public class MainFrame {
         setMopPointsFromFile(mopsFile);
 
         File matrixFile =  AppConfig.getFile(AppConfig.getMatrixFilename());
-        if (TrafficInfoParser.assignRoutes(this, matrixFile) == -1) {
+        RoutesMap routesMap = TrafficInfoParser.assignRoutes(this, matrixFile);
+        if (routesMap == null) {
             JOptionPane.showMessageDialog(getFrame(),
                     "Wskazany plik nie istnieje lub jest w złym formacie.",
                     "Zły format pliku",
                     JOptionPane.WARNING_MESSAGE);
+        } else {
+            generateRoutesMap(routesMap);
         }
 
         repaint();
@@ -153,6 +156,11 @@ public class MainFrame {
         frame.pack();
         frame.setVisible(true);
 
+    }
+
+    public void generateRoutesMap(RoutesMap routesMap) {
+        trafficMap.addGeopositions(routesMap);
+        this.routesMap = routesMap;
     }
 
     public void addMethod(Method method) {
@@ -184,6 +192,10 @@ public class MainFrame {
             mapViewer.removeMouseListener(listener);
         }
         listeners = new ArrayList<>();
+        if (routesMap == null) {
+            System.out.println("Nie ma");
+            return;
+        }
         for (RoutePainter routePainter : routesMap.routePainters()) {
             painter.addPainter(routePainter);
             MouseListener ml = routePainter.mouseListenerOnRoute(mapViewer);

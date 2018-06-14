@@ -35,84 +35,21 @@ public class TrafficMap {
         }
     }
 
-    public List<Painter<JXMapViewer>> painters() {
-
-        Connection c = null;
-        Statement way_stmt = null;
-
-        List<Painter<JXMapViewer>> res = new ArrayList<>();
-
-        /*
-        for (Route way : osm.getWays()) {
-            List<GeoPosition> track = new ArrayList<>();
-            for (Coordinate coord : way.getLineString().getCoordinates()) {
-                track.add(new GeoPosition(coord.y, coord.x));
-            }
-            res.add(new RoutePainter(track));
-        }
-        */
-
-        return res;
-    }
-
-    public void setRoutesMap(MainFrame mainFrame) {
-        Comparator<OSMNode> nodesComparator = (o1, o2) -> {
-            Double mileage1 = getDistance(o1);
-            Double mileage2 = getDistance(o2);
-            return mileage1.compareTo(mileage2);
-        };
-        TreeMap<String, TreeSet<OSMNode>> milestoneNodes = new TreeMap<>();
+    public void addGeopositions(RoutesMap routesMap) {
         for (OSMNode node : osm.getNodes()) {
             if (node.getAllTags().containsKey("ref")) {
                 double distance = getDistance(node);
                 if (distance == -1) { continue; }
                 String refs[] = NameAdjuster.getWayNames(node);
                 for (String ref : refs) {
-                    if (ref.contains("A") || ref.contains("S")) {
-                        if (!milestoneNodes.containsKey(ref)) {
-                            milestoneNodes.put(ref, new TreeSet<>(nodesComparator));
-                        }
-                        milestoneNodes.get(ref).add(node);
+                    if ((ref.contains("A") || ref.contains("S") && !ref.contains("S3"))) {
+                        routesMap.addGeoposition(ref, distance,
+                                new GeoPosition(Double.parseDouble(node.lat), Double.parseDouble(node.lon)));
                     }
                 }
             }
         }
-        RoutesMap routesMap = new RoutesMap();
-        for (Map.Entry<String, TreeSet<OSMNode>> entry : milestoneNodes.entrySet()) {
-            TreeSet<OSMNode> nodes = entry.getValue();
-            boolean first = true;
-            Double firstMileage = 0.;
-            Double lastMileage = 0.;
-            Double newMileage = 0.;
-            List<GeoPosition> geoPositions = new ArrayList<>();
-            for (OSMNode node : nodes) {
-                newMileage = getDistance(node);
-                if (newMileage == -1) { continue; }
-                if ((entry.getKey().contains("S3") && newMileage < 10) ||
-                        entry.getKey().contains("S6") ||
-                        entry.getKey().contains("S11"))  {continue;}
-                if (Math.abs(newMileage - lastMileage) > 50) {
-                    routesMap.add(new Route(entry.getKey(), firstMileage, newMileage, geoPositions, new TrafficInfo()));
-                    first = true;
-                    geoPositions = new ArrayList<>();
-                    geoPositions.add(new GeoPosition(Double.parseDouble(node.lat), Double.parseDouble(node.lon)));
-                    lastMileage = newMileage;
-                    continue;
-                }
-                geoPositions.add(new GeoPosition(Double.parseDouble(node.lat), Double.parseDouble(node.lon)));
-                if (!first && geoPositions.size() > 20) {
-                    routesMap.add(new Route(entry.getKey(), firstMileage, newMileage, geoPositions, new TrafficInfo()));
-                    firstMileage = newMileage;
-                    geoPositions = new ArrayList<>();
-                    geoPositions.add(new GeoPosition(Double.parseDouble(node.lat), Double.parseDouble(node.lon)));
-                }
-                lastMileage = newMileage;
-                first = false;
-            }
-            routesMap.add(new Route(entry.getKey(), firstMileage, newMileage, geoPositions, new TrafficInfo()));
-        }
-        mainFrame.setRoutesMap(routesMap);
-        System.out.println("SIZE: " + routesMap.size());
+
     }
 
     public Set<Waypoint> mileages() {

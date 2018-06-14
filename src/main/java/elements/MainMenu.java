@@ -6,6 +6,7 @@ import methods.CustomMethod;
 import methods.Method;
 import methods.PredictionDialog;
 import simulations.SimulationConfigDialog;
+import way.RoutesMap;
 import way.TrafficInfoParser;
 
 import javax.swing.*;
@@ -48,7 +49,8 @@ public class MainMenu {
             int returnVal = fc.showOpenDialog(fc);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 File file = fc.getSelectedFile();
-                if (TrafficInfoParser.assignRoutes(mainFrame, file) == -1) {
+                RoutesMap routesMap = TrafficInfoParser.assignRoutes(mainFrame, file);
+                if (routesMap == null) {
                     JOptionPane.showMessageDialog(mainFrame.getFrame(),
                             "Wskazany plik nie istnieje lub jest w złym formacie.",
                             "Zły format pliku",
