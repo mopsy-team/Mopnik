@@ -27,8 +27,7 @@ public class TrafficInfoDialog extends AbstractDialog {
         this.setLocationRelativeTo(null); // center the dialog.
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
-        Method m = new CustomMethod();
-        MethodResult methodResult = m.compute(route);
+        MethodResult methodResult = route.getSpacesNeeded();
 
         Map<String, MopParkingSpacesInfo> spacesByDirection = route.getSpacesByDirection();
 
