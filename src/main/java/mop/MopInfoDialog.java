@@ -33,7 +33,7 @@ public abstract class MopInfoDialog extends AbstractDialog {
                 {"Pikietaż", mopInfo.getMileage()}
         };
         information = new VerticalTitledTable("podstawowe informacje o " + mopInfo.getName(),
-                data, columnNames);
+                data, columnNames, new int[]{0, 1});
 
         Object[][] spacesData = {
                 {"Dla pojazdów osobowych", mopInfo.getParkingSpacesInfo().getCarSpaces()},
@@ -85,5 +85,5 @@ public abstract class MopInfoDialog extends AbstractDialog {
 
         this.setVisible(true);
     }
-    
+
 }
