@@ -32,7 +32,6 @@ public class MainFrame {
     private final JFrame frame;
     private final JXMapViewer mapViewer;
     private Set<MopPoint> mopPoints;
-    private Set<Waypoint> mileages;
     private CompoundPainter<JXMapViewer> painter;
     private Set<MopInfo> mopInfos;
     private Set<Method> methods;
@@ -80,7 +79,6 @@ public class MainFrame {
         listeners = new ArrayList<>();
         trafficMap = new TrafficMap();
         // trafficMap.setRoutesMap(this);
-        mileages = trafficMap.mileages();
     }
 
     public void setMopPoints(Set<MopPoint> mopPoints) {

@@ -52,19 +52,6 @@ public class TrafficMap {
 
     }
 
-    public Set<Waypoint> mileages() {
-        Set<Waypoint> waypointSet = new HashSet<>();
-        WaypointPainter<Waypoint> p = new WaypointPainter<Waypoint>();
-        for (OSMNode node : osm.getNodes()) {
-            if (node.getAllTags().containsKey("milestone")) {
-                waypointSet.add(
-                        new DefaultWaypoint(
-                                new GeoPosition(Double.parseDouble(node.lat), Double.parseDouble(node.lon))));
-            }
-        }
-        return waypointSet;
-    }
-
     private double getDistance(OSMNode node) {
         if (node.getAllTags().containsKey(tag)) {
             if (NumberUtils.isCreatable(node.getAllTags().get(tag))) {
