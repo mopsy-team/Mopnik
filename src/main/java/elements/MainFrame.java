@@ -135,6 +135,7 @@ public class MainFrame {
         this.mopPoints = mopInfos.stream().map((MopInfo m) ->
                 new MopPoint(m.getName(), m, MopType.EXISTING, this)).collect(Collectors.toSet());
         AppConfig.save();
+        routesMap = TrafficInfoParser.assignMopsToRoutes(this, routesMap);
         repaint();
     }
 
@@ -171,8 +172,6 @@ public class MainFrame {
     public void show() {
         File mopsFile = AppConfig.getFile(AppConfig.getMopFilename());
 
-        setMopPointsFromFile(mopsFile);
-
         File matrixFile =  AppConfig.getFile(AppConfig.getSDRFilename());
         RoutesMap routesMap = TrafficInfoParser.assignRoutes(this, matrixFile);
         if (routesMap == null) {
@@ -184,7 +183,7 @@ public class MainFrame {
             generateRoutesMap(routesMap);
         }
 
-        repaint();
+        setMopPointsFromFile(mopsFile);
 
         MainMenu mainMenu = new MainMenu(this);
         frame.pack();
@@ -227,7 +226,6 @@ public class MainFrame {
         }
         listeners = new ArrayList<>();
         if (routesMap == null) {
-            System.out.println("Nie ma");
             return;
         }
         for (RoutePainter routePainter : routesMap.routePainters()) {
