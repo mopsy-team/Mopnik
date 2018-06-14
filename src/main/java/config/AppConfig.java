@@ -8,7 +8,7 @@ import java.nio.charset.StandardCharsets;
 public class AppConfig {
     private static final String shadowFilename = "config.txt";
     private static String mopFilename = "MOP-12.2017-final2.xlsx";
-    private static String mapOsmFilename = "poland-latest6.osm";
+    private static String mapOsmFilename = "poland-extract.osm";
     private static String SDRFilename = "kraj.csv";
     private static String mopsUrl = "http://reach.mimuw.edu.pl:8008/mops/?format=json";
 
@@ -21,12 +21,12 @@ public class AppConfig {
         AppConfig.mapOsmFilename = mapOsmFilename;
     }
 
-    public static void setMopsUrl(String mopsUrl) {
-        AppConfig.mopsUrl = mopsUrl;
-    }
-
     public static void setSDRFilename(String SDRFilename) {
         AppConfig.SDRFilename = SDRFilename;
+    }
+
+    public static void setMopsUrl(String mopsUrl) {
+        AppConfig.mopsUrl = mopsUrl;
     }
 
     public static String getMopFilename() {
