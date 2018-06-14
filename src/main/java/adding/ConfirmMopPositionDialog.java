@@ -8,7 +8,6 @@ import way.Route;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.util.Enumeration;
 import java.util.Map;
 
@@ -21,13 +20,13 @@ public class ConfirmMopPositionDialog extends AbstractDialog {
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
         JTextArea textArea = new JTextArea("Wybrano drogę " + route.getName() + " i pikietaż: " +
-                (route.getMileageEnd() + route.getMileageBegin())/2 + ". \nWybierz kierunek:");
+                (route.getMileageEnd() + route.getMileageBegin()) / 2 + ". \nWybierz kierunek:");
         textArea.setEditable(false);
         this.add(textArea);
 
         ButtonGroup group = new ButtonGroup();
         JPanel radioPanel = new JPanel(new GridLayout(0, 1));
-        for ( Map.Entry<String, MopParkingSpacesInfo> entry: route.getSpacesByDirection().entrySet()) {
+        for (Map.Entry<String, MopParkingSpacesInfo> entry : route.getSpacesByDirection().entrySet()) {
             JRadioButton radioButton = new JRadioButton(entry.getKey());
             radioPanel.add(radioButton);
             group.add(radioButton);

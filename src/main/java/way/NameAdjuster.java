@@ -4,7 +4,9 @@ import br.zuq.osm.parser.model.OSMNode;
 
 public class NameAdjuster {
     public static String[] getWayNames(OSMNode node) {
-        if (!node.getAllTags().containsKey("ref")) { return new String[] {}; }
+        if (!node.getAllTags().containsKey("ref")) {
+            return new String[]{};
+        }
         String[] refs = node.getAllTags().get("ref").replaceAll("\\s+", "").split(";");
         for (int i = 0; i < refs.length; ++i) {
             String ref = refs[i];

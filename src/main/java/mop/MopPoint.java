@@ -30,8 +30,7 @@ public class MopPoint extends DefaultWaypoint {
         try {
             if (mopType == MopType.EXISTING) {
                 img = ImageIO.read(MopPoint.class.getResource("/images/Parking_icon_16.png"));
-            }
-            else {
+            } else {
                 img = ImageIO.read(MopPoint.class.getResource("/images/Parking_icon_16_red.png"));
             }
         } catch (Exception e) {
@@ -51,8 +50,7 @@ public class MopPoint extends DefaultWaypoint {
                     MopInfoDialog dialog = new ExistingMopInfoDialog(mopInfo, frame);
                 }
             });
-        }
-        else {
+        } else {
             this.button.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {

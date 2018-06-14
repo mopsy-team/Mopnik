@@ -8,6 +8,7 @@ import javax.swing.*;
 
 public class SetUrlDialog extends AbstractDialog {
     private VerticalTitledTable input;
+
     public SetUrlDialog() {
         super();
         this.setSize(800, 160);
@@ -22,6 +23,7 @@ public class SetUrlDialog extends AbstractDialog {
 
         this.setVisible(true);
     }
+
     private JButton submitButton() {
         JButton submit = new JButton("Zapisz");
         submit.addActionListener(
@@ -34,6 +36,7 @@ public class SetUrlDialog extends AbstractDialog {
                 });
         return submit;
     }
+
     private VerticalTitledTable inputTable() {
         String[] columnNames = {"", ""};
         Object[][] spacesData = {

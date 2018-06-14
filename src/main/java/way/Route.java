@@ -77,7 +77,7 @@ public class Route {
     public NSpaces nSpaces() {
         int lacks = 0;
         int tooMany = 0;
-        if (spacesNeeded == null ||  spacesByDirection == null) {
+        if (spacesNeeded == null || spacesByDirection == null) {
             return NSpaces.NO_INFO;
         }
         for (MopParkingSpacesInfo mr : spacesByDirection.values()) {
@@ -159,8 +159,7 @@ public class Route {
     public RoutePainter getRoutePainter() {
         if (geoPositions.size() > 0) {
             return new RoutePainter(new LinkedList<>(geoPositions.values()), this);
-        }
-        else {
+        } else {
             return null;
         }
     }

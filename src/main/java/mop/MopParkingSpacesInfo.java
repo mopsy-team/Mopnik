@@ -1,7 +1,5 @@
 package mop;
 
-import methods.MethodResult;
-
 public class MopParkingSpacesInfo {
 
     private int carSpaces;

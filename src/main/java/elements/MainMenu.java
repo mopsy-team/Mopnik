@@ -1,9 +1,9 @@
 package elements;
 
 import adding.AddMopPanel;
+import adding.AddRoutePanel;
 import config.AppConfig;
 import export.ExportMopsToJSONDialog;
-import adding.AddRoutePanel;
 import methods.CustomMethod;
 import methods.Method;
 import methods.PredictionDialog;
@@ -51,6 +51,7 @@ public class MainMenu {
         menu.add(menuItem);
         return menu;
     }
+
     private JMenu addFromFileMenu() {
 
         JMenu menu = new JMenu("Wczytaj dane z pliku");
@@ -130,7 +131,7 @@ public class MainMenu {
         JMenuItem menuItem = new JMenuItem("Dodaj układ MOP-ów", KeyEvent.VK_U);
         menuItem.addActionListener(event -> mainFrame.setMopPointsFromServer());
         menu.add(menuItem);
-        menuItem = new JMenuItem("Zmien adres serwera", KeyEvent.VK_Z);
+        menuItem = new JMenuItem("Zmień adres serwera", KeyEvent.VK_Z);
         menuItem.addActionListener(event -> new SetUrlDialog());
         menu.add(menuItem);
         return menu;

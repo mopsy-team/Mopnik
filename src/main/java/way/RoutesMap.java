@@ -73,7 +73,7 @@ public class RoutesMap {
 
     int size() {
         int res = 0;
-        for (Map.Entry<String, TreeSet<Route>> entry: routes.entrySet()) {
+        for (Map.Entry<String, TreeSet<Route>> entry : routes.entrySet()) {
             res += entry.getValue().size();
         }
         return res;
@@ -103,8 +103,8 @@ public class RoutesMap {
 
     public List<RoutePainter> routePainters() {
         List<RoutePainter> routePainters = new ArrayList<>();
-        for (Map.Entry<String, TreeSet<Route>> entry: routes.entrySet()) {
-            for (Route route: entry.getValue()) {
+        for (Map.Entry<String, TreeSet<Route>> entry : routes.entrySet()) {
+            for (Route route : entry.getValue()) {
                 RoutePainter rp = route.getRoutePainter();
                 if (rp != null) {
                     routePainters.add(route.getRoutePainter());
@@ -115,8 +115,8 @@ public class RoutesMap {
     }
 
     public void setSpacesNeeded(Method method) {
-        for (Map.Entry<String, TreeSet<Route>> entry: routes.entrySet()) {
-            for (Route r: entry.getValue()) {
+        for (Map.Entry<String, TreeSet<Route>> entry : routes.entrySet()) {
+            for (Route r : entry.getValue()) {
                 r.computeSpacesNeeded(method);
             }
         }

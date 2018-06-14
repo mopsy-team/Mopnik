@@ -48,6 +48,7 @@ public class GenerateMapDialog extends AbstractDialog {
         input = new VerticalTitledTable("", spacesData, columnNames);
         return input;
     }
+
     private JButton submitButton() {
         JButton submit = new JButton("Generuj");
         submit.addActionListener(
@@ -85,6 +86,7 @@ public class GenerateMapDialog extends AbstractDialog {
     private FilePicker addFilePicker(String textFieldLabel, String buttonLabel, String extension, String initialValue, String description) {
         return addFilePicker(textFieldLabel, buttonLabel, new String[]{extension}, initialValue, description);
     }
+
     private FilePicker addFilePicker(String textFieldLabel, String buttonLabel, String[] extensions, String initialValue, String description) {
         FilePicker filePicker = new FilePicker(textFieldLabel, buttonLabel, initialValue, fileChooser);
         filePicker.setMode(FilePicker.MODE_OPEN);

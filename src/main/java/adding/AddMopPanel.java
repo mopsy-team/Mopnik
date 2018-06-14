@@ -11,6 +11,7 @@ import java.awt.event.MouseListener;
 
 public class AddMopPanel extends JPanel {
     private MainFrame mainFrame;
+
     public AddMopPanel(MainFrame mainFrame) {
         super();
         this.mainFrame = mainFrame;
@@ -27,8 +28,7 @@ public class AddMopPanel extends JPanel {
                 ConfirmMopPositionDialog dialog;
                 if (route != null) {
                     dialog = new ConfirmMopPositionDialog(route, gp, mainFrame);
-                }
-                else {
+                } else {
                     mainFrame.addMop("Nowy mop", gp, route, "");
                 }
             }
