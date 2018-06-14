@@ -4,5 +4,6 @@ public enum NSpaces {
     VERY_LOW,
     LOW,
     SUFFICIENT,
-    LARGE
+    LARGE,
+    NO_INFO
 }

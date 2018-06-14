@@ -1,13 +1,11 @@
 package elements;
 
 import config.AppConfig;
-import mopsim.config_group.MOPSimConfigGroup;
-import org.json.JSONObject;
-import util.JSONParser;
-import way.*;
 import methods.Method;
 import mop.*;
+import mopsim.config_group.MOPSimConfigGroup;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.OSMTileFactoryInfo;
 import org.jxmapviewer.input.CenterMapListener;
@@ -15,7 +13,12 @@ import org.jxmapviewer.input.PanKeyListener;
 import org.jxmapviewer.input.PanMouseInputListener;
 import org.jxmapviewer.input.ZoomMouseWheelListenerCursor;
 import org.jxmapviewer.painter.CompoundPainter;
-import org.jxmapviewer.viewer.*;
+import org.jxmapviewer.viewer.DefaultTileFactory;
+import org.jxmapviewer.viewer.GeoPosition;
+import org.jxmapviewer.viewer.TileFactoryInfo;
+import org.jxmapviewer.viewer.WaypointPainter;
+import util.JSONParser;
+import way.*;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
@@ -34,12 +37,13 @@ public class MainFrame {
     private final JFrame frame;
     private final JXMapViewer mapViewer;
     private Set<MopPoint> mopPoints;
-    private Set<Waypoint> mileages;
     private CompoundPainter<JXMapViewer> painter;
     private Set<MopInfo> mopInfos;
     private Set<Method> methods;
     private TrafficMap trafficMap;
     private RoutesMap routesMap = null;
+    private RoutesMap addedRoutesMap = new RoutesMap();
+    private List<RoutePainter> addedRoutePainters = new ArrayList<>();
     private boolean first = true;
     private List<MouseListener> listeners;
     private MOPSimConfigGroup mopsimConfig;
@@ -91,8 +95,7 @@ public class MainFrame {
         methods = new HashSet<>();
         listeners = new ArrayList<>();
         trafficMap = new TrafficMap();
-        trafficMap.setRoutesMap(this);
-        mileages = trafficMap.mileages();
+        // trafficMap.setRoutesMap(this);
     }
 
     public void setMopPoints(Set<MopPoint> mopPoints) {
@@ -169,12 +172,15 @@ public class MainFrame {
 
         setMopPointsFromFile(mopsFile);
 
-        File matrixFile = AppConfig.getFile(AppConfig.getSDRFilename());
-        if (TrafficInfoParser.assignRoutes(this, matrixFile) == -1) {
+        File matrixFile =  AppConfig.getFile(AppConfig.getSDRFilename());
+        RoutesMap routesMap = TrafficInfoParser.assignRoutes(this, matrixFile);
+        if (routesMap == null) {
             JOptionPane.showMessageDialog(getFrame(),
                     "Wskazany plik nie istnieje lub jest w złym formacie.",
                     "Zły format pliku",
                     JOptionPane.WARNING_MESSAGE);
+        } else {
+            generateRoutesMap(routesMap);
         }
 
         repaint();
@@ -183,6 +189,11 @@ public class MainFrame {
         frame.pack();
         frame.setVisible(true);
 
+    }
+
+    public void generateRoutesMap(RoutesMap routesMap) {
+        trafficMap.addGeopositions(routesMap);
+        this.routesMap = routesMap;
     }
 
     public void addMethod(Method method) {
@@ -214,7 +225,17 @@ public class MainFrame {
             mapViewer.removeMouseListener(listener);
         }
         listeners = new ArrayList<>();
-        for (RoutePainter routePainter : trafficMap.routes(routesMap)) {
+        if (routesMap == null) {
+            System.out.println("Nie ma");
+            return;
+        }
+        for (RoutePainter routePainter : routesMap.routePainters()) {
+            painter.addPainter(routePainter);
+            MouseListener ml = routePainter.mouseListenerOnRoute(mapViewer);
+            mapViewer.addMouseListener(ml);
+            listeners.add(ml);
+        }
+        for (RoutePainter routePainter: addedRoutePainters) {
             painter.addPainter(routePainter);
             MouseListener ml = routePainter.mouseListenerOnRoute(mapViewer);
             mapViewer.addMouseListener(ml);
@@ -242,6 +263,20 @@ public class MainFrame {
         mopPoints.add(new MopPoint(name, mopInfo, MopType.ADDED, this));
         new AddedMopInfoDialog(mopInfo, this);
         repaint();
+    }
+
+    public void addRoute(String name, GeoPosition gpBeg, GeoPosition gpEnd,
+                         int milBegin, int milEnd, String dir1, String dir2) {
+           Route route = new Route(name, milBegin, milEnd,
+                   gpBeg, gpEnd, new TrafficInfo());
+           route.addSpacesInfo(dir1, new MopParkingSpacesInfo(0, 0, 0));
+           route.addSpacesInfo(dir2, new MopParkingSpacesInfo(0, 0, 0));
+           addedRoutesMap.add(route);
+           List<GeoPosition> track = new ArrayList<>();
+           track.add(gpBeg);
+           track.add(gpEnd);
+           addedRoutePainters.add(new RoutePainter(track, route));
+           repaint();
     }
 
     public void removeMop(MopInfo mopInfo) {

@@ -3,12 +3,14 @@ package elements;
 import adding.AddMopPanel;
 import config.AppConfig;
 import export.ExportMopsToJSONDialog;
+import adding.AddRoutePanel;
 import methods.CustomMethod;
 import methods.Method;
 import methods.PredictionDialog;
 import mop.SetUrlDialog;
 import simulations.GenerateMapDialog;
 import simulations.SimulationConfigDialog;
+import way.RoutesMap;
 import way.TrafficInfoParser;
 
 import javax.swing.*;
@@ -64,7 +66,8 @@ public class MainMenu {
             int returnVal = fc.showOpenDialog(fc);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 File file = fc.getSelectedFile();
-                if (TrafficInfoParser.assignRoutes(mainFrame, file) == -1) {
+                RoutesMap routesMap = TrafficInfoParser.assignRoutes(mainFrame, file);
+                if (routesMap == null) {
                     JOptionPane.showMessageDialog(mainFrame.getFrame(),
                             "Wskazany plik nie istnieje lub jest w złym formacie.",
                             "Zły format pliku",
@@ -153,6 +156,8 @@ public class MainMenu {
         AddMopPanel addMopPanel = new AddMopPanel(mainFrame);
         menuItemMop.addActionListener(event -> addMopPanel.setVisible());
         JMenuItem menuItemRoute = new JMenuItem("Drogę");
+        AddRoutePanel addRoutePanel = new AddRoutePanel(mainFrame);
+        menuItemRoute.addActionListener(e -> addRoutePanel.setVisible());
         menu.add(menuItemMop);
         menu.add(menuItemRoute);
         return menu;

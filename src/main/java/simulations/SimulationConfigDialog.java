@@ -51,12 +51,17 @@ public class SimulationConfigDialog extends AbstractDialog {
                 "Wybierz", ".csv",
                 mopsimConfig.getBusPath(), "Plik CSV");
 
+//         JCheckBox mopCheckBox = new JCheckBox("Wybierz aktywny układ MOPów");
+//         add(mopCheckBox);
+//         FilePicker mopFilePicker = addFilePicker("Układ MOPów",
+//                 "Wybierz", ".xml", "Spreadsheet");
+//         mopFilePicker.setEnabled(true);
+
         this.add(inputTable());
         this.add(submitButton());
 
         this.setVisible(true);
     }
-
 
     private JButton submitButton() {
         JButton submit = new JButton("Przeprowadź symulację");
@@ -84,39 +89,45 @@ public class SimulationConfigDialog extends AbstractDialog {
                     if (truckPath.equals("") && truckNr > 0) {
                         message = "Liczba samochodów ciężarowych jest dodatnia, " +
                                 "ale nie wybrano macierzy samochodów ciężarowych";
-                    }
-                    if (busPath.equals("") && busNr > 0) {
-                        message = "Liczba autobusów jest dodatnia, " +
-                                "ale nie wybrano macierzy autobusów";
-                    }
-                    if (mopPath.equals("")) {
-                        message = "Nie wybrano pliku z MOP-ami";
-                    }
-                    if (networkPath.equals("")) {
-                        message = "Nie wybrano pliku z mapą";
-                    }
-                    if (!message.equals("")) {
-                        JOptionPane.showMessageDialog(this, message);
-                    } else {
-                        mopsimConfig.setCarNr(carNr);
-                        mopsimConfig.setTruckNr(truckNr);
-                        mopsimConfig.setBusNr(busNr);
 
-                        mopsimConfig.setCarPath(carPath);
-                        mopsimConfig.setTruckPath(truckPath);
-                        mopsimConfig.setBusPath(busPath);
-                        mopsimConfig.setMopData(mopPath);
-                        mopsimConfig.setMapPath(networkPath);
-                        mopsimConfig.setSimulationId(simulationId);
-                        mopsimConfig.setThreadNr(threadsNr);
+                        if (busPath.equals("") && busNr > 0) {
+                            message = "Liczba autobusów jest dodatnia, " +
+                                    "ale nie wybrano macierzy autobusów";
+                        }
 
-                        Thread thread = new Thread(() -> {
-                            MOPSimRun.run(mopsimConfig);
-                            JOptionPane.showMessageDialog(this,
-                                    "Zakończono symulację.");
-                            this.setVisible(false);
-                        });
-                        thread.start();
+//                     if (mopFilePicker.getSelectedFilePath().equals("")) {
+//                         message += "plik z MOPami \n";
+//                     }
+
+                        if (mopPath.equals("")) {
+                            message = "Nie wybrano pliku z MOP-ami";
+                        }
+                        if (networkPath.equals("")) {
+                            message = "Nie wybrano pliku z mapą";
+                        }
+                        if (!message.equals("")) {
+                            JOptionPane.showMessageDialog(this, message);
+                        } else {
+                            mopsimConfig.setCarNr(carNr);
+                            mopsimConfig.setTruckNr(truckNr);
+                            mopsimConfig.setBusNr(busNr);
+
+                            mopsimConfig.setCarPath(carPath);
+                            mopsimConfig.setTruckPath(truckPath);
+                            mopsimConfig.setBusPath(busPath);
+                            mopsimConfig.setMopData(mopPath);
+                            mopsimConfig.setMapPath(networkPath);
+                            mopsimConfig.setSimulationId(simulationId);
+                            mopsimConfig.setThreadNr(threadsNr);
+
+                            Thread thread = new Thread(() -> {
+                                MOPSimRun.run(mopsimConfig);
+                                JOptionPane.showMessageDialog(this,
+                                        "Zakończono symulację.");
+                                this.setVisible(false);
+                            });
+                            thread.start();
+                        }
                     }
                 });
         return submit;

@@ -67,8 +67,9 @@ public class GenerateMapDialog extends AbstractDialog {
                         JOptionPane.showMessageDialog(this, message);
                     } else {
                         final String _networkPath = networkPath;
+                        final String _outPath = outPath + ".xml";
                         Thread thread = new Thread(() -> {
-                            NetworkCreator networkCreator = new NetworkCreator(_networkPath, outPath);
+                            NetworkCreator networkCreator = new NetworkCreator(_networkPath, _outPath);
                             networkCreator.loadNetworkFromOsm();
                             networkCreator.write();
                             JOptionPane.showMessageDialog(this,
