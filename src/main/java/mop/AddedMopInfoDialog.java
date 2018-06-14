@@ -9,7 +9,7 @@ import java.awt.event.MouseEvent;
 public class AddedMopInfoDialog extends MopInfoDialog {
 
     public AddedMopInfoDialog(MopInfo mopInfo, MainFrame mainFrame){
-        super(mopInfo, mainFrame);
+        super(mopInfo, mainFrame, true);
         information.setNotEditable();
         if (trafficInfoTable != null) {
             trafficInfoTable.setNotEditable();
@@ -31,15 +31,16 @@ public class AddedMopInfoDialog extends MopInfoDialog {
 
                 mopInfo.setParkingSpacesInfo(new MopParkingSpacesInfo(makeInt(ps[0]), makeInt(ps[1]), makeInt(ps[2])));
 
-                Object[] ei = equipmentTable.getRow(1);
+                Object[] ei = equipmentTable.getRow(0);
                 boolean[] eiBooleans = new boolean[ei.length];
                 for (int i = 0; i < ei.length; ++i){
-                    eiBooleans[i] = mapYesNoToBool((String)ei[i]);
+                    eiBooleans[i] = (boolean)ei[i];
                 }
                 MopEquipmentInfo newMopEquipmentInfo;
                 newMopEquipmentInfo = new MopEquipmentInfo(eiBooleans);
                 mopInfo.setEquipmentInfo(newMopEquipmentInfo);
                 mainFrame.repaint();
+                AddedMopInfoDialog.super.dispose();
             }
         });
         this.add(submit);
@@ -49,6 +50,7 @@ public class AddedMopInfoDialog extends MopInfoDialog {
             @Override
             public void mouseClicked(MouseEvent e) {
                 mainFrame.removeMop(mopInfo);
+                AddedMopInfoDialog.super.dispose();
             }
         });
         this.add(remove);
