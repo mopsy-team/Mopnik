@@ -143,7 +143,7 @@ public class Route {
         }
         double milBeg = first.mileageBegin;
         double milEnd = second.mileageEnd;
-        first.geoPositions.addAll(second.geoPositions);
+        first.geoPositions.putAll(second.geoPositions);
         TrafficInfo tInfo = trafficInfo.add(route.getTrafficInfo());
         Route res = new Route(name, milBeg, milEnd, first.geoPositions, tInfo);
         for (Map.Entry<String, MopParkingSpacesInfo> entry : route.getSpacesByDirection().entrySet()) {

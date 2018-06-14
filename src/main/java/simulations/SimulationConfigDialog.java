@@ -56,7 +56,7 @@ public class SimulationConfigDialog extends AbstractDialog {
 //         FilePicker mopFilePicker = addFilePicker("Układ MOPów",
 //                 "Wybierz", ".xml", "Spreadsheet");
 //         mopFilePicker.setEnabled(true);
-        
+
         this.add(inputTable());
         this.add(submitButton());
 
@@ -90,43 +90,44 @@ public class SimulationConfigDialog extends AbstractDialog {
                         message = "Liczba samochodów ciężarowych jest dodatnia, " +
                                 "ale nie wybrano macierzy samochodów ciężarowych";
 
-                    if (busPath.equals("") && busNr > 0) {
-                        message = "Liczba autobusów jest dodatnia, " +
-                                "ale nie wybrano macierzy autobusów";
-                    }
-                      
+                        if (busPath.equals("") && busNr > 0) {
+                            message = "Liczba autobusów jest dodatnia, " +
+                                    "ale nie wybrano macierzy autobusów";
+                        }
+
 //                     if (mopFilePicker.getSelectedFilePath().equals("")) {
 //                         message += "plik z MOPami \n";
 //                     }
-                      
-                    if (mopPath.equals("")) {
-                        message = "Nie wybrano pliku z MOP-ami";
-                    }
-                    if (networkPath.equals("")) {
-                        message = "Nie wybrano pliku z mapą";
-                    }
-                    if (!message.equals("")) {
-                        JOptionPane.showMessageDialog(this, message);
-                    } else {
-                        mopsimConfig.setCarNr(carNr);
-                        mopsimConfig.setTruckNr(truckNr);
-                        mopsimConfig.setBusNr(busNr);
 
-                        mopsimConfig.setCarPath(carPath);
-                        mopsimConfig.setTruckPath(truckPath);
-                        mopsimConfig.setBusPath(busPath);
-                        mopsimConfig.setMopData(mopPath);
-                        mopsimConfig.setMapPath(networkPath);
-                        mopsimConfig.setSimulationId(simulationId);
-                        mopsimConfig.setThreadNr(threadsNr);
+                        if (mopPath.equals("")) {
+                            message = "Nie wybrano pliku z MOP-ami";
+                        }
+                        if (networkPath.equals("")) {
+                            message = "Nie wybrano pliku z mapą";
+                        }
+                        if (!message.equals("")) {
+                            JOptionPane.showMessageDialog(this, message);
+                        } else {
+                            mopsimConfig.setCarNr(carNr);
+                            mopsimConfig.setTruckNr(truckNr);
+                            mopsimConfig.setBusNr(busNr);
 
-                        Thread thread = new Thread(() -> {
-                            MOPSimRun.run(mopsimConfig);
-                            JOptionPane.showMessageDialog(this,
-                                    "Zakończono symulację.");
-                            this.setVisible(false);
-                        });
-                        thread.start();
+                            mopsimConfig.setCarPath(carPath);
+                            mopsimConfig.setTruckPath(truckPath);
+                            mopsimConfig.setBusPath(busPath);
+                            mopsimConfig.setMopData(mopPath);
+                            mopsimConfig.setMapPath(networkPath);
+                            mopsimConfig.setSimulationId(simulationId);
+                            mopsimConfig.setThreadNr(threadsNr);
+
+                            Thread thread = new Thread(() -> {
+                                MOPSimRun.run(mopsimConfig);
+                                JOptionPane.showMessageDialog(this,
+                                        "Zakończono symulację.");
+                                this.setVisible(false);
+                            });
+                            thread.start();
+                        }
                     }
                 });
         return submit;

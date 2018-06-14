@@ -1,13 +1,11 @@
 package elements;
 
 import config.AppConfig;
-import mopsim.config_group.MOPSimConfigGroup;
-import org.json.JSONObject;
-import util.JSONParser;
-import way.*;
 import methods.Method;
 import mop.*;
+import mopsim.config_group.MOPSimConfigGroup;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.OSMTileFactoryInfo;
 import org.jxmapviewer.input.CenterMapListener;
@@ -15,13 +13,17 @@ import org.jxmapviewer.input.PanKeyListener;
 import org.jxmapviewer.input.PanMouseInputListener;
 import org.jxmapviewer.input.ZoomMouseWheelListenerCursor;
 import org.jxmapviewer.painter.CompoundPainter;
-import org.jxmapviewer.viewer.*;
+import org.jxmapviewer.viewer.DefaultTileFactory;
+import org.jxmapviewer.viewer.GeoPosition;
+import org.jxmapviewer.viewer.TileFactoryInfo;
+import org.jxmapviewer.viewer.WaypointPainter;
+import util.JSONParser;
+import way.*;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.MouseListener;
-import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -171,7 +173,7 @@ public class MainFrame {
         setMopPointsFromFile(mopsFile);
 
         File matrixFile = AppConfig.getFile(AppConfig.getSDRFilename());
-        if (TrafficInfoParser.assignRoutes(this, matrixFile) == -1) {
+        if (TrafficInfoParser.assignRoutes(this, matrixFile) == null) {
             JOptionPane.showMessageDialog(getFrame(),
                     "Wskazany plik nie istnieje lub jest w złym formacie.",
                     "Zły format pliku",
