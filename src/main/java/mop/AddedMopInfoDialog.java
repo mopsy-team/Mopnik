@@ -10,7 +10,6 @@ public class AddedMopInfoDialog extends MopInfoDialog {
 
     public AddedMopInfoDialog(MopInfo mopInfo, MainFrame mainFrame){
         super(mopInfo, mainFrame, true);
-        //information.setNotEditable();
         if (trafficInfoTable != null) {
             trafficInfoTable.setNotEditable();
         }
