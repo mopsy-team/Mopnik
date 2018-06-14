@@ -74,6 +74,7 @@ public class MainMenu {
                             JOptionPane.WARNING_MESSAGE);
                 }
                 AppConfig.save();
+                mainFrame.setRoutesMap(routesMap);
             }
         });
         menu.add(menuItem);

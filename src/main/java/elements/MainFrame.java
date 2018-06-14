@@ -209,6 +209,8 @@ public class MainFrame {
 
     public void setRoutesMap(RoutesMap routesMap) {
         this.routesMap = routesMap;
+        generateRoutesMap(routesMap);
+        repaint();
     }
 
     public JXMapViewer getMapViewer() {
