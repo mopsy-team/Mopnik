@@ -17,7 +17,6 @@ public class ConfirmMopPositionDialog extends AbstractDialog {
         super();
         this.setSize(300, 240);
         this.setTitle("Potwierdź dodanie MOP-a");
-
         this.setLocationRelativeTo(null); // center the dialog.
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
