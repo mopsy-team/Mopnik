@@ -3,6 +3,7 @@ package mop;
 import elements.MainFrame;
 import util.AbstractDialog;
 import util.HorizontalTitledTable;
+import util.HorizontalTitledTableWithChechboxes;
 import util.TitledTable;
 import util.VerticalTitledTable;
 
@@ -16,7 +17,7 @@ public abstract class MopInfoDialog extends AbstractDialog {
     protected TitledTable equipmentTable;
     protected TitledTable trafficInfoTable;
 
-    public MopInfoDialog(MopInfo mopInfo, MainFrame frame) {
+    public MopInfoDialog(MopInfo mopInfo, MainFrame frame, boolean editableEquipmentTable) {
         super();
         this.setSize(1000, 750);
         this.setTitle(mopInfo.getName());
@@ -44,17 +45,17 @@ public abstract class MopInfoDialog extends AbstractDialog {
 
         MopEquipmentInfo eq = mopInfo.getEquipmentInfo();
         Object[][] equipmentData = {
-                {"Ochrona", "Ogrodzenie", "Monitoring", "Oświetlenie", "Stacja paliw",
-                        "<html> Pojazdy <br> niebezpieczne", "Restauracja", "Toalety",
-                        "Myjnia", "Warsztat", "Hotel"},
-                {mapYesNo(eq.isSecurity()), mapYesNo(eq.isFence()), mapYesNo(eq.isCctv()),
-                        mapYesNo(eq.isLight()), mapYesNo(eq.isPetrolStation()), mapYesNo(eq.isDangerousGoods()),
-                        mapYesNo(eq.isRestaurant()), mapYesNo(eq.isAccommodation()), mapYesNo(eq.isToilet()),
-                        mapYesNo(eq.isCarWash()), mapYesNo(eq.isCarRepairShop()), mapYesNo(eq.isAccommodation())}
-        };
-        String[] eqColumnNames = {"", "", "", "", "", "", "", "", "", "", ""};
 
-        equipmentTable = new HorizontalTitledTable("Wyposażenie", equipmentData, eqColumnNames);
+                {eq.isSecurity(), eq.isFence(), eq.isCctv(),
+                        eq.isLight(), eq.isPetrolStation(), eq.isDangerousGoods(),
+                        eq.isRestaurant(), eq.isAccommodation(), eq.isToilet(),
+                        eq.isCarWash(), eq.isCarRepairShop(), eq.isAccommodation()}
+        };
+        String[] eqColumnNames = {"Ochrona", "Ogrodzenie", "Monitoring", "Oświetlenie", "Stacja paliw",
+                "<html> Pojazdy <br> niebezpieczne", "Restauracja", "Toalety",
+                "Myjnia", "Warsztat", "Hotel"};
+
+        equipmentTable = new HorizontalTitledTableWithChechboxes("Wyposażenie", equipmentData, eqColumnNames, editableEquipmentTable);
 
         if (mopInfo.getTrafficInfo() != null) {
             Object[][] trafficData = {
@@ -85,8 +86,10 @@ public abstract class MopInfoDialog extends AbstractDialog {
         this.setVisible(true);
     }
 
-    protected String mapYesNo(boolean flag) {
-        return flag ? "TAK" : "NIE";
+    protected boolean mapYesNo(boolean flag) {
+        JCheckBox box = new JCheckBox();
+        box.setSelected(flag);
+        return flag;
     }
 
     protected boolean mapYesNoToBool(String s) {
