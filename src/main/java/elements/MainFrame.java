@@ -289,6 +289,20 @@ public class MainFrame {
         repaint();
     }
 
+    public Route findNearestRoute(GeoPosition gp) {
+        Route r1 = routesMap.findRouteByGeoPosition(gp);
+        Route r2 = addedRoutesMap.findRouteByGeoPosition(gp);
+        double d1 = r1.getDistanceFromGeoPosition(gp);
+        double d2 = Double.MAX_VALUE;
+        if (r2 != null) {
+            d2 = r2.getDistanceFromGeoPosition(gp);
+        }
+        if (d1 < d2) {
+            return r1;
+        }
+        return r2;
+    }
+
     public void setMapFromFile(File mapFromFile) {
         return;
         //todo MG

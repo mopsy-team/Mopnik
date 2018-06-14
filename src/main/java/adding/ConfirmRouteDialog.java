@@ -19,8 +19,8 @@ public class ConfirmRouteDialog extends AbstractDialog {
         GeoPosition gpBeg = mainFrame.getMapViewer().convertPointToGeoPosition(p1);
         GeoPosition gpEnd = mainFrame.getMapViewer().convertPointToGeoPosition(p2);
 
-        Route routeBeg = mainFrame.getRoutesMap().findRouteByGeoPosition(gpBeg);
-        Route routeEnd = mainFrame.getRoutesMap().findRouteByGeoPosition(gpEnd);
+        Route routeBeg = mainFrame.findNearestRoute(gpBeg);
+        Route routeEnd = mainFrame.findNearestRoute(gpEnd);
         JLabel routeLabel = new JLabel("Wybrany odcinek łączy drogi " + routeBeg.getName() + " oraz " +
                 routeEnd.getName() + ".");
         JLabel routeLabel2 = new JLabel("Jeśli chodziło o inny odcinek, spróbuj ponownie.");
