@@ -85,14 +85,5 @@ public abstract class MopInfoDialog extends AbstractDialog {
 
         this.setVisible(true);
     }
-
-    protected boolean mapYesNo(boolean flag) {
-        JCheckBox box = new JCheckBox();
-        box.setSelected(flag);
-        return flag;
-    }
-
-    protected boolean mapYesNoToBool(String s) {
-        return s.equals("TAK");
-    }
+    
 }
