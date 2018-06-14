@@ -170,8 +170,6 @@ public class MainFrame {
     public void show() {
         File mopsFile = AppConfig.getFile(AppConfig.getMopFilename());
 
-        setMopPointsFromFile(mopsFile);
-
         File SDRFile = AppConfig.getFile(AppConfig.getSDRFilename());
         RoutesMap routesMap = TrafficInfoParser.assignRoutes(this, SDRFile);
         if (routesMap == null) {
