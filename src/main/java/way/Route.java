@@ -1,6 +1,7 @@
 package way;
 
 import methods.CustomMethod;
+import methods.Method;
 import methods.MethodResult;
 import mop.MopParkingSpacesInfo;
 import org.jxmapviewer.viewer.GeoPosition;
@@ -168,7 +169,15 @@ public class Route {
         geoPositions.put(mileageBegin, geoPosition);
     }
 
+    public MethodResult getSpacesNeeded() {
+        return spacesNeeded;
+    }
+
     public void setSpacesNeeded(MethodResult mr) {
         spacesNeeded = mr;
+    }
+
+    public void computeSpacesNeeded(Method method) {
+        spacesNeeded = method.compute(this);
     }
 }

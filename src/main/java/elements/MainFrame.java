@@ -1,6 +1,7 @@
 package elements;
 
 import config.AppConfig;
+import methods.CustomMethod;
 import methods.Method;
 import mop.*;
 import mopsim.config_group.MOPSimConfigGroup;
@@ -39,7 +40,7 @@ public class MainFrame {
     private Set<MopPoint> mopPoints;
     private CompoundPainter<JXMapViewer> painter;
     private Set<MopInfo> mopInfos;
-    private Set<Method> methods;
+    private Method method;
     private TrafficMap trafficMap;
     private RoutesMap routesMap = null;
     private RoutesMap addedRoutesMap = new RoutesMap();
@@ -92,8 +93,8 @@ public class MainFrame {
 
         mopPoints = new HashSet<>();
         mopInfos = new HashSet<>();
-        methods = new HashSet<>();
         listeners = new ArrayList<>();
+        method = new CustomMethod();
         trafficMap = new TrafficMap();
         // trafficMap.setRoutesMap(this);
     }
@@ -196,12 +197,10 @@ public class MainFrame {
         this.routesMap = routesMap;
     }
 
-    public void addMethod(Method method) {
-        methods.add(method);
-    }
-
-    public Set<Method> getMethods() {
-        return methods;
+    public void changeMethod(Method method) {
+        this.method = method;
+        routesMap.setSpacesNeeded(method);
+        repaint();
     }
 
     public RoutesMap getRoutesMap() {

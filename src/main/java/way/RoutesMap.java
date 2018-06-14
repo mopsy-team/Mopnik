@@ -1,5 +1,6 @@
 package way;
 
+import methods.Method;
 import org.jxmapviewer.viewer.GeoPosition;
 
 import java.util.*;
@@ -114,6 +115,14 @@ public class RoutesMap {
             }
         }
         return routePainters;
+    }
+
+    public void setSpacesNeeded(Method method) {
+        for (Map.Entry<String, TreeSet<Route>> entry: routes.entrySet()) {
+            for (Route r: entry.getValue()) {
+                r.computeSpacesNeeded(method);
+            }
+        }
     }
 
     private double computeDiff (GeoPosition g1, GeoPosition g2) {
