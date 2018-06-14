@@ -47,7 +47,7 @@ public class PredictionDialog extends AbstractDialog {
                     f[j].setBus(convertToDouble(table.getValueAt(j, 3)));
                 }
                 method.setFields(Arrays.asList(f));
-                frame.addMethod(method);
+                frame.changeMethod(method);
                 this.dispose();
             }
             catch (ValidationError err){
