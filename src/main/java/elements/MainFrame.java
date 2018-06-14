@@ -228,9 +228,8 @@ public class MainFrame {
         repaint();
     }
 
-    public void addRoute(String name, Point2D begin, Point2D end, int milBegin, int milEnd, String dir1, String dir2) {
-        GeoPosition gpBeg = mapViewer.convertPointToGeoPosition(begin);
-        GeoPosition gpEnd = mapViewer.convertPointToGeoPosition(end);
+    public void addRoute(String name, GeoPosition gpBeg, GeoPosition gpEnd,
+                         int milBegin, int milEnd, String dir1, String dir2) {
            Route route = new Route(name, milBegin, milEnd,
                    gpBeg, gpEnd, new TrafficInfo());
            route.addSpacesInfo(dir1, new MopParkingSpacesInfo(0, 0, 0));
