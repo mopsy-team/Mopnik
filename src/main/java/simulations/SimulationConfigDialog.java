@@ -19,8 +19,12 @@ public class SimulationConfigDialog extends AbstractDialog {
         FilePicker osmFilePicker = addFilePicker("Plik z mapą",
                 "Wybierz", ".osm", "Open Street Map");
 
+        JCheckBox mopCheckBox = new JCheckBox("Wybierz aktywny układ MOPów");
+        add(mopCheckBox);
         FilePicker mopFilePicker = addFilePicker("Układ MOPów",
                 "Wybierz", ".xml", "Spreadsheet");
+        mopFilePicker.setEnabled(true);
+
 
         FilePicker travelMatricesFilePicker = addFilePicker("Macierze podróży",
                 "Wybierz", ".csv", "CSV file");
@@ -37,6 +41,7 @@ public class SimulationConfigDialog extends AbstractDialog {
                     if (mopFilePicker.getSelectedFilePath().equals("")) {
                         message += "plik z MOPami \n";
                         notSet = true;
+                        // TODO(MG) Guzik z wyborem aktualnych mopów
                     }
                     if (travelMatricesFilePicker.getSelectedFilePath().equals("")) {
                         message += "macierze podróży";
@@ -48,8 +53,9 @@ public class SimulationConfigDialog extends AbstractDialog {
                     else {
                         System.out.println(osmFilePicker.getSelectedFilePath());
                         this.setVisible(false);
+                        // TODO(MG) przekazywać mopsimowi listę dodanych dróg
                     }
-                }); // TODO
+                });
         this.add(submit);
 
         this.setVisible(true);

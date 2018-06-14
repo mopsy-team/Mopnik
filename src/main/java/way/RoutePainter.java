@@ -13,6 +13,7 @@ import java.awt.event.MouseListener;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -66,14 +67,17 @@ public class RoutePainter implements Painter<JXMapViewer> {
             if (nSpaces == NSpaces.LARGE) {
                 color = Color.green;
             }
-            if (nSpaces == NSpaces.SUFFICIENT) {
+            else if (nSpaces == NSpaces.SUFFICIENT) {
                 color = Color.yellow;
             }
-            if (nSpaces == NSpaces.LOW) {
+            else if (nSpaces == NSpaces.LOW) {
                 color = Color.orange;
             }
-            if (nSpaces == NSpaces.VERY_LOW) {
+            else if (nSpaces == NSpaces.VERY_LOW) {
                 color = Color.red;
+            }
+            else {
+                color = Color.black;
             }
         }
 
@@ -96,9 +100,6 @@ public class RoutePainter implements Painter<JXMapViewer> {
         }
         TileFactory tf = map.getTileFactory();
         int zoom = map.getZoom();
-//        int xs[] = track.stream().mapToInt(gp -> (int)Math.round(tf.geoToPixel(gp, zoom).getX())).toArray();
-//        int ys[] = track.stream().mapToInt(gp -> (int)Math.round(tf.geoToPixel(gp, zoom).getY())).toArray();
-//        g.drawPolyline(xs, ys, xs.length);
         lines = new ArrayList<>();
         for (int i = 0; i < track.size() - 1; i++) {
             double x1 = tf.geoToPixel(track.get(i), zoom).getX();

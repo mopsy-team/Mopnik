@@ -4,7 +4,7 @@ import java.io.File;
 
 public class AppConfig {
     private static final String mopFilename = "MOP-12.2017-final2.xlsx";
-    private static final String mapFilename = "poland-latest6.osm";
+    private static final String mapFilename = "poland-latestfiltered.osm";
     private static final String matrixFilename = "kraj.csv";
     private static final String mopsUrl = "http://reach.mimuw.edu.pl:8008/mops/?format=json";
 
