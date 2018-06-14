@@ -1,7 +1,10 @@
 package methods;
 
 import elements.MainFrame;
+import exceptions.ValidationError;
 import util.AbstractDialog;
+import util.TitledTable;
+import util.VerticalTitledTable;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -26,15 +29,7 @@ public class PredictionDialog extends AbstractDialog {
             f[i] = field;
             ++i;
         }
-        JTable table = new JTable(data, columnNames);
-        table.setModel(new DefaultTableModel(data, columnNames) {
-
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return column > 0;
-            }
-        });
-
+        TitledTable table = new VerticalTitledTable("Parametry metodyki", data, columnNames);
 
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportView(table);
@@ -44,15 +39,31 @@ public class PredictionDialog extends AbstractDialog {
 
         JButton submit = new JButton("Ustaw parametry");
         submit.addActionListener(event -> {
-            for (int j = 0; j < fields.size(); ++j) {
-                f[j].setCar(Double.parseDouble(table.getValueAt(j, 1).toString()));
-                f[j].setTruck(Double.parseDouble(table.getValueAt(j, 2).toString()));
-                f[j].setBus(Double.parseDouble(table.getValueAt(j, 3).toString()));
+            table.endEditing();
+            try {
+                for (int j = 0; j < fields.size(); ++j) {
+                    f[j].setCar(convertToDouble(table.getValueAt(j, 1)));
+                    f[j].setTruck(convertToDouble(table.getValueAt(j, 2)));
+                    f[j].setBus(convertToDouble(table.getValueAt(j, 3)));
+                }
+                method.setFields(Arrays.asList(f));
+                frame.addMethod(method);
+                this.dispose();
             }
-            method.setFields(Arrays.asList(f));
-            frame.addMethod(method);
+            catch (ValidationError err){
+                err.alert();
+            }
         });
         this.add(submit);
         this.setVisible(true);
+    }
+
+    private double convertToDouble(Object d) throws ValidationError{
+        try {
+            return Double.parseDouble(d.toString());
+        }
+        catch (java.lang.NumberFormatException e){
+            throw new ValidationError("Parametr metodyki musi być liczbą dodatnią");
+        }
     }
 }

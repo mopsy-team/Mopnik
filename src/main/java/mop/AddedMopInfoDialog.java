@@ -1,6 +1,7 @@
 package mop;
 
 import elements.MainFrame;
+import exceptions.ValidationError;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
@@ -27,26 +28,31 @@ public class AddedMopInfoDialog extends MopInfoDialog {
                 equipmentTable.endEditing();
                 information.endEditing();
 
-                Object[] ps = parkingSpaces.getColumn(1);
+                try {
+                    Object[] ps = parkingSpaces.getColumn(1);
 
-                mopInfo.setParkingSpacesInfo(new MopParkingSpacesInfo(makeInt(ps[0]), makeInt(ps[1]), makeInt(ps[2])));
+                    mopInfo.setParkingSpacesInfo(new MopParkingSpacesInfo(makeInt(ps[0]), makeInt(ps[1]), makeInt(ps[2])));
 
-                Object[] ei = equipmentTable.getRow(0);
-                boolean[] eiBooleans = new boolean[ei.length];
-                for (int i = 0; i < ei.length; ++i){
-                    eiBooleans[i] = (boolean)ei[i];
+                    Object[] ei = equipmentTable.getRow(0);
+                    boolean[] eiBooleans = new boolean[ei.length];
+                    for (int i = 0; i < ei.length; ++i) {
+                        eiBooleans[i] = (boolean) ei[i];
+                    }
+                    MopEquipmentInfo newMopEquipmentInfo;
+                    newMopEquipmentInfo = new MopEquipmentInfo(eiBooleans);
+                    mopInfo.setEquipmentInfo(newMopEquipmentInfo);
+
+                    Object[] ins = information.getColumn(1);
+
+                    mopInfo.setBranch((String) ins[0]);
+                    mopInfo.setLocality((String) ins[1]);
+
+                    mainFrame.repaint();
+                    AddedMopInfoDialog.super.dispose();
                 }
-                MopEquipmentInfo newMopEquipmentInfo;
-                newMopEquipmentInfo = new MopEquipmentInfo(eiBooleans);
-                mopInfo.setEquipmentInfo(newMopEquipmentInfo);
-
-                Object[] ins = information.getColumn(1);
-
-                mopInfo.setBranch((String)ins[0]);
-                mopInfo.setLocality((String)ins[1]);
-
-                mainFrame.repaint();
-                AddedMopInfoDialog.super.dispose();
+                catch (ValidationError err){
+                    err.alert();
+                }
             }
         });
         this.add(submit);
@@ -62,7 +68,12 @@ public class AddedMopInfoDialog extends MopInfoDialog {
         this.add(remove);
     }
 
-    private int makeInt (Object o) {
-        return Integer.parseInt(o.toString());
+    private int makeInt (Object o) throws ValidationError {
+        try {
+            return Integer.parseInt(o.toString());
+        }
+        catch (java.lang.NumberFormatException e){
+            throw new ValidationError("Liczba miejsc parkingowych musi być liczbą całkowitą dodatnią");
+        }
     }
 }
