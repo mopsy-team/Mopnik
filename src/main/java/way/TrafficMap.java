@@ -33,7 +33,7 @@ public class TrafficMap {
                 }
                 String refs[] = NameAdjuster.getWayNames(node);
                 for (String ref : refs) {
-                    if ((ref.contains("A") || ref.contains("S") && !ref.contains("S3"))) {
+                    if (ref.contains("A") || ref.contains("S")) {
                         routesMap.addGeoposition(ref, distance,
                                 new GeoPosition(Double.parseDouble(node.lat), Double.parseDouble(node.lon)));
                     }

@@ -9,6 +9,7 @@ public class NameAdjuster {
         }
         String[] refs = node.getAllTags().get("ref").replaceAll("\\s+", "").split(";");
         for (int i = 0; i < refs.length; ++i) {
+            /*
             String ref = refs[i];
             double lon = Double.parseDouble(node.lon);
             double lat = Double.parseDouble(node.lat);
@@ -88,6 +89,7 @@ public class NameAdjuster {
                     refs[i] = "S10a";
                 }
             }
+            */
         }
         return refs;
     }

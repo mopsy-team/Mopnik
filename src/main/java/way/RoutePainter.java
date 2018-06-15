@@ -15,6 +15,8 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import static util.DistanceCounter.computeDiff;
+
 /**
  * Paints a route
  *
@@ -99,11 +101,21 @@ public class RoutePainter implements Painter<JXMapViewer> {
         for (int i = 0; i < track.size() - 1; i++) {
             double x1 = tf.geoToPixel(track.get(i), zoom).getX();
             double y1 = tf.geoToPixel(track.get(i), zoom).getY();
-            double x2 = tf.geoToPixel(track.get(i + 1), zoom).getX();
-            double y2 = tf.geoToPixel(track.get(i + 1), zoom).getY();
-            Line2D line = new Line2D.Double(x1, y1, x2, y2);
-            g.draw(line);
-            lines.add(new Pair<>(line, route)); // TODO(MG)
+            GeoPosition x = track.get(i);
+
+            double x2 = tf.geoToPixel(track.get(i+1), zoom).getX();
+            double y2 = tf.geoToPixel(track.get(i+1), zoom).getY();
+            GeoPosition y = track.get(i+1);
+            double dist = computeDiff(x, y);
+            if (dist < 5000) {
+                if (dist > 2000) {
+                    System.out.println(dist);
+                }
+                Line2D line = new Line2D.Double(x1, y1, x2, y2);
+                g.draw(line);
+                lines.add(new Pair<>(line, route)); // TODO(MG)
+            }
+
         }
     }
 
