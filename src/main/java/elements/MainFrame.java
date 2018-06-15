@@ -158,6 +158,20 @@ public class MainFrame {
         }
     }
 
+    public void setMopPointsFromServerOrFile(File file) {
+        String urlQueryString = AppConfig.getMopsUrl();
+        ServerDataHandler serverDataHandler = new ServerDataHandler(urlQueryString);
+        try {
+            mopInfos = serverDataHandler.parseMops();
+            this.mopPoints = mopInfos.stream().map((MopInfo m) -> new MopPoint(m.getName(),
+                    m, MopType.EXISTING, this)).collect(Collectors.toSet());
+            routesMap = TrafficInfoParser.assignMopsToRoutes(this);
+            repaint();
+        } catch (Exception e) {
+            setMopPointsFromFile(file);
+        }
+    }
+
     public JFrame getFrame() {
         return frame;
     }
@@ -178,7 +192,8 @@ public class MainFrame {
                     JOptionPane.WARNING_MESSAGE);
         }
 
-        setMopPointsFromFile(mopsFile);
+        this.routesMap = routesMap;
+        setMopPointsFromServerOrFile(mopsFile);
 
         MainMenu mainMenu = new MainMenu(this);
         frame.pack();
