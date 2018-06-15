@@ -16,6 +16,7 @@ public class Route {
     private TrafficInfo trafficInfo;
     private Map<String, MopParkingSpacesInfo> spacesByDirection;
     private MethodResult spacesNeeded;
+    private boolean directionsSet = false;
 
     public Route(String name, double mileageBegin, double mileageEnd, Map<Double, GeoPosition> geoPositions,
                  TrafficInfo trafficInfo) {
@@ -43,8 +44,17 @@ public class Route {
         this.mileageBegin = mileageBegin;
         this.mileageEnd = mileageEnd;
         this.spacesByDirection = new HashMap<>();
-        this.spacesByDirection.put("1", new MopParkingSpacesInfo(0, 0, 0));
-        this.spacesByDirection.put("2", new MopParkingSpacesInfo(0, 0, 0));
+        String dir1;
+        String dir2;
+        if (!name.equals("") && Integer.parseInt(name.replaceAll("[\\D]", "")) % 2 == 0) {
+            dir1 = "Wschód";
+            dir2 = "Zachód";
+        } else {
+            dir1 = "Północ";
+            dir2 = "Południe";
+        }
+        this.spacesByDirection.put(dir1, new MopParkingSpacesInfo(0, 0, 0));
+        this.spacesByDirection.put(dir2, new MopParkingSpacesInfo(0, 0, 0));
         if (trafficInfo != null) {
             this.spacesNeeded = new CustomMethod().compute(this);
         }
@@ -112,12 +122,10 @@ public class Route {
     }
 
     public void addSpacesInfo(String direction, MopParkingSpacesInfo mopParkingSpacesInfo) {
-        if (spacesByDirection.size() == 2 && spacesByDirection.containsKey("1")) {
+        if (!directionsSet) {
             spacesByDirection = new HashMap<>();
         }
-        if (direction.equals("1") || direction.equals("2")) {
-            return;
-        }
+        directionsSet = true;
         if (spacesByDirection.containsKey(direction)) {
             spacesByDirection.get(direction).add(mopParkingSpacesInfo);
         } else {
