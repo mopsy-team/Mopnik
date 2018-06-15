@@ -4,7 +4,6 @@ import com.opencsv.CSVReader;
 import elements.MainFrame;
 import mop.MopInfo;
 import mop.MopParkingSpacesInfo;
-import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 
 import java.io.File;
 import java.io.FileInputStream;
