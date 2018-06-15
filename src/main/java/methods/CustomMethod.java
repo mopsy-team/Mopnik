@@ -18,13 +18,13 @@ public class CustomMethod extends AbstractMethod {
         TrafficInfo trafficInfo = route.getTrafficInfo();
         Double distPer15km = route.getDistance() / 15;
         MethodValue ind = getValueOrNull("indicator");
-        MethodValue sind = getValueOrNull("seasonal indicator");
-        if (ind == null || sind == null) {
+        MethodValue sInd = getValueOrNull("seasonal indicator");
+        if (ind == null || sInd == null) {
             return new MethodResult(0, 0, 0);
         }
-        long car = Math.round(ind.getCar() * trafficInfo.getCar() / 2 * sind.getCar() * distPer15km);
-        long truck = Math.round(ind.getTruck() * trafficInfo.getTruck() / 2 * sind.getTruck() * distPer15km);
-        long bus = Math.round(ind.getBus() * trafficInfo.getBus() / 2 * sind.getBus() * distPer15km);
+        long car = Math.round(ind.getCar() * trafficInfo.getCar() / 2 * sInd.getCar() * distPer15km);
+        long truck = Math.round(ind.getTruck() * trafficInfo.getTruck() / 2 * sInd.getTruck() * distPer15km);
+        long bus = Math.round(ind.getBus() * trafficInfo.getBus() / 2 * sInd.getBus() * distPer15km);
         return new MethodResult(car, truck, bus);
     }
 

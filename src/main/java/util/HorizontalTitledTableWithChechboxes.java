@@ -5,7 +5,6 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 
-
 public class HorizontalTitledTableWithChechboxes extends TitledTable {
     protected JScrollPane scroll;
 
@@ -16,10 +15,12 @@ public class HorizontalTitledTableWithChechboxes extends TitledTable {
             public boolean isCellEditable(int row, int column) {
                 return editable;
             }
+
             @Override
             public Class<?> getColumnClass(int column) {
                 return Boolean.class;
             }
+
             @Override
             public String getColumnName(int index) {
                 return columnNames[index];
@@ -30,7 +31,8 @@ public class HorizontalTitledTableWithChechboxes extends TitledTable {
         jTable.setRowHeight(30);
         scroll = new JScrollPane(jTable);
         scroll.setColumnHeader(new JViewport() {
-            @Override public Dimension getPreferredSize() {
+            @Override
+            public Dimension getPreferredSize() {
                 Dimension d = super.getPreferredSize();
                 d.height = 40;
                 return d;

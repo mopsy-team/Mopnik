@@ -11,6 +11,7 @@ import java.awt.event.MouseListener;
 
 public class AddMopPanel extends JPanel {
     private MainFrame mainFrame;
+
     public AddMopPanel(MainFrame mainFrame) {
         super();
         this.mainFrame = mainFrame;
@@ -24,11 +25,10 @@ public class AddMopPanel extends JPanel {
                 int y = e.getY() - 20;
                 GeoPosition gp = mainFrame.getMapViewer().convertPointToGeoPosition(new Point(x, y));
                 Route route = mainFrame.findNearestRoute(gp);
-                ConfirmMopPositionDialog dialog;
+                double mileage = route.findMileage(gp);
                 if (route != null) {
-                    dialog = new ConfirmMopPositionDialog(route, gp, mainFrame);
-                }
-                else {
+                    new ConfirmMopPositionDialog(route, gp, mainFrame, mileage);
+                } else {
                     mainFrame.addMop("Nowy mop", gp, route, "");
                 }
             }

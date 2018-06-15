@@ -25,13 +25,11 @@ public class MopPoint extends DefaultWaypoint {
         super(mopInfo.getGeoPosition());
         this.label = label;
         this.mopInfo = mopInfo;
-        button = new JButton();
         Image img = null;
         try {
             if (mopType == MopType.EXISTING) {
                 img = ImageIO.read(MopPoint.class.getResource("/images/Parking_icon_16.png"));
-            }
-            else {
+            } else {
                 img = ImageIO.read(MopPoint.class.getResource("/images/Parking_icon_16_red.png"));
             }
         } catch (Exception e) {
@@ -43,6 +41,7 @@ public class MopPoint extends DefaultWaypoint {
             this.button.setBorderPainted(false);
             this.button.setContentAreaFilled(false);
             this.button.setToolTipText(mopInfo.getName());
+            button.setPreferredSize(new Dimension(16, 16));
         }
         if (mopType == MopType.EXISTING) {
             this.button.addMouseListener(new MouseAdapter() {
@@ -51,8 +50,7 @@ public class MopPoint extends DefaultWaypoint {
                     MopInfoDialog dialog = new ExistingMopInfoDialog(mopInfo, frame);
                 }
             });
-        }
-        else {
+        } else {
             this.button.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {

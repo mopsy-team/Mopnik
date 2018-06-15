@@ -45,7 +45,6 @@ public class MainFrame {
     private RoutesMap routesMap = null;
     private RoutesMap addedRoutesMap = new RoutesMap();
     private List<RoutePainter> addedRoutePainters = new ArrayList<>();
-    private boolean first = true;
     private List<MouseListener> listeners;
     private MOPSimConfigGroup mopsimConfig;
 
@@ -115,12 +114,10 @@ public class MainFrame {
                 e.printStackTrace();
                 mopInfosTemp = null;
             }
-        }
-        else if(filepath.endsWith(".xlsx")) {
+        } else if (filepath.endsWith(".xlsx")) {
             XlsToMopParser xlsToMopParser = new XlsToMopParser(file);
             mopInfosTemp = xlsToMopParser.parseMops();
-        }
-        else {
+        } else {
             System.out.println("Failed to read file " + filepath);
             mopInfosTemp = null;
         }
@@ -172,8 +169,8 @@ public class MainFrame {
     public void show() {
         File mopsFile = AppConfig.getFile(AppConfig.getMopFilename());
 
-        File matrixFile =  AppConfig.getFile(AppConfig.getSDRFilename());
-        RoutesMap routesMap = TrafficInfoParser.assignRoutes(this, matrixFile);
+        File SDRFile = AppConfig.getFile(AppConfig.getSDRFilename());
+        RoutesMap routesMap = TrafficInfoParser.assignRoutes(this, SDRFile);
         if (routesMap == null) {
             JOptionPane.showMessageDialog(getFrame(),
                     "Wskazany plik nie istnieje lub jest w złym formacie.",
@@ -234,13 +231,12 @@ public class MainFrame {
             mapViewer.addMouseListener(ml);
             listeners.add(ml);
         }
-        for (RoutePainter routePainter: addedRoutePainters) {
+        for (RoutePainter routePainter : addedRoutePainters) {
             painter.addPainter(routePainter);
             MouseListener ml = routePainter.mouseListenerOnRoute(mapViewer);
             mapViewer.addMouseListener(ml);
             listeners.add(ml);
         }
-        first = false;
         for (MopPoint w : mopPoints) {
             mapViewer.add(w.getButton());
         }
@@ -265,17 +261,17 @@ public class MainFrame {
     }
 
     public void addRoute(String name, GeoPosition gpBeg, GeoPosition gpEnd,
-                         int milBegin, int milEnd, String dir1, String dir2) {
-           Route route = new Route(name, milBegin, milEnd,
-                   gpBeg, gpEnd, new TrafficInfo());
-           route.addSpacesInfo(dir1, new MopParkingSpacesInfo(0, 0, 0));
-           route.addSpacesInfo(dir2, new MopParkingSpacesInfo(0, 0, 0));
-           addedRoutesMap.add(route);
-           List<GeoPosition> track = new ArrayList<>();
-           track.add(gpBeg);
-           track.add(gpEnd);
-           addedRoutePainters.add(new RoutePainter(track, route));
-           repaint();
+                         double milBegin, double milEnd, String dir1, String dir2) {
+        Route route = new Route(name, milBegin, milEnd,
+                gpBeg, gpEnd, new TrafficInfo());
+        route.addSpacesInfo(dir1, new MopParkingSpacesInfo(0, 0, 0));
+        route.addSpacesInfo(dir2, new MopParkingSpacesInfo(0, 0, 0));
+        addedRoutesMap.add(route);
+        List<GeoPosition> track = new ArrayList<>();
+        track.add(gpBeg);
+        track.add(gpEnd);
+        addedRoutePainters.add(new RoutePainter(track, route));
+        repaint();
     }
 
     public void removeMop(MopInfo mopInfo) {

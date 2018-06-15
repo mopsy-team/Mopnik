@@ -1,11 +1,7 @@
 package mop;
 
 import elements.MainFrame;
-import util.AbstractDialog;
-import util.HorizontalTitledTable;
-import util.HorizontalTitledTableWithChechboxes;
-import util.TitledTable;
-import util.VerticalTitledTable;
+import util.*;
 
 import javax.swing.*;
 

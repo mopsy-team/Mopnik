@@ -6,6 +6,7 @@ import java.awt.*;
 
 public abstract class TitledTable extends JPanel {
     protected JTable jTable;
+
     public TitledTable(String title, Object[][] data, String[] columnNames) {
         this.setLayout(new CardLayout(10, 10));
         this.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
@@ -22,7 +23,7 @@ public abstract class TitledTable extends JPanel {
         jTable.setDefaultEditor(Object.class, new DefaultCellEditor(new JTextField()));
     }
 
-    public Object[] getRow (int n) {
+    public Object[] getRow(int n) {
         Object[] res = new Object[jTable.getColumnCount()];
         for (int i = 0; i < jTable.getColumnCount(); ++i) {
             res[i] = jTable.getValueAt(n, i);
@@ -30,7 +31,7 @@ public abstract class TitledTable extends JPanel {
         return res;
     }
 
-    public Object[] getColumn (int n) {
+    public Object[] getColumn(int n) {
         Object[] res = new Object[jTable.getRowCount()];
         for (int i = 0; i < jTable.getRowCount(); ++i) {
             res[i] = jTable.getValueAt(i, n);
@@ -43,7 +44,7 @@ public abstract class TitledTable extends JPanel {
     }
 
     public void endEditing() {
-        if(jTable.isEditing()){
+        if (jTable.isEditing()) {
             jTable.getCellEditor().stopCellEditing();
         }
     }

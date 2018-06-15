@@ -1,6 +1,7 @@
 package adding;
 
 import elements.MainFrame;
+import exceptions.ValidationError;
 import org.jxmapviewer.viewer.GeoPosition;
 import util.AbstractDialog;
 import way.Route;
@@ -8,6 +9,8 @@ import way.Route;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
+
+import static util.Validator.makeUnsignedDouble;
 
 public class ConfirmRouteDialog extends AbstractDialog {
     public ConfirmRouteDialog(Point2D p1, Point2D p2, MainFrame mainFrame) {
@@ -50,10 +53,17 @@ public class ConfirmRouteDialog extends AbstractDialog {
 
         JButton submit = new JButton("Zatwierdź");
         submit.addActionListener(e -> {
-            mainFrame.addRoute(name.getText(), gpBeg, gpEnd,
-                    Integer.parseInt(mil1.getText()), Integer.parseInt(mil2.getText()),
-                    dir1.getText(), dir2.getText());
-            this.setVisible(false);
+            try {
+                Double milBeg = makeUnsignedDouble(mil1.getText(), "Pikietaż");
+                Double milEnd = makeUnsignedDouble(mil1.getText(), "Pikietaż");
+
+                mainFrame.addRoute(name.getText(), gpBeg, gpEnd,
+                        milBeg, milEnd, dir1.getText(), dir2.getText());
+                this.dispose();
+            }
+            catch (ValidationError validationError) {
+                validationError.alert();
+            }
         });
         getRootPane().setDefaultButton(submit);
         this.add(submit);

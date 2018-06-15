@@ -8,7 +8,7 @@ public class AbstractDialog extends JDialog {
         super();
         KeyStroke k = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
         int w = JComponent.WHEN_IN_FOCUSED_WINDOW;
-        getRootPane().registerKeyboardAction(e -> this.setVisible(false), k, w);
+        getRootPane().registerKeyboardAction(e -> this.dispose(), k, w);
     }
 
 }

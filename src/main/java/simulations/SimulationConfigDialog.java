@@ -1,5 +1,6 @@
 package simulations;
 
+import exceptions.ValidationError;
 import mopsim.MOPSimRun;
 import mopsim.config_group.MOPSimConfigGroup;
 import util.AbstractDialog;
@@ -9,6 +10,8 @@ import util.VerticalTitledTable;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+
+import static util.Validator.makeInt;
 
 public class SimulationConfigDialog extends AbstractDialog {
 
@@ -67,29 +70,30 @@ public class SimulationConfigDialog extends AbstractDialog {
         JButton submit = new JButton("Przeprowadź symulację");
         submit.addActionListener(
                 e -> {
-                    input.endEditing();
-                    int carNr = makeInt(input.getValueAt(0, 1));
-                    int truckNr = makeInt(input.getValueAt(1, 1));
-                    int busNr = makeInt(input.getValueAt(2, 1));
-                    String simulationId = input.getValueAt(3, 1).toString();
-                    int threadsNr = makeInt(input.getValueAt(4, 1));
+                    try {
+                        input.endEditing();
+                        int carNr = makeInt(input.getValueAt(0, 1), "Liczba samochodów osobowych");
+                        int truckNr = makeInt(input.getValueAt(1, 1), "Liczba samochodów ciężarowych");
+                        int busNr = makeInt(input.getValueAt(2, 1), "Liczba autobusów");
+                        String simulationId = input.getValueAt(3, 1).toString();
+                        int threadsNr = makeInt(input.getValueAt(4, 1), "Liczba wątków");
 
 
-                    String networkPath = networkPicker.getSelectedFilePath();
-                    String mopPath = mopPicker.getSelectedFilePath();
-                    String carPath = carPicker.getSelectedFilePath();
-                    String truckPath = truckPicker.getSelectedFilePath();
-                    String busPath = busPicker.getSelectedFilePath();
+                        String networkPath = networkPicker.getSelectedFilePath();
+                        String mopPath = mopPicker.getSelectedFilePath();
+                        String carPath = carPicker.getSelectedFilePath();
+                        String truckPath = truckPicker.getSelectedFilePath();
+                        String busPath = busPicker.getSelectedFilePath();
 
-                    String message = "";
-                    if (carPath.equals("") && carNr > 0) {
-                        message = "Liczba samochodów osobowych jest dodatnia, " +
-                                "ale nie wybrano macierzy samochodów osobowych";
-                    }
-                    if (truckPath.equals("") && truckNr > 0) {
-                        message = "Liczba samochodów ciężarowych jest dodatnia, " +
-                                "ale nie wybrano macierzy samochodów ciężarowych";
-
+                        String message = "";
+                        if (carPath.equals("") && carNr > 0) {
+                            message = "Liczba samochodów osobowych jest dodatnia, " +
+                                    "ale nie wybrano macierzy samochodów osobowych";
+                        }
+                        if (truckPath.equals("") && truckNr > 0) {
+                            message = "Liczba samochodów ciężarowych jest dodatnia, " +
+                                    "ale nie wybrano macierzy samochodów ciężarowych";
+                        }
                         if (busPath.equals("") && busNr > 0) {
                             message = "Liczba autobusów jest dodatnia, " +
                                     "ale nie wybrano macierzy autobusów";
@@ -102,9 +106,11 @@ public class SimulationConfigDialog extends AbstractDialog {
                         if (mopPath.equals("")) {
                             message = "Nie wybrano pliku z MOP-ami";
                         }
+
                         if (networkPath.equals("")) {
                             message = "Nie wybrano pliku z mapą";
                         }
+
                         if (!message.equals("")) {
                             JOptionPane.showMessageDialog(this, message);
                         } else {
@@ -124,11 +130,15 @@ public class SimulationConfigDialog extends AbstractDialog {
                                 MOPSimRun.run(mopsimConfig);
                                 JOptionPane.showMessageDialog(this,
                                         "Zakończono symulację.");
-                                this.setVisible(false);
+                                this.dispose();
                             });
                             thread.start();
                         }
                     }
+                    catch (ValidationError validationError) {
+                        validationError.alert();
+                    }
+
                 });
         return submit;
     }
@@ -144,16 +154,6 @@ public class SimulationConfigDialog extends AbstractDialog {
         filePicker.addFileTypeFilter(extensions, description);
         this.add(filePicker);
         return filePicker;
-    }
-
-    private int makeInt(Object o) {
-        int ret = 0;
-        try {
-            ret = Integer.parseInt(o.toString());
-        } catch (NumberFormatException e) {
-            ret = 0; //TODO
-        }
-        return ret;
     }
 
     private VerticalTitledTable inputTable() {
