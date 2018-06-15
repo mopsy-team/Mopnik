@@ -47,13 +47,21 @@ public class TrafficInfoParser {
 
     static public RoutesMap assignRoutes(MainFrame mainFrame, File file) {
         RoutesMap routesMap = parseFromFile(file);
-        return assignMopsToRoutes(mainFrame, routesMap);
+        mainFrame.generateRoutesMap(routesMap);
+        return assignMopsToRoutes(mainFrame);
     }
 
-    static public RoutesMap assignMopsToRoutes(MainFrame mainFrame, RoutesMap routesMap) {
+    static public RoutesMap assignMopsToRoutes(MainFrame mainFrame) {
         Collection<MopInfo> mopInfos = mainFrame.getMopInfos();
+        RoutesMap routesMap = mainFrame.getRoutesMap();
         for (MopInfo mop : mopInfos) {
-            Route route = routesMap.find(mop.getRoad(), mop.getMileage());
+            Route route = routesMap.findRouteByGeoPosition(mop.getGeoPosition());
+            if (    route == null ||
+                    !route.getName().contains(mop.getRoad())
+                    || mop.getMileage() > route.getMileageEnd()
+                    || mop.getMileage() < route.getMileageBegin()) {
+                route = routesMap.find(mop.getRoad(), mop.getMileage());
+            }
             if (route != null) {
                 mop.setRoute(route);
                 MopParkingSpacesInfo mopParkingSpacesInfo = mop.getParkingSpacesInfo();

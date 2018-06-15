@@ -132,7 +132,7 @@ public class MainFrame {
         this.mopPoints = mopInfos.stream().map((MopInfo m) ->
                 new MopPoint(m.getName(), m, MopType.EXISTING, this)).collect(Collectors.toSet());
         AppConfig.save();
-        routesMap = TrafficInfoParser.assignMopsToRoutes(this, routesMap);
+        routesMap = TrafficInfoParser.assignMopsToRoutes(this);
         repaint();
     }
 
@@ -176,8 +176,6 @@ public class MainFrame {
                     "Wskazany plik nie istnieje lub jest w złym formacie.",
                     "Zły format pliku",
                     JOptionPane.WARNING_MESSAGE);
-        } else {
-            generateRoutesMap(routesMap);
         }
 
         setMopPointsFromFile(mopsFile);
