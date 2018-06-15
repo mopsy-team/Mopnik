@@ -25,7 +25,6 @@ public class MopPoint extends DefaultWaypoint {
         super(mopInfo.getGeoPosition());
         this.label = label;
         this.mopInfo = mopInfo;
-        button = new JButton();
         Image img = null;
         try {
             if (mopType == MopType.EXISTING) {
@@ -42,6 +41,7 @@ public class MopPoint extends DefaultWaypoint {
             this.button.setBorderPainted(false);
             this.button.setContentAreaFilled(false);
             this.button.setToolTipText(mopInfo.getName());
+            button.setPreferredSize(new Dimension(16, 16));
         }
         if (mopType == MopType.EXISTING) {
             this.button.addMouseListener(new MouseAdapter() {
