@@ -9,7 +9,7 @@ import org.jxmapviewer.viewer.GeoPosition;
 import java.util.*;
 
 public class Route {
-    private String name;
+    private String name = "";
     private double mileageBegin;
     private double mileageEnd;
     private Map<Double, GeoPosition> geoPositions = new TreeMap<>();
