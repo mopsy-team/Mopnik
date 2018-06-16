@@ -1,10 +1,9 @@
 package way;
 
-import methods.CustomMethod;
-import methods.Method;
 import methods.MethodResult;
 import mop.MopParkingSpacesInfo;
 import util.AbstractDialog;
+import util.TitledTable;
 import util.VerticalTitledTable;
 
 import javax.swing.*;
@@ -34,16 +33,18 @@ public class TrafficInfoDialog extends AbstractDialog {
         for (Map.Entry<String, MopParkingSpacesInfo> entry : spacesByDirection.entrySet()) {
             String dir = entry.getKey();
             MopParkingSpacesInfo mr = entry.getValue();
-            String[] columnNames = {"", "", "", ""};
+            String[] columnNames = {"Rodzaj pojazdu", "Średniodobowe natężenie ruchu",
+                    "Liczba miejsc", "Liczba potrzebnych miejsc"};
             Object[][] data = {
-                    {"Rodzaj pojazdu", "Średniodobowe natężenie ruchu",
-                            "Liczba miejsc", "Liczba potrzebnych miejsc"},
                     {"Osobowe", sdrCar, mr.getCarSpaces(), methodResult.getCar()},
                     {"Ciężarowe", sdrTruck, mr.getTruckSpaces(), methodResult.getTruck()},
                     {"Autobusy", sdrBus, mr.getBusSpaces(), methodResult.getBus()},
             };
-            this.add(new VerticalTitledTable("Kierunek: " + dir,
-                    data, columnNames));
+
+            TitledTable table = new VerticalTitledTable("Kierunek: " + dir,
+                    data, columnNames);
+            table.setNotEditable();
+            this.add(table);
         }
         this.setVisible(true);
     }
