@@ -26,7 +26,7 @@ public class RoutePainter implements Painter<JXMapViewer> {
     private boolean first;
     private List<Pair<Line2D, Route>> lines;
     private Route route;
-
+    private JXMapViewer map;
     private ArrayList<GeoPosition> track;
 
     /**
@@ -53,6 +53,8 @@ public class RoutePainter implements Painter<JXMapViewer> {
             return;*/
 
         g = (Graphics2D) g.create();
+
+        this.map = map;
 
         // convert from viewport to world bitmap
         Rectangle rect = map.getViewportBounds();
@@ -127,6 +129,21 @@ public class RoutePainter implements Painter<JXMapViewer> {
                 }
             }
         });
+    }
+
+    public SearchInfo isCloseTo (JXMapViewer map, Point p) {
+        final int S = 10;
+        Rectangle r = map.getViewportBounds();
+        int x = p.x + r.x;
+        int y = p.y + r.y;
+        Rectangle sensor = new Rectangle(S, S);
+        sensor.setFrameFromCenter(x, y, x + S / 2, y + S / 2);
+        for (Pair<Line2D, Route> line : lines) {
+            if (line.getKey().intersects(sensor)) {
+                return line.getValue().searchInfo(map.convertPointToGeoPosition(p));
+            }
+        }
+        return null;
     }
 }
 

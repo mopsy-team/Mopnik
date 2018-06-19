@@ -44,6 +44,7 @@ public class MainFrame {
     private TrafficMap trafficMap;
     private RoutesMap routesMap = null;
     private RoutesMap addedRoutesMap = new RoutesMap();
+    private List<RoutePainter> routePainters = new ArrayList<>();
     private List<RoutePainter> addedRoutePainters = new ArrayList<>();
     private List<MouseListener> listeners;
     private MOPSimConfigGroup mopsimConfig;
@@ -238,7 +239,8 @@ public class MainFrame {
         if (routesMap == null) {
             return;
         }
-        for (RoutePainter routePainter : routesMap.routePainters()) {
+        routePainters = routesMap.routePainters();
+        for (RoutePainter routePainter : routePainters) {
             painter.addPainter(routePainter);
             MouseListener ml = routePainter.mouseListenerOnRoute(mapViewer);
             mapViewer.addMouseListener(ml);
@@ -310,6 +312,22 @@ public class MainFrame {
             return r1;
         }
         return r2;
+    }
+
+    public SearchInfo findNearRouteOrNull(Point point) {
+        for (RoutePainter routePainter: routePainters) {
+            SearchInfo searchInfo = routePainter.isCloseTo(mapViewer, point);
+            if (searchInfo != null) {
+                return searchInfo;
+            }
+        }
+        for (RoutePainter routePainter: routePainters) {
+            SearchInfo searchInfo = routePainter.isCloseTo(mapViewer, point);
+            if (searchInfo != null) {
+                return searchInfo;
+            }
+        }
+        return null;
     }
 
     public void setMapFromFile(File mapFromFile) {

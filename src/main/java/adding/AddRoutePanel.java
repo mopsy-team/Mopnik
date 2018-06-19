@@ -31,8 +31,8 @@ public class AddRoutePanel extends JPanel {
                     x2 = e.getX();
                     y2 = e.getY() - 20;
                     System.out.println(x2);
-                    Point2D p1 = new Point2D.Double(x1, y1);
-                    Point2D p2 = new Point2D.Double(x2, y2);
+                    Point p1 = new Point(x1, y1);
+                    Point p2 = new Point(x2, y2);
                     new ConfirmRouteDialog(p1, p2, mainFrame);
                     counter = 0;
                     setVisible(false);

@@ -199,6 +199,20 @@ public class Route {
         return diff;
     }
 
+    public SearchInfo searchInfo(GeoPosition geoPosition) {
+        double diff = Double.MAX_VALUE;
+        double mileageRes = 0.;
+        GeoPosition geoPositionRes = null;
+        for (Map.Entry<Double, GeoPosition> entry: geoPositions.entrySet()) {
+            double newDiff = computeDiff(geoPosition, entry.getValue());
+            if (newDiff < diff) {
+                mileageRes = entry.getKey();
+                geoPositionRes = entry.getValue();
+            }
+        }
+        return new SearchInfo(this, geoPositionRes, mileageRes);
+    }
+
     private double computeDiff(GeoPosition g1, GeoPosition g2) {
 
         final int R = 6371; // Radius of the earth
