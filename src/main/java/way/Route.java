@@ -18,6 +18,15 @@ public class Route {
     private MethodResult spacesNeeded;
     private boolean directionsSet = false;
 
+
+    public static Route newRouteForComparing(double mileageBegin) {
+        return new Route(mileageBegin);
+    }
+
+    public Route (double mileageBegin) {
+        this.mileageBegin = mileageBegin;
+    }
+
     public Route(String name, double mileageBegin, double mileageEnd, Map<Double, GeoPosition> geoPositions,
                  TrafficInfo trafficInfo) {
         this(name, mileageBegin, mileageEnd, trafficInfo);
@@ -225,5 +234,5 @@ public class Route {
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         return R * c * 1000;
     }
-    
+
 }
