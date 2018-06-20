@@ -71,7 +71,7 @@ public class ConfirmRouteDialog extends AbstractDialog {
         submit.addActionListener(e -> {
             try {
                 Double milBeg = makeUnsignedDouble(mil1.getText(), "Pikietaż");
-                Double milEnd = makeUnsignedDouble(mil1.getText(), "Pikietaż");
+                Double milEnd = makeUnsignedDouble(mil2.getText(), "Pikietaż");
 
                 String roadName = name.getText();
                 makeRoadNumber(roadName);
