@@ -15,7 +15,7 @@ public class RoutesMap {
 
     public void add(Route w) {
         if (!routes.containsKey(w.getName())) {
-            routes.put(w.getName(), new TreeSet<Route>(routesComparator));
+            routes.put(w.getName(), new TreeSet<>(routesComparator));
         }
         routes.get(w.getName()).add(w);
     }
@@ -26,7 +26,7 @@ public class RoutesMap {
         if (!routes.containsKey(name)) {
             return null;
         }
-        Route w = routes.get(name).floor(new Route("", mileage, mileage, null));
+        Route w = routes.get(name).floor(new Route("dumb", mileage, mileage, null));
         if (w == null) {
             return null;
         }

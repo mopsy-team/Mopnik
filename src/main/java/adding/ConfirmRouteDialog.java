@@ -73,7 +73,7 @@ public class ConfirmRouteDialog extends AbstractDialog {
 
                 String roadName = name.getText();
                 makeRoadNumber(roadName);
-                
+
                 Double milBeg = makeUnsignedDouble(mil1.getText(), "Pikietaż");
                 Double milEnd = makeUnsignedDouble(mil2.getText(), "Pikietaż");
 

@@ -42,33 +42,32 @@ public class Route {
     }
 
     public Route(String name, double mileageBegin, double mileageEnd, TrafficInfo trafficInfo) {
-        this.name = name;
-        this.trafficInfo = trafficInfo;
-        this.mileageBegin = mileageBegin;
-        this.mileageEnd = mileageEnd;
-        this.spacesByDirection = new HashMap<>();
-        String dir1;
-        String dir2;
-        int number = 0;
-        try {
-            number = makeRoadNumber(name);
-        }
-        catch (ValidationError e) {
-         //   System.out.println("nazwa: " + name);
-        //    System.out.println("dupa");
-            //todo
-        }
-        if (number % 2 == 0) {
-            dir1 = "Wschód";
-            dir2 = "Zachód";
-        } else {
-            dir1 = "Północ";
-            dir2 = "Południe";
-        }
-        this.spacesByDirection.put(dir1, new MopParkingSpacesInfo(0, 0, 0));
-        this.spacesByDirection.put(dir2, new MopParkingSpacesInfo(0, 0, 0));
-        if (trafficInfo != null) {
-            this.spacesNeeded = new CustomMethod().compute(this);
+            this.name = name;
+            this.trafficInfo = trafficInfo;
+            this.mileageBegin = mileageBegin;
+            this.mileageEnd = mileageEnd;
+        if (!name.equals("dumb")) {
+            this.spacesByDirection = new HashMap<>();
+            String dir1;
+            String dir2;
+            int number = 0;
+            try {
+                number = makeRoadNumber(name);
+            } catch (ValidationError e) {
+                e.printStackTrace();
+            }
+            if (number % 2 == 0) {
+                dir1 = "Wschód";
+                dir2 = "Zachód";
+            } else {
+                dir1 = "Północ";
+                dir2 = "Południe";
+            }
+            this.spacesByDirection.put(dir1, new MopParkingSpacesInfo(0, 0, 0));
+            this.spacesByDirection.put(dir2, new MopParkingSpacesInfo(0, 0, 0));
+            if (trafficInfo != null) {
+                this.spacesNeeded = new CustomMethod().compute(this);
+            }
         }
     }
 
