@@ -1,5 +1,6 @@
 package way;
 
+import exceptions.ValidationError;
 import methods.CustomMethod;
 import methods.Method;
 import methods.MethodResult;
@@ -7,6 +8,8 @@ import mop.MopParkingSpacesInfo;
 import org.jxmapviewer.viewer.GeoPosition;
 
 import java.util.*;
+
+import static util.Validator.makeRoadNumber;
 
 public class Route {
     private String name = "";
@@ -17,6 +20,15 @@ public class Route {
     private Map<String, MopParkingSpacesInfo> spacesByDirection;
     private MethodResult spacesNeeded;
     private boolean directionsSet = false;
+
+
+    public static Route newRouteForComparing(double mileageBegin) {
+        return new Route(mileageBegin);
+    }
+
+    public Route(double mileageBegin) {
+        this.mileageBegin = mileageBegin;
+    }
 
     public Route(String name, double mileageBegin, double mileageEnd, Map<Double, GeoPosition> geoPositions,
                  TrafficInfo trafficInfo) {
@@ -46,7 +58,13 @@ public class Route {
         this.spacesByDirection = new HashMap<>();
         String dir1;
         String dir2;
-        if (!name.equals("") && Integer.parseInt(name.replaceAll("[\\D]", "")) % 2 == 0) {
+        int number = 0;
+        try {
+            number = makeRoadNumber(name);
+        } catch (ValidationError e) {
+            e.printStackTrace();
+        }
+        if (number % 2 == 0) {
             dir1 = "Wschód";
             dir2 = "Zachód";
         } else {
@@ -203,7 +221,7 @@ public class Route {
         double diff = Double.MAX_VALUE;
         double mileageRes = 0.;
         GeoPosition geoPositionRes = null;
-        for (Map.Entry<Double, GeoPosition> entry: geoPositions.entrySet()) {
+        for (Map.Entry<Double, GeoPosition> entry : geoPositions.entrySet()) {
             double newDiff = computeDiff(geoPosition, entry.getValue());
             if (newDiff < diff) {
                 mileageRes = entry.getKey();
@@ -225,5 +243,5 @@ public class Route {
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         return R * c * 1000;
     }
-    
+
 }

@@ -9,8 +9,8 @@ import way.SearchInfo;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Point2D;
 
+import static util.Validator.makeRoadNumber;
 import static util.Validator.makeUnsignedDouble;
 
 public class ConfirmRouteDialog extends AbstractDialog {
@@ -70,10 +70,15 @@ public class ConfirmRouteDialog extends AbstractDialog {
         JButton submit = new JButton("Zatwierdź");
         submit.addActionListener(e -> {
             try {
-                Double milBeg = makeUnsignedDouble(mil1.getText(), "Pikietaż");
-                Double milEnd = makeUnsignedDouble(mil1.getText(), "Pikietaż");
 
-                mainFrame.addRoute(name.getText(), gpBegFinal, gpEndFinal,
+                String roadName = name.getText();
+                makeRoadNumber(roadName);
+
+                Double milBeg = makeUnsignedDouble(mil1.getText(), "Pikietaż");
+                Double milEnd = makeUnsignedDouble(mil2.getText(), "Pikietaż");
+
+
+                mainFrame.addRoute(roadName, gpBegFinal, gpEndFinal,
                         milBeg, milEnd, dir1.getText(), dir2.getText());
                 this.dispose();
             }
