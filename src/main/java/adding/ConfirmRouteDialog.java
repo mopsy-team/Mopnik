@@ -70,11 +70,13 @@ public class ConfirmRouteDialog extends AbstractDialog {
         JButton submit = new JButton("Zatwierdź");
         submit.addActionListener(e -> {
             try {
-                Double milBeg = makeUnsignedDouble(mil1.getText(), "Pikietaż");
-                Double milEnd = makeUnsignedDouble(mil2.getText(), "Pikietaż");
 
                 String roadName = name.getText();
                 makeRoadNumber(roadName);
+                
+                Double milBeg = makeUnsignedDouble(mil1.getText(), "Pikietaż");
+                Double milEnd = makeUnsignedDouble(mil2.getText(), "Pikietaż");
+
 
                 mainFrame.addRoute(roadName, gpBegFinal, gpEndFinal,
                         milBeg, milEnd, dir1.getText(), dir2.getText());
