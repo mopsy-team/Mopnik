@@ -18,7 +18,7 @@ public class MopInfo {
     private double mileage;
     private MopParkingSpacesInfo parkingSpacesInfo;
     private MopEquipmentInfo equipmentInfo;
-    private Route route = new Route();
+    private Route route;
 
     public MopInfo(int id, String branch, String locality, String name, GeoPosition geoPosition,
                    String road, String direction, int type,

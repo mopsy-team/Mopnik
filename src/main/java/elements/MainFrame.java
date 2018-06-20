@@ -44,6 +44,7 @@ public class MainFrame {
     private TrafficMap trafficMap;
     private RoutesMap routesMap = null;
     private RoutesMap addedRoutesMap = new RoutesMap();
+    private List<RoutePainter> routePainters = new ArrayList<>();
     private List<RoutePainter> addedRoutePainters = new ArrayList<>();
     private List<MouseListener> listeners;
     private MOPSimConfigGroup mopsimConfig;
@@ -238,7 +239,8 @@ public class MainFrame {
         if (routesMap == null) {
             return;
         }
-        for (RoutePainter routePainter : routesMap.routePainters()) {
+        routePainters = routesMap.routePainters();
+        for (RoutePainter routePainter : routePainters) {
             painter.addPainter(routePainter);
             MouseListener ml = routePainter.mouseListenerOnRoute(mapViewer);
             mapViewer.addMouseListener(ml);
@@ -298,18 +300,20 @@ public class MainFrame {
         repaint();
     }
 
-    public Route findNearestRoute(GeoPosition gp) {
-        Route r1 = routesMap.findRouteByGeoPosition(gp);
-        Route r2 = addedRoutesMap.findRouteByGeoPosition(gp);
-        double d1 = r1.getDistanceFromGeoPosition(gp);
-        double d2 = Double.MAX_VALUE;
-        if (r2 != null) {
-            d2 = r2.getDistanceFromGeoPosition(gp);
+    public SearchInfo findNearRouteOrNull(Point point) {
+        for (RoutePainter routePainter: routePainters) {
+            SearchInfo searchInfo = routePainter.isCloseTo(mapViewer, point);
+            if (searchInfo != null) {
+                return searchInfo;
+            }
         }
-        if (d1 < d2) {
-            return r1;
+        for (RoutePainter routePainter: addedRoutePainters) {
+            SearchInfo searchInfo = routePainter.isCloseTo(mapViewer, point);
+            if (searchInfo != null) {
+                return searchInfo;
+            }
         }
-        return r2;
+        return null;
     }
 
     public void setMapFromFile(File mapFromFile) {

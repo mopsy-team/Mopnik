@@ -56,7 +56,7 @@ public class TrafficInfoParser {
         RoutesMap routesMap = mainFrame.getRoutesMap();
         for (MopInfo mop : mopInfos) {
             Route route = routesMap.findRouteByGeoPosition(mop.getGeoPosition());
-            if (    route == null ||
+            if (route == null ||
                     !route.getName().contains(mop.getRoad())
                     || mop.getMileage() > route.getMileageEnd()
                     || mop.getMileage() < route.getMileageBegin()) {
@@ -66,8 +66,6 @@ public class TrafficInfoParser {
                 mop.setRoute(route);
                 MopParkingSpacesInfo mopParkingSpacesInfo = mop.getParkingSpacesInfo();
                 route.addSpacesInfo(mop.getDirection(), mopParkingSpacesInfo);
-            } else {
-                mop.setRoute(new Route());
             }
         }
         return routesMap;

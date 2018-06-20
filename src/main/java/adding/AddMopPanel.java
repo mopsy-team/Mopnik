@@ -3,6 +3,7 @@ package adding;
 import elements.MainFrame;
 import org.jxmapviewer.viewer.GeoPosition;
 import way.Route;
+import way.SearchInfo;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,13 +24,16 @@ public class AddMopPanel extends JPanel {
                 mainFrame.getFrame().remove(AddMopPanel.this);
                 int x = e.getX();
                 int y = e.getY() - 20;
-                GeoPosition gp = mainFrame.getMapViewer().convertPointToGeoPosition(new Point(x, y));
-                Route route = mainFrame.findNearestRoute(gp);
-                double mileage = route.findMileage(gp);
-                if (route != null) {
+                SearchInfo searchInfo = mainFrame.findNearRouteOrNull(new Point(x, y));
+                if (searchInfo != null) {
+                    double mileage = searchInfo.getMileage();
+                    Route route = searchInfo.getRoute();
+                    GeoPosition gp = searchInfo.getGeoPosition();
                     new ConfirmMopPositionDialog(route, gp, mainFrame, mileage);
-                } else {
-                    mainFrame.addMop("Nowy mop", gp, route, "");
+                }
+                else {
+                    GeoPosition gp = mainFrame.getMapViewer().convertPointToGeoPosition(new Point(x, y));
+                    mainFrame.addMop("Nowy mop", gp, new Route(), "");
                 }
             }
 
