@@ -21,6 +21,15 @@ public class Route {
     private MethodResult spacesNeeded;
     private boolean directionsSet = false;
 
+
+    public static Route newRouteForComparing(double mileageBegin) {
+        return new Route(mileageBegin);
+    }
+
+    public Route(double mileageBegin) {
+        this.mileageBegin = mileageBegin;
+    }
+
     public Route(String name, double mileageBegin, double mileageEnd, Map<Double, GeoPosition> geoPositions,
                  TrafficInfo trafficInfo) {
         this(name, mileageBegin, mileageEnd, trafficInfo);
@@ -46,34 +55,32 @@ public class Route {
         this.trafficInfo = trafficInfo;
         this.mileageBegin = mileageBegin;
         this.mileageEnd = mileageEnd;
-        if (!name.equals("dumb")) {
-            this.spacesByDirection = new HashMap<>();
-            String dir1;
-            String dir2;
-            int number = 0;
-            try {
-                number = makeRoadNumber(name);
-            } catch (ValidationError e) {
-                e.printStackTrace();
-            }
-            if (number % 2 == 0) {
-                dir1 = "Wschód";
-                dir2 = "Zachód";
-            } else {
-                dir1 = "Północ";
-                dir2 = "Południe";
-            }
-            this.spacesByDirection.put(dir1, new MopParkingSpacesInfo(0, 0, 0));
-            this.spacesByDirection.put(dir2, new MopParkingSpacesInfo(0, 0, 0));
-            if (trafficInfo != null) {
-                this.spacesNeeded = new CustomMethod().compute(this);
-            }
+        this.spacesByDirection = new HashMap<>();
+        String dir1;
+        String dir2;
+        int number = 0;
+        try {
+            number = makeRoadNumber(name);
+        } catch (ValidationError e) {
+            e.printStackTrace();
+        }
+        if (number % 2 == 0) {
+            dir1 = "Wschód";
+            dir2 = "Zachód";
+        } else {
+            dir1 = "Północ";
+            dir2 = "Południe";
+        }
+        this.spacesByDirection.put(dir1, new MopParkingSpacesInfo(0, 0, 0));
+        this.spacesByDirection.put(dir2, new MopParkingSpacesInfo(0, 0, 0));
+        if (trafficInfo != null) {
+            this.spacesNeeded = new CustomMethod().compute(this);
         }
     }
 
-    public Route() {
-        this("dumb", 0., 0., new TrafficInfo());
-    }
+//    public Route() {
+//        this("dumb", 0., 0., new TrafficInfo());
+//    }
 
     public String getName() {
         return name;

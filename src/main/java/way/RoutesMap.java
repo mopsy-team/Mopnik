@@ -26,7 +26,7 @@ public class RoutesMap {
         if (!routes.containsKey(name)) {
             return null;
         }
-        Route w = routes.get(name).floor(new Route("dumb", mileage, mileage, null));
+        Route w = routes.get(name).floor(Route.newRouteForComparing(mileage));
         if (w == null) {
             return null;
         }
