@@ -300,20 +300,6 @@ public class MainFrame {
         repaint();
     }
 
-    public Route findNearestRoute(GeoPosition gp) {
-        Route r1 = routesMap.findRouteByGeoPosition(gp);
-        Route r2 = addedRoutesMap.findRouteByGeoPosition(gp);
-        double d1 = r1.getDistanceFromGeoPosition(gp);
-        double d2 = Double.MAX_VALUE;
-        if (r2 != null) {
-            d2 = r2.getDistanceFromGeoPosition(gp);
-        }
-        if (d1 < d2) {
-            return r1;
-        }
-        return r2;
-    }
-
     public SearchInfo findNearRouteOrNull(Point point) {
         for (RoutePainter routePainter: routePainters) {
             SearchInfo searchInfo = routePainter.isCloseTo(mapViewer, point);
@@ -321,7 +307,7 @@ public class MainFrame {
                 return searchInfo;
             }
         }
-        for (RoutePainter routePainter: routePainters) {
+        for (RoutePainter routePainter: addedRoutePainters) {
             SearchInfo searchInfo = routePainter.isCloseTo(mapViewer, point);
             if (searchInfo != null) {
                 return searchInfo;

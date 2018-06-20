@@ -225,17 +225,5 @@ public class Route {
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         return R * c * 1000;
     }
-
-    public double findMileage(GeoPosition gp) {
-        double diff = Double.MAX_VALUE;
-        double mileage = 0.;
-        for (double key : geoPositions.keySet()) {
-            double newDiff = computeDiff(geoPositions.get(key), gp);
-            if (newDiff < diff) {
-                diff = newDiff;
-                mileage = key;
-            }
-        }
-        return mileage;
-    }
+    
 }
