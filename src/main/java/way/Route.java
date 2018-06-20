@@ -42,10 +42,10 @@ public class Route {
     }
 
     public Route(String name, double mileageBegin, double mileageEnd, TrafficInfo trafficInfo) {
-            this.name = name;
-            this.trafficInfo = trafficInfo;
-            this.mileageBegin = mileageBegin;
-            this.mileageEnd = mileageEnd;
+        this.name = name;
+        this.trafficInfo = trafficInfo;
+        this.mileageBegin = mileageBegin;
+        this.mileageEnd = mileageEnd;
         if (!name.equals("dumb")) {
             this.spacesByDirection = new HashMap<>();
             String dir1;
@@ -72,7 +72,7 @@ public class Route {
     }
 
     public Route() {
-        this("o", 0., 0., new TrafficInfo());
+        this("dumb", 0., 0., new TrafficInfo());
     }
 
     public String getName() {
@@ -214,7 +214,7 @@ public class Route {
         double diff = Double.MAX_VALUE;
         double mileageRes = 0.;
         GeoPosition geoPositionRes = null;
-        for (Map.Entry<Double, GeoPosition> entry: geoPositions.entrySet()) {
+        for (Map.Entry<Double, GeoPosition> entry : geoPositions.entrySet()) {
             double newDiff = computeDiff(geoPosition, entry.getValue());
             if (newDiff < diff) {
                 mileageRes = entry.getKey();
@@ -236,5 +236,5 @@ public class Route {
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         return R * c * 1000;
     }
-    
+
 }
