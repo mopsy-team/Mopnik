@@ -44,8 +44,11 @@ public class TrafficInfoParser {
         return routesMap;
     }
 
-    static public RoutesMap assignRoutes(MainFrame mainFrame, File file) {
+    static public RoutesMap assignRoutes(MainFrame mainFrame, File file) throws Exception {
         RoutesMap routesMap = parseFromFile(file);
+        if (routesMap == null) {
+            throw new Exception("Wrong SDR file");
+        }
         mainFrame.generateRoutesMap(routesMap);
         return assignMopsToRoutes(mainFrame);
     }
