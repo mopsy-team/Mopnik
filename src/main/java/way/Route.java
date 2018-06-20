@@ -1,5 +1,6 @@
 package way;
 
+import exceptions.ValidationError;
 import methods.CustomMethod;
 import methods.Method;
 import methods.MethodResult;
@@ -7,6 +8,8 @@ import mop.MopParkingSpacesInfo;
 import org.jxmapviewer.viewer.GeoPosition;
 
 import java.util.*;
+
+import static util.Validator.makeRoadNumber;
 
 public class Route {
     private String name = "";
@@ -46,7 +49,16 @@ public class Route {
         this.spacesByDirection = new HashMap<>();
         String dir1;
         String dir2;
-        if (!name.equals("") && Integer.parseInt(name.replaceAll("[\\D]", "")) % 2 == 0) {
+        int number = 0;
+        try {
+            number = makeRoadNumber(name);
+        }
+        catch (ValidationError e) {
+         //   System.out.println("nazwa: " + name);
+        //    System.out.println("dupa");
+            //todo
+        }
+        if (number % 2 == 0) {
             dir1 = "Wschód";
             dir2 = "Zachód";
         } else {
@@ -61,7 +73,7 @@ public class Route {
     }
 
     public Route() {
-        this("", 0., 0., new TrafficInfo());
+        this("o", 0., 0., new TrafficInfo());
     }
 
     public String getName() {

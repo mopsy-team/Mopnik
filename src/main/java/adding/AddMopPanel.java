@@ -33,7 +33,7 @@ public class AddMopPanel extends JPanel {
                 }
                 else {
                     GeoPosition gp = mainFrame.getMapViewer().convertPointToGeoPosition(new Point(x, y));
-                    mainFrame.addMop("Nowy mop", gp, new Route(), "");
+                    mainFrame.addMop("Nowy mop", gp, null, "");
                 }
             }
 
