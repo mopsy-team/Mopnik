@@ -78,9 +78,9 @@ public class Route {
         }
     }
 
-//    public Route() {
-//        this("dumb", 0., 0., new TrafficInfo());
-//    }
+    public Route() {
+        this("", 0., 0., new TrafficInfo());
+    }
 
     public String getName() {
         return name;
