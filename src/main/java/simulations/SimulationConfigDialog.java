@@ -24,6 +24,11 @@ public class SimulationConfigDialog extends AbstractDialog {
     private JFileChooser fileChooser;
     private MOPSimConfigGroup mopsimConfig;
 
+    JRadioButton wsg, _92;
+    private ButtonGroup coordinatesChooser;
+    private final String wsgCode = "EPSG:4326";
+    private final String _92Code = "EPSG:2180";
+
     public SimulationConfigDialog(MOPSimConfigGroup _mopsimConfig) {
         super();
 
@@ -44,6 +49,9 @@ public class SimulationConfigDialog extends AbstractDialog {
         mopPicker = addFilePicker("Układ MOPów",
                 "Wybierz", ".json",
                 mopsimConfig.getMopData(), "Plik JSON");
+
+        addCoordinateChooser();
+
         carPicker = addFilePicker("Macierz samochodów osobowych",
                 "Wybierz", ".csv",
                 mopsimConfig.getCarPath(), "Plik CSV");
@@ -54,16 +62,24 @@ public class SimulationConfigDialog extends AbstractDialog {
                 "Wybierz", ".csv",
                 mopsimConfig.getBusPath(), "Plik CSV");
 
-//         JCheckBox mopCheckBox = new JCheckBox("Wybierz aktywny układ MOPów");
-//         add(mopCheckBox);
-//         FilePicker mopFilePicker = addFilePicker("Układ MOPów",
-//                 "Wybierz", ".xml", "Spreadsheet");
-//         mopFilePicker.setEnabled(true);
-
         this.add(inputTable());
         this.add(submitButton());
 
         this.setVisible(true);
+    }
+
+    private void addCoordinateChooser() {
+        coordinatesChooser = new ButtonGroup();
+
+        wsg = new JRadioButton("Układ WSG");
+        wsg.setSelected(true);
+        _92= new JRadioButton("Układ 92");
+
+        coordinatesChooser.add(wsg);
+        coordinatesChooser.add(_92);
+
+        this.add(wsg);
+        this.add(_92);
     }
 
     private JButton submitButton() {
@@ -99,10 +115,6 @@ public class SimulationConfigDialog extends AbstractDialog {
                                     "ale nie wybrano macierzy autobusów";
                         }
 
-//                     if (mopFilePicker.getSelectedFilePath().equals("")) {
-//                         message += "plik z MOPami \n";
-//                     }
-
                         if (mopPath.equals("")) {
                             message = "Nie wybrano pliku z MOP-ami";
                         }
@@ -114,6 +126,15 @@ public class SimulationConfigDialog extends AbstractDialog {
                         if (!message.equals("")) {
                             JOptionPane.showMessageDialog(this, message);
                         } else {
+
+                            String coordinateSystem;
+                            if (wsg.isSelected()) {
+                                coordinateSystem = wsgCode;
+                            }
+                            else {
+                                coordinateSystem = _92Code;
+                            }
+
                             mopsimConfig.setCarNr(carNr);
                             mopsimConfig.setTruckNr(truckNr);
                             mopsimConfig.setBusNr(busNr);
@@ -121,12 +142,17 @@ public class SimulationConfigDialog extends AbstractDialog {
                             mopsimConfig.setCarPath(carPath);
                             mopsimConfig.setTruckPath(truckPath);
                             mopsimConfig.setBusPath(busPath);
+
                             mopsimConfig.setMopData(mopPath);
+                            mopsimConfig.setCoordinateSystem(coordinateSystem);
+                            
                             mopsimConfig.setMapPath(networkPath);
                             mopsimConfig.setSimulationId(simulationId);
                             mopsimConfig.setThreadNr(threadsNr);
 
                             Thread thread = new Thread(() -> {
+                                JOptionPane.showMessageDialog(this,
+                                        "Rozpoczęto symulację.\nZostaniesz poinformowany, gdy symulacja się zakończy");
                                 MOPSimRun.run(mopsimConfig);
                                 JOptionPane.showMessageDialog(this,
                                         "Zakończono symulację.");
