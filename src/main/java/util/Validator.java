@@ -61,13 +61,7 @@ public class Validator {
             lastIndex--;
         }
 
-//        System.out.println(ss);
         ss = ss.substring(firstIndex, lastIndex + 1);
-//
-//        System.out.println(ss);
-//
-//        System.out.println("");
-
 
         try {
             return Integer.parseInt(ss);

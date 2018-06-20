@@ -45,40 +45,6 @@ public class RoutesMap {
 //        return res;
 //    }
 
-
-//    Route findAllAndReplace(String name, double mileageBegin, double mileageEnd) {
-//        Route res = find(name, mileageBegin);
-//        if (res == null) {
-//            return null;
-//        }
-//        mileageBegin = res.getMileageEnd();
-//        while (mileageBegin < mileageEnd) {
-//            Route r = findAndRemove(name, mileageBegin);
-//            if (r == null) {
-//                add(res);
-//                return res;
-//            }
-//            res = res.add(r);
-//            mileageBegin = r.getMileageEnd();
-//        }
-//        add(res);
-//        return res;
-//    }
-
-//    public void assignTrafficInfo(String name, double mileageBegin, double mileageEnd, TrafficInfo trafficInfo) {
-//        Route route = findAllAndReplace(name, mileageBegin, mileageEnd);
-//        if (route != null)
-//            route.setTrafficInfo(trafficInfo);
-//    }
-
-//    int size() {
-//        int res = 0;
-//        for (Map.Entry<String, TreeSet<Route>> entry : routes.entrySet()) {
-//            res += entry.getValue().size();
-//        }
-//        return res;
-//    }
-
     public void addGeoposition(String name, double mileageBeg, GeoPosition geoPosition) {
         Route r = find(name, mileageBeg);
         if (r != null) {
