@@ -88,15 +88,13 @@ public class MainFrame {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         frame.getContentPane().add(mapViewer);
-        painter = new CompoundPainter<JXMapViewer>();
+        painter = new CompoundPainter<>();
         mapViewer.setOverlayPainter(painter);
 
         mopPoints = new HashSet<>();
         mopInfos = new HashSet<>();
         listeners = new ArrayList<>();
         method = new CustomMethod();
-        trafficMap = new TrafficMap();
-        // trafficMap.setRoutesMap(this);
     }
 
     public void setMopPoints(Set<MopPoint> mopPoints) {
@@ -129,12 +127,15 @@ public class MainFrame {
                     JOptionPane.WARNING_MESSAGE);
         } else {
             mopInfos = mopInfosTemp;
+            this.mopPoints = mopInfos.stream().map((MopInfo m) ->
+                    new MopPoint(m.getName(), m, MopType.EXISTING, this)).collect(Collectors.toSet());
+            JOptionPane.showMessageDialog(this.getFrame(),
+                    "Poprawnie wczytano plik.");
+            AppConfig.setMopFilename(file.getName());
+            AppConfig.save();
+            routesMap = TrafficInfoParser.assignMopsToRoutes(this);
+            repaint();
         }
-        this.mopPoints = mopInfos.stream().map((MopInfo m) ->
-                new MopPoint(m.getName(), m, MopType.EXISTING, this)).collect(Collectors.toSet());
-        AppConfig.save();
-        routesMap = TrafficInfoParser.assignMopsToRoutes(this);
-        repaint();
     }
 
     public void setMopPointsFromServer() {
@@ -181,19 +182,16 @@ public class MainFrame {
         return mopInfos;
     }
 
-    public void show() {
+    public void show() throws Exception {
+
+        File mapFile = AppConfig.getFile(AppConfig.getMapOsmFilename());
         File mopsFile = AppConfig.getFile(AppConfig.getMopFilename());
-
         File SDRFile = AppConfig.getFile(AppConfig.getSDRFilename());
-        RoutesMap routesMap = TrafficInfoParser.assignRoutes(this, SDRFile);
-        if (routesMap == null) {
-            JOptionPane.showMessageDialog(getFrame(),
-                    "Wskazany plik nie istnieje lub jest w złym formacie.",
-                    "Zły format pliku",
-                    JOptionPane.WARNING_MESSAGE);
-        }
 
-        this.routesMap = routesMap;
+        trafficMap = new TrafficMap(mapFile);
+
+        this.routesMap = TrafficInfoParser.assignRoutes(this, SDRFile);
+
         setMopPointsFromServerOrFile(mopsFile);
 
         MainMenu mainMenu = new MainMenu(this);
@@ -301,13 +299,13 @@ public class MainFrame {
     }
 
     public SearchInfo findNearRouteOrNull(Point point) {
-        for (RoutePainter routePainter: routePainters) {
+        for (RoutePainter routePainter : routePainters) {
             SearchInfo searchInfo = routePainter.isCloseTo(mapViewer, point);
             if (searchInfo != null) {
                 return searchInfo;
             }
         }
-        for (RoutePainter routePainter: addedRoutePainters) {
+        for (RoutePainter routePainter : addedRoutePainters) {
             SearchInfo searchInfo = routePainter.isCloseTo(mapViewer, point);
             if (searchInfo != null) {
                 return searchInfo;
@@ -316,8 +314,19 @@ public class MainFrame {
         return null;
     }
 
-    public void setMapFromFile(File mapFromFile) {
-        return;
-        //todo MG
+    public void setMapFromFile(File mapFile) {
+        try {
+            AppConfig.setMapOsmFilename(mapFile.getName());
+            this.show();
+            JOptionPane.showMessageDialog(this.getFrame(),
+                    "Poprawnie wczytano plik.");
+            AppConfig.save();
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(getFrame(),
+                    "Wskazany plik nie istnieje lub jest w złym formacie.",
+                    "Zły format pliku",
+                    JOptionPane.WARNING_MESSAGE);
+        }
     }
 }

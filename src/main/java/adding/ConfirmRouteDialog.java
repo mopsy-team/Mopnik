@@ -30,18 +30,21 @@ public class ConfirmRouteDialog extends AbstractDialog {
         GeoPosition gpBeg = mainFrame.getMapViewer().convertPointToGeoPosition(p1);
         GeoPosition gpEnd = mainFrame.getMapViewer().convertPointToGeoPosition(p2);
 
-        if (searchInfoBeg != null){
+        if (searchInfoBeg != null) {
             routeBeg = searchInfoBeg.getRoute();
             gpBeg = searchInfoBeg.getGeoPosition();
-            this.add(new JLabel("Początek drogi zaczepiony w: " + routeBeg.getName()));
-
+            this.add(new JLabel("Początek drogi zakotwiczony w drodze: " + routeBeg.getName()));
+        } else {
+            this.add(new JLabel("Początek drogi nie jest zakotwiczony"));
         }
         if (searchInfoEnd != null) {
             routeEnd = searchInfoEnd.getRoute();
             gpEnd = searchInfoEnd.getGeoPosition();
-            this.add(new JLabel("Koniec drogi zaczepiony w: " + routeEnd.getName()));
+            this.add(new JLabel("Koniec drogi zakotwiczony w drodze: " + routeEnd.getName()));
+        } else {
+            this.add(new JLabel("Koniec drogi nie jest zakotwiczony"));
         }
-
+        
         this.add(new JSeparator(SwingConstants.HORIZONTAL));
 
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
@@ -81,8 +84,7 @@ public class ConfirmRouteDialog extends AbstractDialog {
                 mainFrame.addRoute(roadName, gpBegFinal, gpEndFinal,
                         milBeg, milEnd, dir1.getText(), dir2.getText());
                 this.dispose();
-            }
-            catch (ValidationError validationError) {
+            } catch (ValidationError validationError) {
                 validationError.alert();
             }
         });
