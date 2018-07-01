@@ -113,10 +113,21 @@ public class MainFrame {
                 e.printStackTrace();
                 mopInfosTemp = null;
             }
-        } else if (filepath.endsWith(".xlsx")) {
+        }
+        // Adding MOPs from xlsx file is currently disabled.
+        // It's not crucial for the program:
+        // in case of existing MOPs we can relay on data imported from server,
+        // in case of added MOPs we can export them to json file to import them later.
+        // If for some reason you need that feature, uncomment following lines.
+        // Please note, that imported xlsx file should have very specific format
+        // (order of columns etc.). For reference, check MOP-12.2017-final2.xlsx file.
+        /*
+        else if (filepath.endsWith(".xlsx")) {
             XlsToMopParser xlsToMopParser = new XlsToMopParser(file);
             mopInfosTemp = xlsToMopParser.parseMops();
-        } else {
+        }
+        */
+        else {
             System.out.println("Failed to read file " + filepath);
             mopInfosTemp = null;
         }

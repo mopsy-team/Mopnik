@@ -21,7 +21,7 @@ public class XlsToMopParser {
             this.workbook = new XSSFWorkbook(fis);
             fis.close();
         } catch (IOException e) {
-            e.printStackTrace(); // TODO(MG) handle this exception
+            e.printStackTrace();
         }
     }
 
@@ -29,7 +29,6 @@ public class XlsToMopParser {
         new XlsToMopParser(new File(fileString));
     }
 
-    // TODO (MG) rewrite to parse csv file
     public HashSet<MopInfo> parseMops() {
         XSSFSheet sheet = workbook.getSheetAt(0);
 
