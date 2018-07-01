@@ -4,24 +4,19 @@ package way;
 import br.zuq.osm.parser.OSMParser;
 import br.zuq.osm.parser.model.OSM;
 import br.zuq.osm.parser.model.OSMNode;
-import config.AppConfig;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.jxmapviewer.viewer.GeoPosition;
 
+import java.io.File;
 import java.io.FileInputStream;
 
 
 public class TrafficMap {
-    private OSM osm = null;
-    private static String tag = "distance";
+    private OSM osm;
+    private static final String tag = "distance";
 
-    public TrafficMap() {
-        try {
-            osm = OSMParser.parse(new FileInputStream(AppConfig.getFile(AppConfig.getMapOsmFilename())));
-        } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
-        }
+    public TrafficMap(File osmFile) throws Exception {
+        osm = OSMParser.parse(new FileInputStream(osmFile.getAbsolutePath()));
     }
 
     public void addGeopositions(RoutesMap routesMap) {

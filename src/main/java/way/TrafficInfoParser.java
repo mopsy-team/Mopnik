@@ -24,7 +24,6 @@ public class TrafficInfoParser {
             String[] nextLine;
             while ((nextLine = reader.readNext()) != null) {
                 String name = nextLine[1];
-                // name = name.replaceAll("[a-z]+", "");
                 double begin = Double.parseDouble(nextLine[3]) + Double.parseDouble(nextLine[4]) / 1000;
                 double end = Double.parseDouble(nextLine[5]) + Double.parseDouble(nextLine[6]) / 1000;
                 int sum = Integer.parseInt(nextLine[10]);
@@ -45,8 +44,11 @@ public class TrafficInfoParser {
         return routesMap;
     }
 
-    static public RoutesMap assignRoutes(MainFrame mainFrame, File file) {
+    static public RoutesMap assignRoutes(MainFrame mainFrame, File file) throws Exception {
         RoutesMap routesMap = parseFromFile(file);
+        if (routesMap == null) {
+            throw new Exception("Wrong SDR file");
+        }
         mainFrame.generateRoutesMap(routesMap);
         return assignMopsToRoutes(mainFrame);
     }

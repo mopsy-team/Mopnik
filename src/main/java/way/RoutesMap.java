@@ -15,7 +15,7 @@ public class RoutesMap {
 
     public void add(Route w) {
         if (!routes.containsKey(w.getName())) {
-            routes.put(w.getName(), new TreeSet<Route>(routesComparator));
+            routes.put(w.getName(), new TreeSet<>(routesComparator));
         }
         routes.get(w.getName()).add(w);
     }
@@ -36,48 +36,14 @@ public class RoutesMap {
         return w;
     }
 
-    Route findAndRemove(String name, double mileage) {
-        Route res = find(name, mileage);
-        if (res == null) {
-            return null;
-        }
-        remove(res);
-        return res;
-    }
-
-
-    Route findAllAndReplace(String name, double mileageBegin, double mileageEnd) {
-        Route res = find(name, mileageBegin);
-        if (res == null) {
-            return null;
-        }
-        mileageBegin = res.getMileageEnd();
-        while (mileageBegin < mileageEnd) {
-            Route r = findAndRemove(name, mileageBegin);
-            if (r == null) {
-                add(res);
-                return res;
-            }
-            res = res.add(r);
-            mileageBegin = r.getMileageEnd();
-        }
-        add(res);
-        return res;
-    }
-
-    public void assignTrafficInfo(String name, double mileageBegin, double mileageEnd, TrafficInfo trafficInfo) {
-        Route route = findAllAndReplace(name, mileageBegin, mileageEnd);
-        if (route != null)
-            route.setTrafficInfo(trafficInfo);
-    }
-
-    int size() {
-        int res = 0;
-        for (Map.Entry<String, TreeSet<Route>> entry : routes.entrySet()) {
-            res += entry.getValue().size();
-        }
-        return res;
-    }
+//    Route findAndRemove(String name, double mileage) {
+//        Route res = find(name, mileage);
+//        if (res == null) {
+//            return null;
+//        }
+//        remove(res);
+//        return res;
+//    }
 
     public void addGeoposition(String name, double mileageBeg, GeoPosition geoPosition) {
         Route r = find(name, mileageBeg);
@@ -122,7 +88,7 @@ public class RoutesMap {
         }
     }
 
-    private void remove(Route route) {
-        routes.get(route.getName()).remove(route);
-    }
+//    private void remove(Route route) {
+//        routes.get(route.getName()).remove(route);
+//    }
 }

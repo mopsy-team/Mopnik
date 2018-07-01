@@ -67,15 +67,21 @@ public class MainMenu {
             int returnVal = fc.showOpenDialog(fc);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 File file = fc.getSelectedFile();
-                RoutesMap routesMap = TrafficInfoParser.assignRoutes(mainFrame, file);
-                if (routesMap == null) {
+                RoutesMap routesMap;
+                try {
+                    routesMap = TrafficInfoParser.assignRoutes(mainFrame, file);
+                    mainFrame.setRoutesMap(routesMap);
+                    JOptionPane.showMessageDialog(mainFrame.getFrame(),
+                            "Poprawnie wczytano plik.");
+                    AppConfig.setSDRFilename(file.getName());
+                    AppConfig.save();
+                } catch (Exception e) {
+                    e.printStackTrace();
                     JOptionPane.showMessageDialog(mainFrame.getFrame(),
                             "Wskazany plik nie istnieje lub jest w złym formacie.",
                             "Zły format pliku",
                             JOptionPane.WARNING_MESSAGE);
                 }
-                AppConfig.save();
-                mainFrame.setRoutesMap(routesMap);
             }
         });
         menu.add(menuItem);
