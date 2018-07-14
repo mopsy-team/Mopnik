@@ -56,7 +56,7 @@ public class XlsToMopParser {
                     mileage = -1.;
                 }
                 String direction = row.getCell(10).getStringCellValue();
-                int type = 1; // TODO
+                int type = 1;
 
                 MopParkingSpacesInfo parkingSpacesInfo = new MopParkingSpacesInfo(
                         (int) row.getCell(12).getNumericCellValue(),

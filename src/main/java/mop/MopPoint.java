@@ -37,7 +37,6 @@ public class MopPoint extends DefaultWaypoint {
         }
         if (img != null) {
             this.button = new JButton(new ImageIcon(img));
-            // TODO(MG) remove the background instead of making it invisible (cut the button)
             this.button.setBorderPainted(false);
             this.button.setContentAreaFilled(false);
             this.button.setToolTipText(mopInfo.getName());

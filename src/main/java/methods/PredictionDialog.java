@@ -35,7 +35,6 @@ public class PredictionDialog extends AbstractDialog {
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportView(table);
 
-        // TODO (MG) add textfield with explanation
         this.add(scrollPane);
 
         JButton submit = new JButton("Ustaw parametry");

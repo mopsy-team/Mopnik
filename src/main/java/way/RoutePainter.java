@@ -105,7 +105,7 @@ public class RoutePainter implements Painter<JXMapViewer> {
             double y2 = tf.geoToPixel(track.get(i + 1), zoom).getY();
             Line2D line = new Line2D.Double(x1, y1, x2, y2);
             g.draw(line);
-            lines.add(new Pair<>(line, route)); // TODO(MG)
+            lines.add(new Pair<>(line, route));
         }
     }
 
