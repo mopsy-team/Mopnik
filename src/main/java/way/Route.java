@@ -15,7 +15,9 @@ public class Route {
     private String name = "";
     private double mileageBegin;
     private double mileageEnd;
-    private Map<Double, GeoPosition> geoPositions = new TreeMap<>();
+    private GeoPosition geoPositionBegin;
+    private GeoPosition geoPositionEnd;
+    private TreeMap<Double, GeoPosition> geoPositions = new TreeMap<>();
     private TrafficInfo trafficInfo;
     private Map<String, MopParkingSpacesInfo> spacesByDirection;
     private MethodResult spacesNeeded;
@@ -30,31 +32,48 @@ public class Route {
         this.mileageBegin = mileageBegin;
     }
 
-    public Route(String name, double mileageBegin, double mileageEnd, Map<Double, GeoPosition> geoPositions,
+    public Route(String name, double mileageBegin, double mileageEnd, TreeMap<Double, GeoPosition> geoPositions,
                  TrafficInfo trafficInfo) {
         this(name, mileageBegin, mileageEnd, trafficInfo);
         this.geoPositions = geoPositions;
+        this.mileageBegin = mileageBegin;
+        this.mileageEnd = mileageEnd;
+        if (mileageBegin > mileageEnd) {
+            swap();
+        }
+        this.geoPositionBegin = geoPositions.firstEntry().getValue();
+        this.geoPositionEnd = geoPositions.lastEntry().getValue();
     }
 
     public Route(String name, double mileageBegin, double mileageEnd, GeoPosition geoPositionBegin,
                  GeoPosition geoPositionEnd, TrafficInfo trafficInfo) {
         this(name, mileageBegin, mileageEnd, trafficInfo);
-        geoPositions.put(mileageBegin, geoPositionBegin);
-        double latBegin = geoPositionBegin.getLatitude(), lonBegin = geoPositionBegin.getLongitude();
-        double latDiff = (geoPositionEnd.getLatitude() - geoPositionBegin.getLatitude()) / (mileageEnd - mileageBegin);
-        double lonDiff = (geoPositionEnd.getLongitude() - geoPositionBegin.getLongitude()) / (mileageEnd - mileageBegin);
+        this.mileageBegin = mileageBegin;
+        this.mileageEnd = mileageEnd;
+        this.geoPositionBegin = geoPositionBegin;
+        this.geoPositionEnd = geoPositionEnd;
+        if (mileageBegin > mileageEnd) {
+            swap();
+        }
+        geoPositions.put(this.mileageBegin, this.geoPositionBegin);
+        double latBegin = this.geoPositionBegin.getLatitude(), lonBegin = this.geoPositionBegin.getLongitude();
+        double latDiff = (this.geoPositionEnd.getLatitude() - this.geoPositionBegin.getLatitude()) / (this.mileageEnd - this.mileageBegin);
+        double lonDiff = (this.geoPositionEnd.getLongitude() - this.geoPositionBegin.getLongitude()) / (this.mileageEnd - this.mileageBegin);
 
-        for (int i = 1; mileageBegin + i < mileageEnd; ++i) {
-            geoPositions.put(mileageBegin + i,
+        for (int i = 1; this.mileageBegin + i < this.mileageEnd; ++i) {
+            geoPositions.put(this.mileageBegin + i,
                     new GeoPosition(latBegin + i * latDiff, lonBegin + i * lonDiff));
         }
     }
 
-    public Route(String name, double mileageBegin, double mileageEnd, TrafficInfo trafficInfo) {
+    public Route(String name, Double mileageBegin, Double mileageEnd, TrafficInfo trafficInfo) {
         this.name = name;
         this.trafficInfo = trafficInfo;
         this.mileageBegin = mileageBegin;
         this.mileageEnd = mileageEnd;
+        if (mileageBegin > mileageEnd) {
+            swap();
+        }
         this.spacesByDirection = new HashMap<>();
         String dir1;
         String dir2;
@@ -226,9 +245,18 @@ public class Route {
             if (newDiff < diff) {
                 mileageRes = entry.getKey();
                 geoPositionRes = entry.getValue();
+                diff = newDiff;
             }
         }
         return new SearchInfo(this, geoPositionRes, mileageRes);
+    }
+
+    public GeoPosition getGeoPositionBegin() {
+        return geoPositionBegin;
+    }
+
+    public GeoPosition getGeoPositionEnd() {
+        return geoPositionEnd;
     }
 
     private double computeDiff(GeoPosition g1, GeoPosition g2) {
@@ -242,6 +270,15 @@ public class Route {
                 * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         return R * c * 1000;
+    }
+
+    private void swap () {
+        double temp = mileageBegin;
+        mileageBegin = mileageEnd;
+        mileageEnd = temp;
+        GeoPosition temp2 = geoPositionBegin;
+        geoPositionBegin = geoPositionEnd;
+        geoPositionEnd = temp2;
     }
 
 }
