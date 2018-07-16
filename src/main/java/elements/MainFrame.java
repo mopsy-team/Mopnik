@@ -226,6 +226,10 @@ public class MainFrame {
         return routesMap;
     }
 
+    public RoutesMap getAddedRoutesMap() {
+        return addedRoutesMap;
+    }
+
     public void setRoutesMap(RoutesMap routesMap) {
         this.routesMap = routesMap;
         generateRoutesMap(routesMap);
