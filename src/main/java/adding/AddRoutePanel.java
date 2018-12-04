@@ -24,12 +24,12 @@ public class AddRoutePanel extends JPanel {
                 counter++;
                 if (counter == 1) {
                     x1 = e.getX();
-                    y1 = e.getY() - 20;
+                    y1 = e.getY();
                     System.out.println(x1);
                 }
                 if (counter == 2) {
                     x2 = e.getX();
-                    y2 = e.getY() - 20;
+                    y2 = e.getY();
                     System.out.println(x2);
                     Point p1 = new Point(x1, y1);
                     Point p2 = new Point(x2, y2);
