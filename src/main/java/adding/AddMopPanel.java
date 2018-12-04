@@ -23,7 +23,7 @@ public class AddMopPanel extends JPanel {
                 setVisible(false);
                 mainFrame.getFrame().remove(AddMopPanel.this);
                 int x = e.getX();
-                int y = e.getY() - 20;
+                int y = e.getY();
                 SearchInfo searchInfo = mainFrame.findNearRouteOrNull(new Point(x, y));
                 if (searchInfo != null) {
                     double mileage = searchInfo.getMileage();
@@ -61,4 +61,5 @@ public class AddMopPanel extends JPanel {
         mainFrame.getFrame().setGlassPane(this);
         super.setVisible(true);
     }
+
 }

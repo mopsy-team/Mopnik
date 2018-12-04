@@ -132,7 +132,7 @@ public class RoutePainter implements Painter<JXMapViewer> {
     }
 
     public SearchInfo isCloseTo (JXMapViewer map, Point p) {
-        final int S = 10;
+        final int S = 40;
         Rectangle r = map.getViewportBounds();
         int x = p.x + r.x;
         int y = p.y + r.y;
