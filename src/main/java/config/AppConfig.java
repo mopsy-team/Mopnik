@@ -45,7 +45,7 @@ public class AppConfig {
         return mapOsmFilename;
     }
 
-    public static String getPath(String filename) {
+    public static String getPathDev(String filename) {
         String path;
         try {
             path = AppConfig.class.getClassLoader().getResource(filename).getPath();
@@ -56,10 +56,32 @@ public class AppConfig {
     }
 
 
-    public static File getFile(String filename) {
+    public static String getPathProd(String filename) {
+        String path;
+        try {
+            File resourcesDirectory = new File("resources");
+            path = (new File(resourcesDirectory, filename)).getPath();
+        } catch (NullPointerException e) {
+            path = null;
+        }
+        return path;
+    }
+
+    public static File getFileDev(String filename) {
         File file;
         try {
             file = new File(AppConfig.class.getClassLoader().getResource(filename).getFile());
+        } catch (NullPointerException e) {
+            file = null;
+        }
+        return file;
+    }
+
+    public static File getFileProd(String filename) {
+        File file;
+        try {
+            File resourcesDirectory = new File("resources");
+            file = new File(resourcesDirectory, filename);
         } catch (NullPointerException e) {
             file = null;
         }

@@ -195,9 +195,9 @@ public class MainFrame {
 
     public void show() throws Exception {
 
-        File mapFile = AppConfig.getFile(AppConfig.getMapOsmFilename());
-        File mopsFile = AppConfig.getFile(AppConfig.getMopFilename());
-        File SDRFile = AppConfig.getFile(AppConfig.getSDRFilename());
+        File mapFile = AppConfig.getFileProd(AppConfig.getMapOsmFilename());
+        File mopsFile = AppConfig.getFileProd(AppConfig.getMopFilename());
+        File SDRFile = AppConfig.getFileProd(AppConfig.getSDRFilename());
 
         trafficMap = new TrafficMap(mapFile);
 

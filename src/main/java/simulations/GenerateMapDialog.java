@@ -10,7 +10,7 @@ import java.awt.*;
 import java.io.File;
 
 import static config.AppConfig.getMapOsmFilename;
-import static config.AppConfig.getPath;
+import static config.AppConfig.getPathProd;
 
 public class GenerateMapDialog extends AbstractDialog {
 
@@ -32,7 +32,7 @@ public class GenerateMapDialog extends AbstractDialog {
 
         networkPicker = addFilePicker("Plik z siecią drogową",
                 "Wybierz", ".osm",
-                getPath(getMapOsmFilename()), "Open Street Map");
+                getPathProd(getMapOsmFilename()), "Open Street Map");
 
         this.add(inputTable());
         this.add(submitButton());
