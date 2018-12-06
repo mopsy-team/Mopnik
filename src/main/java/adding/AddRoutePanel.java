@@ -14,7 +14,7 @@ public class AddRoutePanel extends JPanel {
     public AddRoutePanel(MainFrame mainFrame) {
         super();
         this.mainFrame = mainFrame;
-        setBackground(new Color(255, 255, 255, 90));
+        setOpaque(false);
         addMouseListener(new MouseListener() {
             private int counter = 0;
             private int x1, x2, y1, y2;
