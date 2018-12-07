@@ -33,4 +33,10 @@ public class MopParkingSpacesInfo {
         this.truckSpaces += mr.getTruckSpaces();
         this.busSpaces += mr.getBusSpaces();
     }
+
+    public void clear() {
+        this.carSpaces = 0;
+        this.truckSpaces = 0;
+        this.busSpaces = 0;
+    }
 }

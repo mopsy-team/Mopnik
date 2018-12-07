@@ -9,6 +9,7 @@ import util.VerticalTitledTable;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 
 public class ExportMopsToJSONDialog extends AbstractDialog {
@@ -56,9 +57,15 @@ public class ExportMopsToJSONDialog extends AbstractDialog {
                     } else {
                         outPath = outPath + ".json";
                         JSONObject json = JSONToMopParser.parseSet(mainFrame.getMopInfos());
-                        JSONParser.writeJsonToFile(json, outPath);
-                        JOptionPane.showMessageDialog(mainFrame.getFrame(),
-                                "Poprawnie wyeksportowano dane.");
+                        try {
+                            JSONParser.writeJsonToFile(json, outPath);
+                            JOptionPane.showMessageDialog(mainFrame.getFrame(),
+                                    "Poprawnie wyeksportowano dane.");
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                            JOptionPane.showMessageDialog(mainFrame.getFrame(),
+                                    "Wystąpił bład przy eksporcie danych.");
+                        }
                         this.dispose();
                     }
                 });

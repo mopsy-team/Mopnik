@@ -98,6 +98,9 @@ public class MopInfo {
     }
 
     public TrafficInfo getTrafficInfo() {
+        if (route == null) {
+            return null;
+        }
         return route.getTrafficInfo();
     }
 

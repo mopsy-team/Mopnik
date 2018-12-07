@@ -5,6 +5,7 @@ import org.json.JSONObject;
 import java.io.*;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -13,7 +14,7 @@ public class JSONParser {
         BufferedReader reader = null;
         try {
             URL url = new URL(urlString);
-            reader = new BufferedReader(new InputStreamReader(url.openStream()));
+            reader = new BufferedReader(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8));
             StringBuilder buffer = new StringBuilder();
             int read;
             char[] chars = new char[1024];
@@ -38,25 +39,15 @@ public class JSONParser {
     }
 
     public static JSONObject readJsonFromFile(String filepath) throws IOException {
-        String dataFromUrl = readFile(filepath, Charset.defaultCharset());
-        return new JSONObject(dataFromUrl);
+        String dataFromFile = readFile(filepath, StandardCharsets.UTF_8);
+        return new JSONObject(dataFromFile);
     }
 
-    public static void writeJsonToFile(JSONObject jsonObject, String filepath) {
+    public static void writeJsonToFile(JSONObject jsonObject, String filepath) throws IOException {
         String jsonString = jsonObject.toString();
-        File file = new File(filepath);
-        try {
-            file.createNewFile();
-        } catch (IOException e1) {
-            e1.printStackTrace();
+        try (Writer out = new BufferedWriter(new OutputStreamWriter(
+                new FileOutputStream(filepath), StandardCharsets.UTF_8))) {
+            out.write(jsonString);
         }
-        try {
-            PrintWriter pw = new PrintWriter(file);
-            pw.print(jsonString);
-            pw.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
     }
 }

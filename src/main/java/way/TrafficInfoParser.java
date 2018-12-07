@@ -10,6 +10,8 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
+import java.util.Map;
+import java.util.TreeSet;
 
 public class TrafficInfoParser {
 
@@ -56,6 +58,13 @@ public class TrafficInfoParser {
     static public RoutesMap assignMopsToRoutes(MainFrame mainFrame) {
         Collection<MopInfo> mopInfos = mainFrame.getMopInfos();
         RoutesMap routesMap = mainFrame.getRoutesMap();
+        for (Map.Entry<String, TreeSet<Route>> entry : routesMap.getRoutes().entrySet()) {
+            for (Route r : entry.getValue()) {
+                for (MopParkingSpacesInfo spacesInfo : r.getSpacesByDirection().values()) {
+                    spacesInfo.clear();
+                }
+            }
+        }
         for (MopInfo mop : mopInfos) {
             Route route = routesMap.findRouteByGeoPosition(mop.getGeoPosition());
             if (route == null ||

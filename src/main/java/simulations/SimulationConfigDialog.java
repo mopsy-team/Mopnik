@@ -24,9 +24,9 @@ public class SimulationConfigDialog extends AbstractDialog {
     private JFileChooser fileChooser;
     private MOPSimConfigGroup mopsimConfig;
 
-    JRadioButton wsg, _92;
+    JRadioButton wgs, _92;
     private ButtonGroup coordinatesChooser;
-    private final String wsgCode = "EPSG:4326";
+    private final String wgsCode = "EPSG:4326";
     private final String _92Code = "EPSG:2180";
 
     public SimulationConfigDialog(MOPSimConfigGroup _mopsimConfig) {
@@ -71,14 +71,14 @@ public class SimulationConfigDialog extends AbstractDialog {
     private void addCoordinateChooser() {
         coordinatesChooser = new ButtonGroup();
 
-        wsg = new JRadioButton("Układ WSG");
-        wsg.setSelected(true);
+        wgs = new JRadioButton("Układ WGS 84");
+        wgs.setSelected(true);
         _92= new JRadioButton("Układ 92");
 
-        coordinatesChooser.add(wsg);
+        coordinatesChooser.add(wgs);
         coordinatesChooser.add(_92);
 
-        this.add(wsg);
+        this.add(wgs);
         this.add(_92);
     }
 
@@ -128,8 +128,8 @@ public class SimulationConfigDialog extends AbstractDialog {
                         } else {
 
                             String coordinateSystem;
-                            if (wsg.isSelected()) {
-                                coordinateSystem = wsgCode;
+                            if (wgs.isSelected()) {
+                                coordinateSystem = wgsCode;
                             }
                             else {
                                 coordinateSystem = _92Code;

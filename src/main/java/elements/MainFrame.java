@@ -156,6 +156,7 @@ public class MainFrame {
             mopInfos = serverDataHandler.parseMops();
             this.mopPoints = mopInfos.stream().map((MopInfo m) -> new MopPoint(m.getName(),
                     m, MopType.EXISTING, this)).collect(Collectors.toSet());
+            repaint();
             JOptionPane.showMessageDialog(frame,
                     "Poprawnie załadowano dane.");
         } catch (JSONException e) {

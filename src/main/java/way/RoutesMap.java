@@ -6,6 +6,10 @@ import org.jxmapviewer.viewer.GeoPosition;
 import java.util.*;
 
 public class RoutesMap {
+    public Map<String, TreeSet<Route>> getRoutes() {
+        return routes;
+    }
+
     private Map<String, TreeSet<Route>> routes;
     private Comparator<Route> routesComparator = Comparator.comparingDouble(Route::getMileageBegin);
 
