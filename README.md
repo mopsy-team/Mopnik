@@ -13,7 +13,7 @@ Program implementujący metodyki
 
 Idź do głównego katalogu Mopnik
 
-`mvn install:install-file -Dfile=src/libs/mopsim.jar -DgroupId=mopsim -DartifactId=mopsim -Dversion=0.2 -Dpackaging=jar`
+`mvn install:install-file -Dfile="src/libs/mopsim.jar" -DgroupId="mopsim" -DartifactId="mopsim" -Dversion="0.2" -Dpackaging="jar"`
 
 ### Kompilacja programu Mopnik:
 `mvn compile`
