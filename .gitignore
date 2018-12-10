@@ -1,0 +1,7 @@
+src/main/CONF/facilities.xml
+src/main/CONF/facilities_attributes.xml
+src/main/CONF/travel_plan.xml
+src/main/SIMULATIONS/*
+target/*
+classes/*
+.idea/*
