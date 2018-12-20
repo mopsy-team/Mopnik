@@ -1,6 +1,6 @@
 package way;
 
-import javafx.util.Pair;
+import util.Pair;
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.painter.Painter;
 import org.jxmapviewer.viewer.GeoPosition;
